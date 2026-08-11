@@ -6,14 +6,6 @@ export default defineConfig({
   plugins: [react()],
   test: {
     environment: 'happy-dom',
-    server: {
-      deps: {
-        inline: [
-          /@metyis-porto\/douro-ui-react/,
-          /@metyis-porto\/douro-ui-button/,
-        ],
-      },
-    },
     coverage: {
       provider: 'v8',
       reporter: ['text', 'json', 'html'],
@@ -50,6 +42,7 @@ export default defineConfig({
       '@api': path.resolve(__dirname, './src/api'),
       '@components': path.resolve(__dirname, './src/components'),
       '@hooks': path.resolve(__dirname, './src/hooks'),
+      '@i18n': path.resolve(__dirname, './src/i18n'),
       '@lib': path.resolve(__dirname, './src/lib'),
       '@messages': path.resolve(__dirname, './messages'),
       '@providers': path.resolve(__dirname, './src/providers'),

@@ -1,1 +1,11 @@
+branch="$(git rev-parse --abbrev-ref HEAD)"
+protected_branch="main"
+
+if [ "$branch" = "$protected_branch" ]; then
+  echo ""
+  echo "❌ Direct commits to '$protected_branch' are not allowed."
+  echo ""
+  exit 1
+fi
+
 npx lint-staged
