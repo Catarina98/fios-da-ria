@@ -1,6 +1,6 @@
 {
-  "name": "polaris",
-  "description": "A modern web application built with Next.js 16, using TypeScript and a robust tooling ecosystem to ensure code quality, performance, and scalability.",
+  "name": "fios-da-ria",
+  "description": "Fios da Ria is a modern platform focused on delivering a high-quality web experience through performance, accessibility, and scalable architecture.",
   "version": "0.1.0",
   "private": true,
   "scripts": {
@@ -15,10 +15,7 @@
     "prettier": "prettier --write --ignore-path .gitignore .",
     "bundle:analyzer": "ANALYZE=true pnpm build",
     "test": "vitest",
-    "test:coverage": "vitest run --coverage",
-    "test:e2e": "playwright test",
-    "test:e2e:headed": "playwright test --headed",
-    "test:e2e:debug": "playwright test --debug"
+    "test:coverage": "vitest run --coverage"
   },
   "lint-staged": {
     "**/*.{ts,tsx,js,jsx}": [
@@ -32,56 +29,55 @@
     ]
   },
   "dependencies": {
-    "@emotion/react": "^11.14.0",
-    "@emotion/styled": "^11.14.1",
-    "@metyis-porto/douro-ui-button": "^1.1.2",
-    "@metyis-porto/douro-ui-react": "1.1.0",
-    "@tanstack/react-query": "^5.101.2",
-    "@tanstack/react-query-devtools": "^5.101.2",
+    "@tailwindcss/postcss": "^4.3.3",
+    "@tanstack/react-query": "^5.101.3",
+    "@tanstack/react-query-devtools": "^5.101.3",
+    "clsx": "^2.1.1",
     "formidable": "^3.5.4",
-    "next": "16.1.6",
+    "next": "16.2.10",
     "next-intl": "^4.13.2",
     "node-fetch": "^3.3.2",
+    "postcss": "^8.5.21",
     "react": "^19.2.7",
-    "react-dom": "19.2.3",
-    "sanitize-filename": "^1.6.4"
+    "react-dom": "19.2.7",
+    "sanitize-filename": "^1.6.3",
+    "tailwind-merge": "^3.6.0",
+    "tailwindcss": "^4.3.3"
   },
   "devDependencies": {
-    "@commitlint/cli": "^20.5.3",
-    "@commitlint/config-conventional": "^20.5.3",
+    "@commitlint/cli": "^21.2.1",
+    "@commitlint/config-conventional": "^21.2.0",
     "@next/bundle-analyzer": "^16.2.10",
-    "@playwright/test": "^1.61.1",
-    "@testing-library/jest-dom": "^6.9.1",
+    "@testing-library/jest-dom": "^7.0.0",
     "@testing-library/react": "^16.3.2",
     "@types/formidable": "^3.5.1",
-    "@types/node": "^22.20.1",
+    "@types/node": "^26.1.1",
     "@types/react": "^19.2.17",
     "@types/react-dom": "^19.2.3",
-    "@types/sanitize-filename": "^1.6.3",
-    "@typescript-eslint/eslint-plugin": "^8.64.0",
-    "@typescript-eslint/parser": "^8.64.0",
+    "@typescript-eslint/eslint-plugin": "^8.65.0",
+    "@typescript-eslint/parser": "^8.65.0",
     "@vitejs/plugin-react": "^6.0.3",
-    "@vitest/coverage-v8": "4.1.0",
+    "@vitest/coverage-v8": "4.1.10",
     "@vitest/ui": "^4.1.10",
     "babel-plugin-react-compiler": "1.0.0",
-    "eslint": "^9.39.5",
-    "eslint-config-next": "16.1.6",
+    "eslint": "^9.39.3",
+    "eslint-config-next": "^16.2.4",
     "eslint-config-prettier": "^10.1.8",
     "eslint-plugin-import": "^2.32.0",
     "eslint-plugin-react-hooks": "^7.1.1",
     "eslint-plugin-simple-import-sort": "^12.1.1",
     "happy-dom": "^20.11.0",
     "husky": "^9.1.7",
-    "lint-staged": "^16.4.0",
+    "lint-staged": "^17.1.0",
     "postcss-styled-syntax": "^0.7.2",
-    "prettier": "^3.9.5",
-    "stylelint": "^17.14.0",
+    "prettier": "^3.9.6",
+    "stylelint": "^17.14.1",
     "stylelint-config-standard": "^40.0.0",
-    "typescript": "^5.9.3",
+    "typescript": "^5",
     "vitest": "^4.1.10"
   },
   "engines": {
-    "node": ">=22",
-    "pnpm": ">=10"
+    "node": ">=24",
+    "pnpm": ">=11"
   }
 }

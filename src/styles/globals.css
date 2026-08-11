@@ -1,0 +1,9 @@
+@import 'tailwindcss';
+@import './breakpoints.css';
+@import './radius.css';
+@import './spacing.css';
+@import './colors.css';
+
+body {
+  font-family: var(--font-manrope), sans-serif;
+}

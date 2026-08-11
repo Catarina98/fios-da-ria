@@ -9,10 +9,6 @@ const withBundleAnalyzer = bundleAnalyzer({
 
 const nextConfig: NextConfig = {
   reactStrictMode: true,
-  transpilePackages: [
-    '@metyis-porto/douro-ui-react',
-    '@metyis-porto/douro-ui-button',
-  ],
   output: 'standalone',
   compiler: {
     reactRemoveProperties: true,
