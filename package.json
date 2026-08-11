@@ -1,0 +1,87 @@
+{
+  "name": "polaris",
+  "description": "A modern web application built with Next.js 16, using TypeScript and a robust tooling ecosystem to ensure code quality, performance, and scalability.",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "dev": "next dev --webpack",
+    "build": "next build --webpack",
+    "start": "next start",
+    "lint": "eslint",
+    "lint:fix": "eslint --fix .",
+    "style": "stylelint '**/*.{ts,tsx}'",
+    "style:fix": "stylelint '**/*.{ts,tsx}' --fix",
+    "prepare": "husky && husky install",
+    "prettier": "prettier --write --ignore-path .gitignore .",
+    "bundle:analyzer": "ANALYZE=true pnpm build",
+    "test": "vitest",
+    "test:coverage": "vitest run --coverage",
+    "test:e2e": "playwright test",
+    "test:e2e:headed": "playwright test --headed",
+    "test:e2e:debug": "playwright test --debug"
+  },
+  "lint-staged": {
+    "**/*.{ts,tsx,js,jsx}": [
+      "eslint --fix"
+    ],
+    "**/*.{ts,tsx,css,scss, *.styles.ts}": [
+      "stylelint --fix"
+    ],
+    "*.{js,jsx,ts,tsx,json,css,scss,md}": [
+      "prettier --write"
+    ]
+  },
+  "dependencies": {
+    "@emotion/react": "^11.14.0",
+    "@emotion/styled": "^11.14.1",
+    "@metyis-porto/douro-ui-button": "^1.1.2",
+    "@metyis-porto/douro-ui-react": "1.1.0",
+    "@tanstack/react-query": "^5.101.2",
+    "@tanstack/react-query-devtools": "^5.101.2",
+    "formidable": "^3.5.4",
+    "next": "16.1.6",
+    "next-intl": "^4.13.2",
+    "node-fetch": "^3.3.2",
+    "react": "^19.2.7",
+    "react-dom": "19.2.3",
+    "sanitize-filename": "^1.6.4"
+  },
+  "devDependencies": {
+    "@commitlint/cli": "^20.5.3",
+    "@commitlint/config-conventional": "^20.5.3",
+    "@next/bundle-analyzer": "^16.2.10",
+    "@playwright/test": "^1.61.1",
+    "@testing-library/jest-dom": "^6.9.1",
+    "@testing-library/react": "^16.3.2",
+    "@types/formidable": "^3.5.1",
+    "@types/node": "^22.20.1",
+    "@types/react": "^19.2.17",
+    "@types/react-dom": "^19.2.3",
+    "@types/sanitize-filename": "^1.6.3",
+    "@typescript-eslint/eslint-plugin": "^8.64.0",
+    "@typescript-eslint/parser": "^8.64.0",
+    "@vitejs/plugin-react": "^6.0.3",
+    "@vitest/coverage-v8": "4.1.0",
+    "@vitest/ui": "^4.1.10",
+    "babel-plugin-react-compiler": "1.0.0",
+    "eslint": "^9.39.5",
+    "eslint-config-next": "16.1.6",
+    "eslint-config-prettier": "^10.1.8",
+    "eslint-plugin-import": "^2.32.0",
+    "eslint-plugin-react-hooks": "^7.1.1",
+    "eslint-plugin-simple-import-sort": "^12.1.1",
+    "happy-dom": "^20.11.0",
+    "husky": "^9.1.7",
+    "lint-staged": "^16.4.0",
+    "postcss-styled-syntax": "^0.7.2",
+    "prettier": "^3.9.5",
+    "stylelint": "^17.14.0",
+    "stylelint-config-standard": "^40.0.0",
+    "typescript": "^5.9.3",
+    "vitest": "^4.1.10"
+  },
+  "engines": {
+    "node": ">=22",
+    "pnpm": ">=10"
+  }
+}

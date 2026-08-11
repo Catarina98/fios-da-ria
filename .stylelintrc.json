@@ -1,0 +1,30 @@
+{
+  "customSyntax": "postcss-styled-syntax",
+  "extends": ["stylelint-config-standard"],
+  "rules": {
+    "unit-disallowed-list": [
+      ["px", "em", "in", "cm", "mm", "pt", "pc", "ex", "ch", "vmin", "vmax"],
+      {
+        "ignoreProperties": {
+          "px": [
+            "border",
+            "border-bottom",
+            "border-right",
+            "border-top",
+            "border-left",
+            "border-width",
+            "border-top-width",
+            "border-right-width",
+            "border-bottom-width",
+            "border-left-width",
+            "border-radius"
+          ]
+        }
+      }
+    ],
+    "media-query-no-invalid": null,
+    "no-descending-specificity": null,
+    "color-no-invalid-hex": true,
+    "declaration-block-no-duplicate-properties": true
+  }
+}

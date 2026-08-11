@@ -1,0 +1,36 @@
+name: CI Workflow
+run-name: ${{ github.actor }} is creating a Pull Request
+on:
+  pull_request:
+    types: [opened, synchronize, reopened, edited]
+jobs:
+  CI:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    env:
+      NODE_AUTH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+    steps:
+      - name: 'Actions checkout'
+        uses: actions/checkout@v4
+
+      - name: 'Select Node version'
+        uses: actions/setup-node@v4
+        with:
+          node-version: '22.x'
+          registry-url: 'https://npm.pkg.github.com'
+          scope: '@metyis-porto'
+
+      - name: 'Install pnpm'
+        run: npm install -g pnpm
+
+      - name: Configure npm auth
+        run: echo "//npm.pkg.github.com/:_authToken=${{ secrets.NPM_TOKEN }}" > ~/.npmrc
+
+      - name: Install
+        run: pnpm install --frozen-lockfile
+
+      - name: Lint
+        run: pnpm run lint
+
+      - name: Unit Tests
+        run: pnpm run test:coverage
