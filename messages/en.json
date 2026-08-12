@@ -3,5 +3,10 @@
     "title": "Welcome to Polaris",
     "description": "This is a simple Next.js App Router boilerplate created by the Front-End team in Portugal.",
     "githubButton": "Check Github"
+  },
+  "Navigation": {
+    "home": "Home",
+    "gallery": "Gallery",
+    "about": "About"
   }
 }
