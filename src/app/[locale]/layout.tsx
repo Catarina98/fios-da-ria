@@ -1,4 +1,5 @@
 import { ReactNode } from 'react';
+import Navigation from '@components/layout/navigation';
 import type { Metadata } from 'next';
 import { Manrope } from 'next/font/google';
 import { notFound } from 'next/navigation';
@@ -39,7 +40,10 @@ export default async function RootLayout({
     <html lang={locale}>
       <body className={`${manrope.variable}`}>
         <Providers messages={messages} locale={locale}>
-          <main>{children}</main>
+          <main>
+            <Navigation />
+            {children}
+          </main>
         </Providers>
       </body>
     </html>
