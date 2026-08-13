@@ -1,16 +1,67 @@
-import { FC } from 'react';
+import { FC, useState } from 'react';
 import { Icon } from '@components/ui/icon';
+import Link from 'next/link';
 
-const MobileModal: FC = () => {
+import './MobileModal.scss';
+import { getHrefLink } from '../Navigation';
+
+interface MobileModalProps {
+  navItems: Record<string, string>;
+}
+
+const MobileModal: FC<{ data: MobileModalProps }> = ({ data }) => {
+  const { navItems } = data;
+  const [isOpen, setIsOpen] = useState(false);
+
   return (
     <>
-      <div className="">
-        <Icon icon="hamburguer" className="w-18 h-12" />
-        <a className="flex items-center justify-center gap-8 text-2xl font-bold">
+      <div className="navbar-header">
+        <Link
+          href="/"
+          className="flex items-center justify-center gap-8 text-2xl font-bold"
+        >
           <img alt="Fios da Ria Logo" width={32} height={32} src="/logo.png" />
           Fios da Ria
-        </a>
+        </Link>
+        <Icon
+          icon="hamburguer"
+          className="menu-icon"
+          onClick={() => setIsOpen(true)}
+        />
       </div>
+
+      {/* {isOpen && */}
+      <div className={`navbar-modal ${isOpen ? 'is-open' : ''}`}>
+        <div className="header">
+          <div className="header-text font-bold">
+            <img
+              alt="Fios da Ria Logo"
+              width={32}
+              height={32}
+              src="/logo.png"
+            />
+            Fios da Ria
+          </div>
+          <Icon
+            icon="close"
+            size={16}
+            className="close-icon"
+            onClick={() => setIsOpen(false)}
+          />
+        </div>
+        <div className="flex flex-col gap-8 px-16 pb-32">
+          {Object.entries(navItems).map(([key, value]) => (
+            <a
+              key={key}
+              href={getHrefLink(key)}
+              className="p-8 rounded-6 hover:bg-tertiary"
+            >
+              {value}
+            </a>
+          ))}
+        </div>
+      </div>
+      {/* } */}
     </>
   );
 };

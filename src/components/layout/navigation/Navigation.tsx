@@ -6,7 +6,7 @@ import { useViewport } from '@/hooks/useViewport';
 
 import MobileModal from './components/MobileModal';
 
-const getHrefLink = (menuTitle: string) => {
+export const getHrefLink = (menuTitle: string) => {
   return menuTitle === 'home'
     ? '/'
     : `/${menuTitle.replace(/([A-Z])/g, '-$1').toLowerCase()}`;
@@ -40,7 +40,7 @@ const Navigation: FC = () => {
       </ul>
     </nav>
   ) : (
-    <MobileModal />
+    <MobileModal data={{ navItems }} />
   );
 };
 
