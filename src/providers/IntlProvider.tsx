@@ -1,12 +1,12 @@
-'use client'
+'use client';
 
-import { ReactNode } from "react";
-import { type AbstractIntlMessages,NextIntlClientProvider } from 'next-intl';
+import { ReactNode } from 'react';
+import { type AbstractIntlMessages, NextIntlClientProvider } from 'next-intl';
 
 export function IntlProvider({
   children,
   messages,
-  locale
+  locale,
 }: {
   children: ReactNode;
   messages: AbstractIntlMessages;
@@ -15,7 +15,11 @@ export function IntlProvider({
   const timezone = Intl.DateTimeFormat().resolvedOptions().timeZone;
 
   return (
-    <NextIntlClientProvider messages={messages} locale={locale} timeZone={timezone}>
+    <NextIntlClientProvider
+      messages={messages}
+      locale={locale}
+      timeZone={timezone}
+    >
       {children}
     </NextIntlClientProvider>
   );

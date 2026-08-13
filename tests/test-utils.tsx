@@ -1,5 +1,5 @@
 import React, { ReactElement, ReactNode } from 'react';
-import { Providers } from "@providers/Providers";
+import { Providers } from '@providers/Providers';
 import { render } from '@testing-library/react';
 import type { MessagesType } from '@typing/messages';
 import { getMessages } from '@utils/getMessages';

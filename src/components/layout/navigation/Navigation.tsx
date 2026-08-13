@@ -1,5 +1,10 @@
+'use client';
 import { FC } from 'react';
 import { useTranslations } from 'next-intl';
+
+import { useViewport } from '@/hooks/useViewport';
+
+import MobileModal from './components/MobileModal';
 
 const getHrefLink = (menuTitle: string) => {
   return menuTitle === 'home'
@@ -12,7 +17,9 @@ const Navigation: FC = () => {
 
   const navItems = t.raw('Navigation') as Record<string, string>;
 
-  return (
+  const { isDesktop } = useViewport();
+
+  return isDesktop ? (
     <nav className="flex items-center justify-between px-40 py-16 rounded-6 bg-white text-secondary shadow-[0_2px_10px_rgba(0,0,0,0.08)]">
       <a className="flex items-center justify-center gap-8 text-2xl font-bold">
         <img alt="Fios da Ria Logo" width={32} height={32} src="/logo.png" />
@@ -32,6 +39,8 @@ const Navigation: FC = () => {
         ))}
       </ul>
     </nav>
+  ) : (
+    <MobileModal />
   );
 };
 

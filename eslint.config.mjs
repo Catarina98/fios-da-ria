@@ -1,6 +1,6 @@
-import { defineConfig, globalIgnores } from "eslint/config";
-import nextVitals from "eslint-config-next/core-web-vitals";
-import nextTs from "eslint-config-next/typescript";
+import { defineConfig, globalIgnores } from 'eslint/config';
+import nextVitals from 'eslint-config-next/core-web-vitals';
+import nextTs from 'eslint-config-next/typescript';
 import _import from 'eslint-plugin-import';
 import reactHooks from 'eslint-plugin-react-hooks';
 import simpleImportSort from 'eslint-plugin-simple-import-sort';
@@ -8,12 +8,7 @@ import simpleImportSort from 'eslint-plugin-simple-import-sort';
 const eslintConfig = defineConfig([
   ...nextVitals,
   ...nextTs,
-  globalIgnores([
-    ".next/**",
-    "out/**",
-    "build/**",
-    "next-env.d.ts",
-  ]),
+  globalIgnores(['.next/**', 'out/**', 'build/**', 'next-env.d.ts']),
   {
     plugins: {
       import: _import,
@@ -42,17 +37,13 @@ const eslintConfig = defineConfig([
       'react-hooks/refs': 'warn',
 
       'import/no-anonymous-default-export': 'off',
-      "simple-import-sort/imports": [
-        "warn",
+      'simple-import-sort/imports': [
+        'warn',
         {
-          groups: [
-            ["^react$", "^@?\\w"],
-            ["^@"],
-            ["^\\./"],
-          ],
+          groups: [['^react$', '^@?\\w'], ['^@'], ['^\\./']],
         },
       ],
-      "import/newline-after-import": ["error", { count: 1 }],
+      'import/newline-after-import': ['error', { count: 1 }],
 
       '@typescript-eslint/no-unused-vars': 'error',
       '@typescript-eslint/ban-ts-comment': 'off',
