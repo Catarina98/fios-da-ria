@@ -16,10 +16,7 @@ const MobileModal: FC<{ data: MobileModalProps }> = ({ data }) => {
   return (
     <>
       <div className="navbar-header">
-        <Link
-          href="/"
-          className="flex items-center justify-center gap-8 text-2xl font-bold"
-        >
+        <Link href="/" className="logo">
           <img alt="Fios da Ria Logo" width={32} height={32} src="/logo.png" />
           Fios da Ria
         </Link>
@@ -29,7 +26,7 @@ const MobileModal: FC<{ data: MobileModalProps }> = ({ data }) => {
       {/* {isOpen && */}
       <div className={`navbar-modal ${isOpen ? 'is-open' : ''}`}>
         <div className="header">
-          <div className="header-text font-bold">
+          <div className="header-text">
             <img
               alt="Fios da Ria Logo"
               width={32}
@@ -40,13 +37,9 @@ const MobileModal: FC<{ data: MobileModalProps }> = ({ data }) => {
           </div>
           <X className="close" onClick={() => setIsOpen(false)} />
         </div>
-        <div className="flex flex-col gap-8 px-16 pb-32">
+        <div className="nav-links">
           {Object.entries(navItems).map(([key, value]) => (
-            <a
-              key={key}
-              href={getHrefLink(key)}
-              className="p-8 rounded-6 hover:bg-tertiary"
-            >
+            <a key={key} href={getHrefLink(key)} className="nav-item">
               {value}
             </a>
           ))}
