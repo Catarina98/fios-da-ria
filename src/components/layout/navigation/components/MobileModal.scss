@@ -77,13 +77,25 @@
     padding: 0 var(--spacing-16) var(--spacing-32);
 
     .nav-item {
+      display: flex;
+      align-items: center;
+      gap: var(--spacing-12);
       padding: var(--spacing-8);
       border-radius: var(--radius-6);
       text-decoration: none;
       color: inherit;
 
+      .nav-icon {
+        color: var(--txt-secondary);
+      }
+
       &:hover {
         background-color: var(--bg-tertiary);
+        color: var(--txt-tertiary);
+
+        .nav-icon {
+          color: var(--txt-tertiary);
+        }
       }
     }
   }

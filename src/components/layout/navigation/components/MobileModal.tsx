@@ -1,5 +1,5 @@
 import { FC, useState } from 'react';
-import { Menu, X } from 'lucide-react';
+import { Home, Images, Menu, Store,X } from 'lucide-react';
 import Link from 'next/link';
 
 import './MobileModal.scss';
@@ -8,6 +8,12 @@ import { getHrefLink } from '../Navigation';
 interface MobileModalProps {
   navItems: Record<string, string>;
 }
+
+const iconMap: Record<string, FC<{ className?: string }>> = {
+  home: Home,
+  gallery: Images,
+  about: Store,
+};
 
 const MobileModal: FC<{ data: MobileModalProps }> = ({ data }) => {
   const { navItems } = data;
@@ -38,11 +44,16 @@ const MobileModal: FC<{ data: MobileModalProps }> = ({ data }) => {
           <X className="close" onClick={() => setIsOpen(false)} />
         </div>
         <div className="nav-links">
-          {Object.entries(navItems).map(([key, value]) => (
-            <a key={key} href={getHrefLink(key)} className="nav-item">
-              {value}
-            </a>
-          ))}
+          {Object.entries(navItems).map(([key, value]) => {
+            const Icon = iconMap[key];
+            
+return (
+              <a key={key} href={getHrefLink(key)} className="nav-item">
+                {Icon && <Icon className="nav-icon" />}
+                {value}
+              </a>
+            );
+          })}
         </div>
       </div>
       {/* } */}
