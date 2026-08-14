@@ -1,4 +1,4 @@
-@theme {
+:root {
   /* Backgrounds */
   --bg-primary: #426275;
   --bg-secondary: #c5e7fd;
@@ -21,6 +21,31 @@
   --icon-primary: #380728;
   --icon-secondary: #001e2c;
   --icon-tertiary: #1b1c1c;
+}
+
+@theme {
+  /* Backgrounds */
+  --bg-primary: var(--bg-primary);
+  --bg-secondary: var(--bg-secondary);
+  --bg-tertiary: var(--bg-tertiary);
+  --bg-quaternary: var(--bg-quaternary);
+  --bg-grey: var(--bg-grey);
+  --bg-white: var(--bg-white);
+  --bg-disabled: var(--bg-disabled);
+
+  /* Borders */
+  --border-primary: var(--border-primary);
+
+  /* Text */
+  --txt-primary: var(--txt-primary);
+  --txt-secondary: var(--txt-secondary);
+  --txt-tertiary: var(--txt-tertiary);
+  --txt-disabled: var(--txt-disabled);
+
+  /* Icons */
+  --icon-primary: var(--icon-primary);
+  --icon-secondary: var(--icon-secondary);
+  --icon-tertiary: var(--icon-tertiary);
 }
 
 .dark {

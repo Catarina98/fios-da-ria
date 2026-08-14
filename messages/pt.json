@@ -3,5 +3,10 @@
     "title": "Bem-vindo ao Polaris",
     "description": "Esta é uma aplicação base simples em Next.js App Router criada pela equipa de Front-End em Portugal.",
     "githubButton": "Ver o Github"
+  },
+  "Navigation": {
+    "home": "Home",
+    "gallery": "Gallery",
+    "about": "About"
   }
 }
