@@ -1,4 +1,9 @@
-@theme {
+:root {
   --radius-6: 0.375rem;
   --radius-18: 1.125rem;
+}
+
+@theme {
+  --radius-6: var(--radius-6);
+  --radius-18: var(--radius-18);
 }
