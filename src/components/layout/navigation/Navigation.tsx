@@ -2,11 +2,10 @@
 import { FC } from 'react';
 import { useTranslations } from 'next-intl';
 
-import { useViewport } from '@/hooks/useViewport';
-
 import MobileModal from './components/MobileModal';
 
 import './Navigation.scss';
+import { useViewport } from '../../../hooks/useViewport';
 
 export const getHrefLink = (menuTitle: string) => {
   return menuTitle === 'home'

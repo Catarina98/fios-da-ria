@@ -6,7 +6,8 @@
   },
   "Navigation": {
     "home": "Home",
-    "gallery": "Gallery",
-    "about": "About"
+    "gallery": "Galeria",
+    "about": "Sobre",
+    "contact": "Contacto"
   }
 }
