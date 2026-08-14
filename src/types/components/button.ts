@@ -1,23 +1,15 @@
 import { ReactNode } from 'react';
 
-interface ButtonLayout {
-  backgroundColor?: string;
-  textColor?: string;
-  borderColor?: string;
-}
-
 export enum ButtonVariant {
   Primary = 'primary',
   Secondary = 'secondary',
   Tertiary = 'tertiary',
-  Custom = 'custom',
+  Ghost = 'ghost',
 }
 
 export enum ButtonSize {
-  Small = 'sm',
   Medium = 'md',
   Large = 'lg',
-  ExtraLarge = 'xl',
 }
 
 export type ButtonType = {
@@ -25,7 +17,9 @@ export type ButtonType = {
   url?: string | ((e: React.MouseEvent) => void);
   variant?: ButtonVariant;
   size?: ButtonSize;
-  style?: ButtonLayout;
   disabled?: boolean;
-  className?: string;
+  isLoading?: boolean;
+  leftIcon?: ReactNode;
+  rightIcon?: ReactNode;
+  onClick?: (e: React.MouseEvent) => void;
 };

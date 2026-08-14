@@ -7,6 +7,7 @@ import { notFound } from 'next/navigation';
 import { hasLocale } from 'next-intl';
 import { getMessages, setRequestLocale } from 'next-intl/server';
 
+import '../../styles/globals.css';
 import { routing } from '../../i18n/routing';
 import { Providers } from '../../providers';
 
