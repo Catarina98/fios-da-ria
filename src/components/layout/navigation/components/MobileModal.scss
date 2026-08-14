@@ -6,10 +6,13 @@
   color: var(--txt-secondary);
 
   .menu-icon {
-    width: 18px;
-    height: 12px;
+    width: 24px;
     fill: var(--txt-secondary);
     cursor: pointer;
+  }
+
+  .close {
+    width: 24px;
   }
 }
 

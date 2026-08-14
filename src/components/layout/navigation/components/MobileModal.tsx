@@ -1,5 +1,5 @@
 import { FC, useState } from 'react';
-import { Icon } from '@components/ui/icon';
+import { Menu, X } from 'lucide-react';
 import Link from 'next/link';
 
 import './MobileModal.scss';
@@ -23,11 +23,7 @@ const MobileModal: FC<{ data: MobileModalProps }> = ({ data }) => {
           <img alt="Fios da Ria Logo" width={32} height={32} src="/logo.png" />
           Fios da Ria
         </Link>
-        <Icon
-          icon="hamburguer"
-          className="menu-icon"
-          onClick={() => setIsOpen(true)}
-        />
+        <Menu className="menu-icon" onClick={() => setIsOpen(true)} />
       </div>
 
       {/* {isOpen && */}
@@ -42,12 +38,7 @@ const MobileModal: FC<{ data: MobileModalProps }> = ({ data }) => {
             />
             Fios da Ria
           </div>
-          <Icon
-            icon="close"
-            size={16}
-            className="close-icon"
-            onClick={() => setIsOpen(false)}
-          />
+          <X className="close" onClick={() => setIsOpen(false)} />
         </div>
         <div className="flex flex-col gap-8 px-16 pb-32">
           {Object.entries(navItems).map(([key, value]) => (
