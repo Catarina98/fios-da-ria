@@ -1,0 +1,18 @@
+.label-container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: var(--spacing-4) var(--spacing-12);
+  border-radius: var(--radius-18);
+  font-size: 0.75rem;
+  line-height: 1rem;
+  font-weight: 500;
+  width: fit-content;
+  background-color: var(--bg-tertiary);
+  color: var(--txt-tertiary);
+
+  &.secondary-style {
+    background: color-mix(in srgb, var(--bg-disabled) 40%, transparent);
+    color: var(--txt-disabled);
+  }
+}
