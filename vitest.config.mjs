@@ -14,11 +14,11 @@ export default defineConfig({
         '**/__tests__/**',
         'src/types/*',
         '**/index.ts',
-        'src/lib/Global.tsx',
         '**/*.styles.ts',
+        '**/*.scss',
+        'src/styles/**',
         'src/proxy.ts',
         'src/i18n/**',
-        'src/styles/Global.tsx',
         'src/lib/**',
       ],
       thresholds: {
