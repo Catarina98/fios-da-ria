@@ -1,0 +1,49 @@
+.footer {
+  position: fixed;
+  bottom: 0;
+  padding: 10px;
+  color: var(--txt-secondary);
+  width: 100%;
+  background: var(--bg-grey);
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+
+  .footer-menu {
+    display: flex;
+    gap: 6px;
+    justify-content: center;
+
+    .nav-link {
+      display: flex;
+      gap: 4px;
+
+      svg {
+        width: 18px;
+      }
+    }
+  }
+
+  p {
+    color: var(--txt-tertiary);
+    font-size: 14px;
+  }
+
+  .logo {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: var(--spacing-8);
+    font-size: 24px;
+    text-decoration: none;
+  }
+}
+
+@media (min-width: 768px) {
+  .footer {
+    .footer-menu {
+      gap: 20px;
+    }
+  }
+}
