@@ -22,7 +22,9 @@ export default function Home() {
         {t('title')}
       </p>
       <Label text="Cinema" variant={LabelVariant.Secondary} />
-      <MediaDisplay images={characterImages} activeIndex={1} />
+      <div style={{ width: '560px', maxWidth: '100%' }}>
+        <MediaDisplay images={characterImages} activeIndex={1} />
+      </div>
     </>
   );
 }

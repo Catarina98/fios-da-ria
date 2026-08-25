@@ -1,112 +1,176 @@
 'use client';
 
-import { FC, useEffect, useRef, useState } from 'react';
+import {
+  FC,
+  useCallback,
+  useEffect,
+  useLayoutEffect,
+  useRef,
+  useState,
+} from 'react';
 import { MediaDisplayType } from '@typing/components/mediadisplay';
-import { ArrowLeft, ArrowRight } from 'lucide-react';
+import { ArrowLeft, ArrowRight,X } from 'lucide-react';
+
+import { useViewport } from '@/hooks/useViewport';
 
 import './MediaDisplaySlider.scss';
 
 const MediaDisplaySlider: FC<MediaDisplayType> = ({
   images,
-  activeIndex = 0,
+  activeIndex: propActiveIndex = 0,
+  showFullScreen: propShowFullScreen,
   onIndexChange,
+  onToggleFullScreen,
 }) => {
   const containerRef = useRef<HTMLDivElement>(null);
+  const isNavigatingRef = useRef(false);
+  const { isDesktop } = useViewport();
 
-  const [localActiveIndex, setLocalActiveIndex] = useState(0);
+  const [internalFullScreen, setInternalFullScreen] = useState(false);
+  const [internalActiveIndex, setInternalActiveIndex] =
+    useState(propActiveIndex);
+
+  const isFullScreen = propShowFullScreen ?? internalFullScreen;
+  const activeIndex =
+    propActiveIndex !== undefined && onIndexChange
+      ? propActiveIndex
+      : internalActiveIndex;
 
   useEffect(() => {
-    if (localActiveIndex === activeIndex) return;
-    const container = containerRef.current;
-    if (container) {
-      const width = container.clientWidth;
-      const targetScrollLeft = activeIndex * width;
+    console.log('propActiveIndex');
+    setInternalActiveIndex(propActiveIndex);
+  }, [propActiveIndex]);
 
-      if (Math.abs(container.scrollLeft - targetScrollLeft) > 5) {
-        container.scrollTo({
-          left: targetScrollLeft,
-          behavior: 'smooth',
-        });
-      }
-
-      setLocalActiveIndex(activeIndex);
-    }
-  }, [activeIndex]);
-
-  const handleScroll = (event: React.UIEvent<HTMLDivElement>) => {
-    const container = event.currentTarget;
-    const width = container.clientWidth;
-    if (width === 0) return;
-    const newIndex = Math.round(container.scrollLeft / width);
-
-    if (
-      newIndex !== localActiveIndex &&
-      newIndex >= 0 &&
-      newIndex < images.length
-    ) {
-      setLocalActiveIndex(newIndex);
-      onIndexChange?.(newIndex);
-    }
-  };
-
-  const goToSlide = (index: number) => {
+  useLayoutEffect(() => {
     const container = containerRef.current;
     if (!container) return;
 
-    let targetIndex = index;
-    if (targetIndex < 0) targetIndex = images.length - 1;
-    if (targetIndex >= images.length) targetIndex = 0;
-
     const width = container.clientWidth;
+    if (width === 0) return;
 
-    container.scrollTo({
-      left: targetIndex * width,
-      behavior: 'smooth',
-    });
+    const targetLeft = activeIndex * width;
+
+    if (container.scrollLeft !== targetLeft) {
+      container.scrollLeft = targetLeft;
+    }
+  }, [isFullScreen, activeIndex]);
+
+  const handleToggleFullScreen = useCallback(
+    (show: boolean) => {
+      setInternalFullScreen(show);
+      onToggleFullScreen?.(show);
+    },
+    [onToggleFullScreen],
+  );
+
+  const handleIndexChange = useCallback(
+    (newIndex: number) => {
+      setInternalActiveIndex(newIndex);
+      onIndexChange?.(newIndex);
+    },
+    [onIndexChange],
+  );
+
+  const handleScroll = (event: React.UIEvent<HTMLDivElement>) => {
+    if (isNavigatingRef.current) return;
+
+    const container = event.currentTarget;
+    const width = container.clientWidth;
+    if (width === 0) return;
+
+    const newIndex = Math.round(container.scrollLeft / width);
+
+    if (newIndex !== activeIndex && newIndex >= 0 && newIndex < images.length) {
+      handleIndexChange(newIndex);
+    }
   };
 
+  const goToSlide = useCallback(
+    (index: number) => {
+      let targetIndex = index;
+      if (targetIndex < 0) targetIndex = images.length - 1;
+      if (targetIndex >= images.length) targetIndex = 0;
+
+      isNavigatingRef.current = true;
+
+      handleIndexChange(targetIndex);
+
+      setTimeout(() => {
+        isNavigatingRef.current = false;
+      }, 400);
+    },
+    [images.length, handleIndexChange],
+  );
+
   return (
-    <>
+    <div className={isFullScreen ? 'media-display-component-fullscreen' : ''}>
       <div className="media-display-container">
+        {isFullScreen && (
+          <button
+            type="button"
+            className="close-button icon-media-display"
+            aria-label="Close"
+            onClick={() => handleToggleFullScreen(false)}
+          >
+            <X />
+          </button>
+        )}
+
         <div
           data-testid="media-display-component"
           className="slider-container"
           ref={containerRef}
-          onScroll={handleScroll}
+          {...(isDesktop ? {} : { onScroll: handleScroll })}
         >
           {images.map((imgUrl, index) => (
-            <div key={index} className="slide">
-              <img src={imgUrl} alt={`Gallery slide ${index + 1}`} />
+            <div
+              key={index}
+              className="slide"
+              {...(isDesktop && !isFullScreen
+                ? { onClick: () => handleToggleFullScreen(true) }
+                : {})}
+            >
+              <img
+                src={imgUrl}
+                alt={`Gallery slide ${index + 1}`}
+                loading={index === 0 ? 'eager' : 'lazy'}
+              />
             </div>
           ))}
         </div>
-        <div className="dot-container">
-          {images.map((_, index) => (
-            <div
-              key={`dot-${index}`}
-              className={`dot ${index === localActiveIndex ? 'active' : ''}`}
-              onClick={() => goToSlide(index)}
-            />
-          ))}
-        </div>
+
+        {images.length > 1 && (
+          <div className="dot-container">
+            {images.map((_, index) => (
+              <button
+                key={`dot-${index}`}
+                type="button"
+                className={`dot ${index === activeIndex ? 'active' : ''}`}
+                onClick={() => goToSlide(index)}
+                aria-label={`Go to slide ${index + 1}`}
+              />
+            ))}
+          </div>
+        )}
+
         <button
           type="button"
-          className="arrow arrow-left"
+          className="arrow arrow-left icon-media-display"
           aria-label="Previous slide"
-          onClick={() => goToSlide(localActiveIndex - 1)}
+          onClick={() => goToSlide(activeIndex - 1)}
         >
           <ArrowLeft />
         </button>
         <button
           type="button"
-          className="arrow arrow-right"
+          className="arrow arrow-right icon-media-display"
           aria-label="Next slide"
-          onClick={() => goToSlide(localActiveIndex + 1)}
+          onClick={() => goToSlide(activeIndex + 1)}
         >
           <ArrowRight />
         </button>
       </div>
-    </>
+    </div>
   );
 };
 
