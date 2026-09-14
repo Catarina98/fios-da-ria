@@ -1,0 +1,91 @@
+/* Display */
+@utility text-display-l {
+  font-size: 3.5rem;
+  line-height: 4rem;
+  font-weight: 700;
+  letter-spacing: -0.02em;
+}
+
+@utility text-display-m {
+  font-size: 2.75rem;
+  line-height: 3.25rem;
+  font-weight: 700;
+  letter-spacing: -0.02em;
+}
+
+@utility text-display-s {
+  font-size: 2.25rem;
+  line-height: 2.75rem;
+  font-weight: 700;
+  letter-spacing: -0.01em;
+}
+
+/* Heading */
+@utility text-heading-xl {
+  font-size: 2rem;
+  line-height: 2.5rem;
+  font-weight: 700;
+}
+
+@utility text-heading-l {
+  font-size: 1.5rem;
+  line-height: 2rem;
+  font-weight: 700;
+}
+
+@utility text-heading-m {
+  font-size: 1.25rem;
+  line-height: 1.75rem;
+  font-weight: 600;
+}
+
+@utility text-heading-s {
+  font-size: 1.125rem;
+  line-height: 1.5rem;
+  font-weight: 600;
+}
+
+/* Body */
+@utility text-body-l {
+  font-size: 1.125rem;
+  line-height: 1.75rem;
+  font-weight: 400;
+}
+
+@utility text-body-m {
+  font-size: 1rem;
+  line-height: 1.5rem;
+  font-weight: 400;
+}
+
+@utility text-body-s {
+  font-size: 0.875rem;
+  line-height: 1.25rem;
+  font-weight: 400;
+}
+
+/* Label */
+@utility text-label-l {
+  font-size: 1rem;
+  line-height: 1.5rem;
+  font-weight: 500;
+}
+
+@utility text-label-m {
+  font-size: 0.875rem;
+  line-height: 1.25rem;
+  font-weight: 500;
+}
+
+@utility text-label-s {
+  font-size: 0.75rem;
+  line-height: 1rem;
+  font-weight: 500;
+}
+
+/* Caption */
+@utility text-caption {
+  font-size: 0.75rem;
+  line-height: 1rem;
+  font-weight: 400;
+}

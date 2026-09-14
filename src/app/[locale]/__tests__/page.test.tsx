@@ -1,29 +1,26 @@
-import { render, screen } from '@tests/test-utils';
+import { redirect } from 'next/navigation';
 import { beforeEach, describe, expect, it, vi } from 'vitest';
 
-const { mockUseTranslations } = vi.hoisted(() => ({
-  mockUseTranslations: vi.fn(() => (key: string) => key),
-}));
-
-vi.mock('next-intl', async importOriginal => {
-  const actual = await importOriginal<typeof import('next-intl')>();
-
-  return {
-    ...actual,
-    useTranslations: mockUseTranslations,
-  };
-});
+import { showcaseList } from '@/showcase/registry';
 
 import Home from '../page';
+
+vi.mock('next/navigation', () => ({
+  redirect: vi.fn(),
+}));
 
 describe('<Home />', () => {
   beforeEach(() => {
     vi.clearAllMocks();
   });
 
-  it('should render Heading Component', () => {
-    render(<Home />);
+  it('should redirect to the first showcase item', async () => {
+    const params = Promise.resolve({ locale: 'en' });
 
-    expect(screen.getByTestId('heading-component')).toBeInTheDocument();
+    await Home({ params });
+
+    expect(redirect).toHaveBeenCalledWith(
+      `/en/showcase/${showcaseList[0].slug}`,
+    );
   });
 });
