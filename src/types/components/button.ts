@@ -1,4 +1,4 @@
-import { ReactNode } from 'react';
+import { ButtonHTMLAttributes, ReactNode } from 'react';
 
 export enum ButtonVariant {
   Primary = 'primary',
@@ -12,14 +12,12 @@ export enum ButtonSize {
   Large = 'lg',
 }
 
-export type ButtonType = {
+export type ButtonType = ButtonHTMLAttributes<HTMLButtonElement> & {
   children: ReactNode;
   url?: string | ((e: React.MouseEvent) => void);
   variant?: ButtonVariant;
   size?: ButtonSize;
-  disabled?: boolean;
   isLoading?: boolean;
   leftIcon?: ReactNode;
   rightIcon?: ReactNode;
-  onClick?: (e: React.MouseEvent) => void;
 };

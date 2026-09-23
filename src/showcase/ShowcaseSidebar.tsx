@@ -1,7 +1,7 @@
 'use client';
 
 import { useState } from 'react';
-import Button from '@components/ui/button';
+import Button from '@components/ui/button/Button';
 import { Body, Heading } from '@components/ui/typography';
 import { routing } from '@i18n/routing';
 import { ButtonVariant } from '@typing/components/button';

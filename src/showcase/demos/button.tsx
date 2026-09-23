@@ -1,8 +1,8 @@
 'use client';
 
-import Button from '@components/ui/button';
+import Button from '@components/ui/button/Button';
 import { ButtonSize, ButtonVariant } from '@typing/components/button';
-import { ArrowRight,ShoppingCart } from 'lucide-react';
+import { ArrowRight, ShoppingCart } from 'lucide-react';
 
 import { Row } from './_shared';
 
