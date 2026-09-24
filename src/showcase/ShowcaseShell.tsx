@@ -19,7 +19,7 @@ const ShowcaseShell = ({ children }: { children: ReactNode }) => {
         isDark={isDark}
         onToggleDark={() => setIsDark(value => !value)}
       />
-      <main className="min-w-0 flex-1">{children}</main>
+      <div className="min-w-0 flex-1">{children}</div>
     </div>
   );
 };
