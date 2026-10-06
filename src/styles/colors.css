@@ -1,8 +1,9 @@
 :root {
   /* Backgrounds */
   --bg-primary: #426275;
-  --bg-secondary: #c5e7fd;
-  --bg-tertiary: #ffd8ea;
+  --bg-secondary: #feb3dc;
+  --bg-secondary-hover: #ffd8ea;
+  --bg-tertiary: #c5e7fd;
   --bg-quaternary: #f5f3f1;
   --bg-grey: #fbf9f7;
   --bg-white: #ffffff;
@@ -13,8 +14,8 @@
 
   /* Text */
   --txt-primary: #42484c;
-  --txt-secondary: #305263;
-  --txt-tertiary: #874b6e;
+  --txt-secondary: #874b6e;
+  --txt-tertiary: #305263;
   --txt-disabled: #72787c;
 
   /* Icons */
@@ -27,6 +28,7 @@
   /* Backgrounds */
   --bg-primary: var(--bg-primary);
   --bg-secondary: var(--bg-secondary);
+  --bg-secondary-hover: var(--bg-secondary-hover);
   --bg-tertiary: var(--bg-tertiary);
   --bg-quaternary: var(--bg-quaternary);
   --bg-grey: var(--bg-grey);

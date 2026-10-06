@@ -27,6 +27,7 @@ vi.mock('next-intl/server', () => ({
 
 vi.mock('next/navigation', () => ({
   notFound: mockNotFound,
+  usePathname: vi.fn(() => '/en'),
 }));
 
 vi.mock('next/font/google', () => ({
@@ -35,6 +36,10 @@ vi.mock('next/font/google', () => ({
 
 vi.mock('../../../providers', () => ({
   Providers: mockProviders,
+}));
+
+vi.mock('@/showcase/ShowcaseShell', () => ({
+  default: ({ children }: { children: ReactNode }) => <>{children}</>,
 }));
 
 import RootLayout from '../layout';

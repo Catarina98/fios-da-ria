@@ -1,28 +1,18 @@
-import Accordion from '@components/ui/accordion';
-import Label from '@components/ui/label';
-import { LabelVariant } from '@typing/components/label';
-import { useTranslations } from 'next-intl';
+import { redirect } from 'next/navigation';
 
-import '../../styles/globals.css';
+import { showcaseList } from '@/showcase/registry';
 
-const accordionData = {
-  items: [
-    { title: 'Title 1', content: 'Content 1' },
-    { title: 'Title 2', content: 'Content 2' },
-    { title: 'Title 3', content: 'Content 3' },
-  ],
+/*
+ * TEMPORARY — redirects to the component showcase for design review.
+ * To restore the real homepage, revert this file and delete `src/showcase/`
+ * plus `src/app/[locale]/showcase/`. See src/showcase/README.md.
+ */
+type HomeProps = {
+  params: Promise<{ locale: string }>;
 };
 
-export default function Home() {
-  const t = useTranslations('Homepage');
+export default async function Home({ params }: HomeProps) {
+  const { locale } = await params;
 
-  return (
-    <>
-      <p className="text-2xl font-bold" data-testid="heading-component">
-        {t('title')}
-      </p>
-      <Label text="Cinema" variant={LabelVariant.Secondary} />
-      <Accordion {...accordionData} />
-    </>
-  );
+  redirect(`/${locale}/showcase/${showcaseList[0].slug}`);
 }

@@ -57,6 +57,18 @@ describe('getMessages', () => {
     expect(result).toBeUndefined();
   });
 
+  it('should return empty object if parsed messages is null', () => {
+    const mockLocale = 'fr';
+    vi.spyOn(path, 'join').mockReturnValue(
+      `/mock/path/to/messages/${mockLocale}.json`,
+    );
+    vi.spyOn(fs, 'readFileSync').mockReturnValue('null');
+
+    const result = getMessages(mockLocale);
+
+    expect(result).toEqual({});
+  });
+
   it('should throw an error for invalid locale format', () => {
     expect(() => getMessages('////')).toThrow('Invalid locale format.');
   });

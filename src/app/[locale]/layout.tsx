@@ -7,6 +7,9 @@ import { notFound } from 'next/navigation';
 import { hasLocale } from 'next-intl';
 import { getMessages, setRequestLocale } from 'next-intl/server';
 
+import ShowcaseShell from '@/showcase/ShowcaseShell';
+
+import '../../styles/globals.css';
 import { routing } from '../../i18n/routing';
 import { Providers } from '../../providers';
 
@@ -43,7 +46,7 @@ export default async function RootLayout({
         <Providers messages={messages} locale={locale}>
           <main>
             <Navigation />
-            {children}
+            <ShowcaseShell>{children}</ShowcaseShell>
             <Footer />
           </main>
         </Providers>

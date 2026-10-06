@@ -20,6 +20,7 @@ export default defineConfig({
         'src/proxy.ts',
         'src/i18n/**',
         'src/lib/**',
+        '**/*.md',
       ],
       thresholds: {
         lines: 80,
@@ -49,6 +50,7 @@ export default defineConfig({
       '@tests': path.resolve(__dirname, './tests'),
       '@typing': path.resolve(__dirname, './src/types'),
       '@utils': path.resolve(__dirname, './src/utils'),
+      '@': path.resolve(__dirname, './src'),
     },
   },
 });
