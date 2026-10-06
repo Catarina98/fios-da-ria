@@ -20,6 +20,7 @@ export default defineConfig({
         'src/proxy.ts',
         'src/i18n/**',
         'src/lib/**',
+        '**/*.md',
       ],
       thresholds: {
         lines: 80,

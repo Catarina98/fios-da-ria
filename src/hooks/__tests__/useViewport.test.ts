@@ -85,4 +85,16 @@ describe('useViewport', () => {
     expect(result.current.isMobile).toBe(true);
     expect(result.current.isDesktop).toBe(false);
   });
+
+  it('should remove resize event listener on unmount', () => {
+    const removeEventListenerSpy = vi.spyOn(window, 'removeEventListener');
+    const { unmount } = renderHook(() => useViewport());
+
+    unmount();
+
+    expect(removeEventListenerSpy).toHaveBeenCalledWith(
+      'resize',
+      expect.any(Function),
+    );
+  });
 });
