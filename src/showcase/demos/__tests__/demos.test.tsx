@@ -3,8 +3,10 @@ import { afterEach, beforeEach, describe, expect, it } from 'vitest';
 
 import { noop, Row, Stack } from '../_shared';
 import AccordionDemo from '../accordion';
+import BadgeDemo from '../badge';
 import ButtonDemo from '../button';
 import ColorsDemo from '../colors';
+import HighlightsDemo from '../highlights';
 import TypographyDemo from '../typography';
 
 describe('Showcase Demos', () => {
@@ -90,6 +92,41 @@ describe('Showcase Demos', () => {
       expect(screen.getByText('Label primary')).toBeInTheDocument();
       expect(screen.getByText('Label secondary')).toBeInTheDocument();
       expect(screen.getByText('Caption')).toBeInTheDocument();
+    });
+  });
+
+  describe('BadgeDemo', () => {
+    it('renders all badge demo variants and sizes', () => {
+      render(<BadgeDemo />);
+
+      expect(
+        screen.getAllByText('Feito à mão em Portugal')[0],
+      ).toBeInTheDocument();
+      expect(screen.getAllByText('Novo Padrão')[0]).toBeInTheDocument();
+      expect(
+        screen.getAllByText('Peças únicas, feitas com carinho')[0],
+      ).toBeInTheDocument();
+      expect(screen.getByText('Destaque')).toBeInTheDocument();
+      expect(screen.getByText('Small (sm)')).toBeInTheDocument();
+      expect(screen.getByText('Medium (md)')).toBeInTheDocument();
+    });
+  });
+
+  describe('HighlightsDemo', () => {
+    it('renders highlights demo cards', () => {
+      render(<HighlightsDemo />);
+
+      expect(
+        screen.getAllByText(/Histórias feitas de fio/)[0],
+      ).toBeInTheDocument();
+      expect(screen.getAllByText('Ver Galeria')[0]).toBeInTheDocument();
+      expect(
+        screen.getAllByText('Feito à mão em Portugal')[0],
+      ).toBeInTheDocument();
+      expect(screen.getAllByText('Conhecer a Catarina')[0]).toBeInTheDocument();
+      expect(
+        screen.getAllByText('Peças únicas, feitas com carinho')[0],
+      ).toBeInTheDocument();
     });
   });
 });

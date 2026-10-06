@@ -1,0 +1,54 @@
+.badge-container {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--spacing-6);
+  border-radius: var(--radius-18);
+  font-family: inherit;
+  font-weight: 500;
+  line-height: 1rem;
+  width: fit-content;
+  user-select: none;
+  transition: all 150ms ease-in-out;
+
+  /* Sizes */
+  &-sm {
+    padding: var(--spacing-4) var(--spacing-12);
+    font-size: 0.75rem;
+  }
+
+  &-md {
+    padding: var(--spacing-8) var(--spacing-16);
+    font-size: 0.8125rem;
+  }
+
+  /* Variants */
+  &-primary {
+    background-color: var(--bg-tertiary);
+    color: var(--txt-tertiary);
+    font-weight: 600;
+  }
+
+  &-secondary {
+    background-color: var(--bg-secondary);
+    color: var(--txt-secondary);
+    font-weight: 600;
+  }
+
+  &-neutral {
+    background-color: var(--bg-white);
+    color: var(--txt-secondary);
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.08);
+  }
+
+  .badge-icon {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .badge-content {
+    display: inline-block;
+    white-space: nowrap;
+  }
+}

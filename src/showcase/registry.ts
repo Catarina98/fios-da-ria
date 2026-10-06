@@ -32,9 +32,21 @@ export const showcaseList: ShowcaseEntry[] = [
       'Expandable list of question and answer panels, plain or paired with a heading, support link and CTA.',
   },
   {
+    slug: 'badge',
+    name: 'Badge',
+    summary: 'Pill-shaped indicator badge with variants and icon support.',
+  },
+  {
     slug: 'button',
     name: 'Button',
     summary: 'Primary, secondary, tertiary and icon-only actions.',
+  },
+  {
+    slug: 'highlights',
+    name: 'Highlights',
+    summary:
+      'Feature highlight section with title, description, call to action and framed visual media.',
+    fullWidth: true,
   },
 ];
 
