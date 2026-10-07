@@ -4,12 +4,17 @@ import Highlights from '@components/ui/highlights';
 import ProductCard from '@components/ui/productcard';
 import StoryBanner from '@components/ui/storybanner';
 import TitleSection from '@components/ui/titlesection';
+import { routing } from '@i18n/routing';
 import { ButtonVariant } from '@typing/components/button';
 import { Flower, Heart, Shield } from 'lucide-react';
 import { useTranslations } from 'next-intl';
 import { setRequestLocale } from 'next-intl/server';
 
 import './page.scss';
+
+export function generateStaticParams() {
+  return routing.locales.map(locale => ({ locale }));
+}
 
 type HomeProps = {
   params: Promise<{ locale: string }>;
