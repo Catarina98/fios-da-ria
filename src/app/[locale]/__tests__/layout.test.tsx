@@ -38,7 +38,7 @@ vi.mock('../../../providers', () => ({
   Providers: mockProviders,
 }));
 
-import RootLayout from '../layout';
+import RootLayout, { generateStaticParams } from '../layout';
 
 describe('<RootLayout />', () => {
   beforeEach(() => {
@@ -74,5 +74,10 @@ describe('<RootLayout />', () => {
     ).rejects.toThrow('notFound');
 
     expect(mockNotFound).toHaveBeenCalled();
+  });
+
+  it('generates static params for all supported locales', () => {
+    const params = generateStaticParams();
+    expect(params).toEqual([{ locale: 'pt' }, { locale: 'en' }]);
   });
 });
