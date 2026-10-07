@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect,useState } from 'react';
+import { useEffect, useState } from 'react';
 
 // Breakpoints matching src/styles/breakpoints.css
 export const breakpoints = {
@@ -30,8 +30,8 @@ export function useViewport(): Viewport {
     handleResize();
 
     window.addEventListener('resize', handleResize);
-    
-return () => {
+
+    return () => {
       window.removeEventListener('resize', handleResize);
     };
   }, []);

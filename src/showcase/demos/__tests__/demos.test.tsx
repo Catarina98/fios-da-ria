@@ -5,8 +5,12 @@ import { noop, Row, Stack } from '../_shared';
 import AccordionDemo from '../accordion';
 import BadgeDemo from '../badge';
 import ButtonDemo from '../button';
+import CardDemo from '../card';
 import ColorsDemo from '../colors';
 import HighlightsDemo from '../highlights';
+import ProductCardDemo from '../productcard';
+import StoryBannerDemo from '../storybanner';
+import TitleSectionDemo from '../titlesection';
 import TypographyDemo from '../typography';
 
 describe('Showcase Demos', () => {
@@ -58,6 +62,19 @@ describe('Showcase Demos', () => {
       expect(screen.getByText('Next Step')).toBeInTheDocument();
       expect(screen.getByText('Disabled')).toBeInTheDocument();
       expect(screen.getByText('Loading State')).toBeInTheDocument();
+    });
+  });
+
+  describe('CardDemo', () => {
+    it('renders feature card variants with list items', () => {
+      render(<CardDemo />);
+
+      expect(screen.getByText('Materiais naturais')).toBeInTheDocument();
+      expect(screen.getByText('Fio 100% algodão')).toBeInTheDocument();
+      expect(
+        screen.getByText('Cuidados com o seu amigurumi'),
+      ).toBeInTheDocument();
+      expect(screen.getByText('Tratar com carinho')).toBeInTheDocument();
     });
   });
 
@@ -126,6 +143,44 @@ describe('Showcase Demos', () => {
       expect(screen.getAllByText('Conhecer a Catarina')[0]).toBeInTheDocument();
       expect(
         screen.getAllByText('Peças únicas, feitas com carinho')[0],
+      ).toBeInTheDocument();
+    });
+  });
+
+  describe('ProductCardDemo', () => {
+    it('renders product cards with titles and categories', () => {
+      render(<ProductCardDemo />);
+
+      expect(screen.getByText('Woody')).toBeInTheDocument();
+      expect(screen.getByText('Toy Story')).toBeInTheDocument();
+      expect(screen.getByText('Branca de Neve')).toBeInTheDocument();
+      expect(screen.getByText('Anya Forger')).toBeInTheDocument();
+    });
+  });
+
+  describe('TitleSectionDemo', () => {
+    it('renders centered and left-aligned title sections', () => {
+      render(<TitleSectionDemo />);
+
+      expect(screen.getByText('O que nos guia')).toBeInTheDocument();
+      expect(screen.getByText('Carinho em cada detalhe')).toBeInTheDocument();
+      expect(screen.getByText('Pequenos tesouros')).toBeInTheDocument();
+      expect(screen.getByText('Os mais queridos')).toBeInTheDocument();
+      expect(screen.getByText('Ver tudo')).toBeInTheDocument();
+    });
+  });
+
+  describe('StoryBannerDemo', () => {
+    it('renders story banner with agenda and event details', () => {
+      render(<StoryBannerDemo />);
+
+      expect(screen.getByText('Agenda')).toBeInTheDocument();
+      expect(screen.getByText('Próximos eventos')).toBeInTheDocument();
+      expect(
+        screen.getByText('Mercadinho dos Artesãos e Produtores de Olhão'),
+      ).toBeInTheDocument();
+      expect(
+        screen.getByText('Avenida 18 de Julho, Olhão'),
       ).toBeInTheDocument();
     });
   });

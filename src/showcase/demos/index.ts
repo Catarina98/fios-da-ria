@@ -7,7 +7,11 @@ export const demoMap: Record<string, ComponentType> = {
   accordion: dynamic(() => import('./accordion')),
   badge: dynamic(() => import('./badge')),
   button: dynamic(() => import('./button')),
+  card: dynamic(() => import('./card')),
   colors: dynamic(() => import('./colors')),
   highlights: dynamic(() => import('./highlights')),
+  productcard: dynamic(() => import('./productcard')),
+  storybanner: dynamic(() => import('./storybanner')),
+  titlesection: dynamic(() => import('./titlesection')),
   typography: dynamic(() => import('./typography')),
 };

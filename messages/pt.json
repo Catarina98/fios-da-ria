@@ -1,8 +1,66 @@
 {
   "Homepage": {
-    "title": "Bem-vindo ao Polaris",
-    "description": "Esta é uma aplicação base simples em Next.js App Router criada pela equipa de Front-End em Portugal.",
-    "githubButton": "Ver o Github"
+    "highlights": {
+      "badge": "Feito à mão em Portugal",
+      "title": "Histórias feitas de fio, <highlight>ponto a ponto.</highlight>",
+      "description": "Bem-vindos à Fios da Ria. Eu sou a Catarina, e crio figuras amigurumi detalhadas e feitas à mão. Macias, fofinhas e cheias de personalidade.",
+      "imageAlt": "Três bonecos de crochet coloridos na natureza",
+      "galleryButton": "Ver Galeria",
+      "aboutButton": "Conhecer a Catarina",
+      "note": "Peças únicas, feitas com carinho"
+    },
+    "guidance": {
+      "eyebrow": "O que nos guia",
+      "title": "Carinho em cada detalhe",
+      "description": "Escolhas conscientes para peças bonitas, seguras e cheias de personalidade.",
+      "materialsTitle": "Materiais naturais",
+      "materialsItems": [
+        "Fio 100% algodão",
+        "Olhos com travas de segurança",
+        "Enchimento antialérgico"
+      ],
+      "careTitle": "Cuidados com o seu amigurumi",
+      "careItems": [
+        "Lavar à mão",
+        "Não torcer",
+        "Secar à sombra",
+        "Tratar com carinho"
+      ]
+    },
+    "featured": {
+      "eyebrow": "Pequenos tesouros",
+      "title": "Os mais queridos",
+      "viewAll": "Ver tudo",
+      "products": {
+        "woody": {
+          "title": "Woody",
+          "category": "Toy Story",
+          "description": "O xerife mais leal de Toy Story, recriado ponto a ponto com todos os detalhes do seu traje.",
+          "price": "€48"
+        },
+        "snowWhite": {
+          "title": "Branca de Neve",
+          "category": "Disney Princess",
+          "description": "A primeira princesa Disney numa versão delicada, com o icónico vestido azul e amarelo.",
+          "price": "€65"
+        },
+        "anya": {
+          "title": "Anya Forger",
+          "category": "Spy × Family",
+          "description": "A pequena telepata de Spy × Family, com o seu cabelo cor-de-rosa e uniforme inconfundível.",
+          "price": "€42"
+        }
+      }
+    },
+    "agenda": {
+      "badge": "Agenda",
+      "title": "Próximos eventos",
+      "imageAlt": "Banca da Fios da Ria num mercado de artesanato",
+      "eventTitle": "Mercadinho dos Artesãos e Produtores de Olhão",
+      "eventLocation": "Avenida 18 de Julho, Olhão",
+      "eventFrequency": "Todos os sábados",
+      "eventSchedule": "9h às 13h"
+    }
   },
   "Navigation": {
     "home": "Home",

@@ -7,8 +7,6 @@ import { notFound } from 'next/navigation';
 import { hasLocale } from 'next-intl';
 import { getMessages, setRequestLocale } from 'next-intl/server';
 
-import ShowcaseShell from '@/showcase/ShowcaseShell';
-
 import '../../styles/globals.css';
 import { routing } from '../../i18n/routing';
 import { Providers } from '../../providers';
@@ -44,11 +42,9 @@ export default async function RootLayout({
     <html lang={locale}>
       <body className={`${manrope.variable}`}>
         <Providers messages={messages} locale={locale}>
-          <main>
-            <Navigation />
-            <ShowcaseShell>{children}</ShowcaseShell>
-            <Footer />
-          </main>
+          <Navigation />
+          <main>{children}</main>
+          <Footer />
         </Providers>
       </body>
     </html>
