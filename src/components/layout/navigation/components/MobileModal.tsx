@@ -1,8 +1,9 @@
 import { FC, useState } from 'react';
-import { Home, Images, Menu, Store,X } from 'lucide-react';
+import { Home, Images, Menu, Store, X } from 'lucide-react';
 import Link from 'next/link';
 
 import './MobileModal.scss';
+import { getAssetPath } from '../../../../utils/getAssetPath';
 import { getHrefLink } from '../Navigation';
 
 interface MobileModalProps {
@@ -23,7 +24,12 @@ const MobileModal: FC<{ data: MobileModalProps }> = ({ data }) => {
     <>
       <div className="navbar-header">
         <Link href="/" className="logo">
-          <img alt="Fios da Ria Logo" width={32} height={32} src="/logo.png" />
+          <img
+            alt="Fios da Ria Logo"
+            width={32}
+            height={32}
+            src={getAssetPath('/logo.png')}
+          />
           Fios da Ria
         </Link>
         <Menu className="menu-icon" onClick={() => setIsOpen(true)} />
@@ -37,7 +43,7 @@ const MobileModal: FC<{ data: MobileModalProps }> = ({ data }) => {
               alt="Fios da Ria Logo"
               width={32}
               height={32}
-              src="/logo.png"
+              src={getAssetPath('/logo.png')}
             />
             Fios da Ria
           </div>
@@ -46,8 +52,8 @@ const MobileModal: FC<{ data: MobileModalProps }> = ({ data }) => {
         <div className="nav-links">
           {Object.entries(navItems).map(([key, value]) => {
             const Icon = iconMap[key];
-            
-return (
+
+            return (
               <a key={key} href={getHrefLink(key)} className="nav-item">
                 {Icon && <Icon className="nav-icon" />}
                 {value}

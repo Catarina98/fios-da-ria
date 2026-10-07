@@ -6,6 +6,7 @@ import MobileModal from './components/MobileModal';
 
 import './Navigation.scss';
 import { useViewport } from '../../../hooks/useViewport';
+import { getAssetPath } from '../../../utils/getAssetPath';
 
 export const getHrefLink = (menuTitle: string) => {
   return menuTitle === 'home'
@@ -23,7 +24,12 @@ const Navigation: FC = () => {
   return isDesktop ? (
     <nav className="navbar-desktop">
       <a className="logo">
-        <img alt="Fios da Ria Logo" width={32} height={32} src="/logo.png" />
+        <img
+          alt="Fios da Ria Logo"
+          width={32}
+          height={32}
+          src={getAssetPath('/logo.png')}
+        />
         Fios da Ria
       </a>
 

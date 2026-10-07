@@ -12,6 +12,9 @@ const basePath =
   process.env.NEXT_PUBLIC_BASE_PATH ?? (isGithubActions ? '/fios-da-ria' : '');
 
 const nextConfig: NextConfig = {
+  env: {
+    NEXT_PUBLIC_BASE_PATH: basePath,
+  },
   reactStrictMode: true,
   output: 'export',
   trailingSlash: true,

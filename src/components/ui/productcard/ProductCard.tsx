@@ -6,6 +6,7 @@ import { BadgeVariant } from '@typing/components/badge';
 import { ButtonVariant } from '@typing/components/button';
 import type { ProductCardType } from '@typing/components/productcard';
 import { cn } from '@utils/cn';
+import { getAssetPath } from '@utils/getAssetPath';
 import { ArrowRight } from 'lucide-react';
 
 import './ProductCard.scss';
@@ -35,7 +36,7 @@ const ProductCard: FC<ProductCardType> = ({
         onClick={onClick}
         aria-label={`Ver ${title}`}
       >
-        <img src={image} alt={imageAlt || title} />
+        <img src={getAssetPath(image)} alt={imageAlt || title} />
         {category && (
           <Badge
             variant={BadgeVariant.Secondary}

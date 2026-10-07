@@ -3,6 +3,7 @@ import { FC } from 'react';
 import { useTranslations } from 'next-intl';
 
 import './Footer.scss';
+import { getAssetPath } from '../../../utils/getAssetPath';
 
 const Footer: FC = () => {
   const t = useTranslations('Navigation');
@@ -23,7 +24,12 @@ const Footer: FC = () => {
   return (
     <footer className="footer">
       <a className="logo">
-        <img alt="Fios da Ria Logo" width={32} height={32} src="/logo.png" />
+        <img
+          alt="Fios da Ria Logo"
+          width={32}
+          height={32}
+          src={getAssetPath('/logo.png')}
+        />
         Fios da Ria
       </a>
 
