@@ -7,9 +7,18 @@ const withBundleAnalyzer = bundleAnalyzer({
   enabled: process.env.ANALYZE === 'true',
 });
 
+const isGithubActions = process.env.GITHUB_ACTIONS === 'true';
+const basePath =
+  process.env.NEXT_PUBLIC_BASE_PATH ?? (isGithubActions ? '/fios-da-ria' : '');
+
 const nextConfig: NextConfig = {
   reactStrictMode: true,
-  output: 'standalone',
+  output: 'export',
+  basePath: basePath || undefined,
+  assetPrefix: basePath || undefined,
+  images: {
+    unoptimized: true,
+  },
   compiler: {
     reactRemoveProperties: true,
   },

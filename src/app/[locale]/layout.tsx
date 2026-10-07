@@ -21,6 +21,10 @@ export const metadata: Metadata = {
   description: 'Gallery for fios da ria',
 };
 
+export function generateStaticParams() {
+  return routing.locales.map(locale => ({ locale }));
+}
+
 export default async function RootLayout({
   children,
   params,
