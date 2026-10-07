@@ -5,7 +5,9 @@ import type { ComponentType } from 'react';
 // Keep the keys alphabetical by slug (see CLAUDE.md → Showcase).
 export const demoMap: Record<string, ComponentType> = {
   accordion: dynamic(() => import('./accordion')),
+  badge: dynamic(() => import('./badge')),
   button: dynamic(() => import('./button')),
   colors: dynamic(() => import('./colors')),
+  highlights: dynamic(() => import('./highlights')),
   typography: dynamic(() => import('./typography')),
 };

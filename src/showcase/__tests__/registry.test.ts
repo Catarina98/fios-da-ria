@@ -23,7 +23,9 @@ describe('showcase registry', () => {
 
     const componentSlugs = showcaseGroups[1].entries.map(e => e.slug);
     expect(componentSlugs).toContain('accordion');
+    expect(componentSlugs).toContain('badge');
     expect(componentSlugs).toContain('button');
+    expect(componentSlugs).toContain('highlights');
   });
 
   it('finds existing entry by slug', () => {
