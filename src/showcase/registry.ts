@@ -42,11 +42,35 @@ export const showcaseList: ShowcaseEntry[] = [
     summary: 'Primary, secondary, tertiary and icon-only actions.',
   },
   {
+    slug: 'card',
+    name: 'Card',
+    summary:
+      'Content and feature card with circular icon badge, serif title and item list.',
+  },
+  {
     slug: 'highlights',
     name: 'Highlights',
     summary:
       'Feature highlight section with title, description, call to action and framed visual media.',
     fullWidth: true,
+  },
+  {
+    slug: 'productcard',
+    name: 'ProductCard',
+    summary:
+      'Product card with image, category badge, title, price and action.',
+  },
+  {
+    slug: 'storybanner',
+    name: 'StoryBanner',
+    summary:
+      'Split banner with event list, agenda badge and artisan event image.',
+  },
+  {
+    slug: 'titlesection',
+    name: 'TitleSection',
+    summary:
+      'Section header with uppercase eyebrow, display title, descriptive body and action slot.',
   },
 ];
 

@@ -3,3 +3,7 @@ export * from './button';
 export * from './accordion';
 export * from './badge';
 export * from './highlights';
+export * from './titlesection';
+export * from './card';
+export * from './productcard';
+export * from './storybanner';

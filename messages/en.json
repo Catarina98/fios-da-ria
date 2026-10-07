@@ -8,6 +8,58 @@
       "galleryButton": "View Gallery",
       "aboutButton": "Meet Catarina",
       "note": "Unique pieces, made with love"
+    },
+    "guidance": {
+      "eyebrow": "What guides us",
+      "title": "Care in every detail",
+      "description": "Conscious choices for beautiful, safe, and characterful handmade pieces.",
+      "materialsTitle": "Natural materials",
+      "materialsItems": [
+        "100% cotton yarn",
+        "Safety eyes with secure backings",
+        "Hypoallergenic fiberfill stuffing"
+      ],
+      "careTitle": "Caring for your amigurumi",
+      "careItems": [
+        "Hand wash only",
+        "Do not wring",
+        "Dry flat in shade",
+        "Handle with love"
+      ]
+    },
+    "featured": {
+      "eyebrow": "Little treasures",
+      "title": "Most beloved",
+      "viewAll": "View all",
+      "products": {
+        "woody": {
+          "title": "Woody",
+          "category": "Toy Story",
+          "description": "The most loyal sheriff from Toy Story, recreated stitch by stitch with every detail of his outfit.",
+          "price": "€48"
+        },
+        "snowWhite": {
+          "title": "Snow White",
+          "category": "Disney Princess",
+          "description": "The first Disney princess in a delicate version, featuring her iconic blue and yellow dress.",
+          "price": "€65"
+        },
+        "anya": {
+          "title": "Anya Forger",
+          "category": "Spy × Family",
+          "description": "The little telepath from Spy × Family, with her pink hair and unmistakable Eden uniform.",
+          "price": "€42"
+        }
+      }
+    },
+    "agenda": {
+      "badge": "Agenda",
+      "title": "Upcoming events",
+      "imageAlt": "Fios da Ria stall at an artisan craft market",
+      "eventTitle": "Olhão Artisans and Producers Market",
+      "eventLocation": "Avenida 18 de Julho, Olhão",
+      "eventFrequency": "Every Saturday",
+      "eventSchedule": "9:00 to 13:00"
     }
   },
   "Navigation": {

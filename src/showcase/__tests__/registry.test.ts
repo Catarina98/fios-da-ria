@@ -25,7 +25,11 @@ describe('showcase registry', () => {
     expect(componentSlugs).toContain('accordion');
     expect(componentSlugs).toContain('badge');
     expect(componentSlugs).toContain('button');
+    expect(componentSlugs).toContain('card');
     expect(componentSlugs).toContain('highlights');
+    expect(componentSlugs).toContain('productcard');
+    expect(componentSlugs).toContain('storybanner');
+    expect(componentSlugs).toContain('titlesection');
   });
 
   it('finds existing entry by slug', () => {
