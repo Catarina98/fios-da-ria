@@ -1,8 +1,14 @@
 {
   "Homepage": {
-    "title": "Bem-vindo ao Polaris",
-    "description": "Esta é uma aplicação base simples em Next.js App Router criada pela equipa de Front-End em Portugal.",
-    "githubButton": "Ver o Github"
+    "highlights": {
+      "badge": "Feito à mão em Portugal",
+      "title": "Histórias feitas de fio, <highlight>ponto a ponto.</highlight>",
+      "description": "Bem-vindos à Fios da Ria. Eu sou a Catarina, e crio figuras amigurumi detalhadas e feitas à mão. Macias, fofinhas e cheias de personalidade.",
+      "imageAlt": "Três bonecos de crochet coloridos na natureza",
+      "galleryButton": "Ver Galeria",
+      "aboutButton": "Conhecer a Catarina",
+      "note": "Peças únicas, feitas com carinho"
+    }
   },
   "Navigation": {
     "home": "Home",

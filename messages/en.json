@@ -1,8 +1,14 @@
 {
   "Homepage": {
-    "title": "Welcome to Polaris",
-    "description": "This is a simple Next.js App Router boilerplate created by the Front-End team in Portugal.",
-    "githubButton": "Check Github"
+    "highlights": {
+      "badge": "Handmade in Portugal",
+      "title": "Stories made of yarn, <highlight>stitch by stitch.</highlight>",
+      "description": "Welcome to Fios da Ria. I am Catarina, and I create detailed, handmade amigurumi figures. Soft, fluffy and full of personality.",
+      "imageAlt": "Three colorful crochet figures in nature",
+      "galleryButton": "View Gallery",
+      "aboutButton": "Meet Catarina",
+      "note": "Unique pieces, made with love"
+    }
   },
   "Navigation": {
     "home": "Home",

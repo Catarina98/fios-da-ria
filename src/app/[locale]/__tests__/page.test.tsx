@@ -1,26 +1,40 @@
-import { redirect } from 'next/navigation';
+import { render, screen } from '@tests/test-utils';
 import { beforeEach, describe, expect, it, vi } from 'vitest';
 
-import { showcaseList } from '@/showcase/registry';
+const { mockSetRequestLocale } = vi.hoisted(() => ({
+  mockSetRequestLocale: vi.fn(),
+}));
+
+vi.mock('next-intl/server', () => ({
+  setRequestLocale: mockSetRequestLocale,
+}));
 
 import Home from '../page';
-
-vi.mock('next/navigation', () => ({
-  redirect: vi.fn(),
-}));
 
 describe('<Home />', () => {
   beforeEach(() => {
     vi.clearAllMocks();
   });
 
-  it('should redirect to the first showcase item', async () => {
-    const params = Promise.resolve({ locale: 'en' });
+  it('renders homepage with Highlights section and sets request locale to pt', async () => {
+    const params = Promise.resolve({ locale: 'pt' });
 
-    await Home({ params });
+    const pageResult = await Home({ params });
+    render(pageResult);
 
-    expect(redirect).toHaveBeenCalledWith(
-      `/en/showcase/${showcaseList[0].slug}`,
+    expect(mockSetRequestLocale).toHaveBeenCalledWith('pt');
+    expect(screen.getByTestId('highlights-component')).toBeInTheDocument();
+    expect(screen.getByText('Feito à mão em Portugal')).toBeInTheDocument();
+
+    const heading = screen.getByRole('heading');
+    expect(heading).toHaveTextContent(
+      'Histórias feitas de fio, ponto a ponto.',
     );
+    expect(heading.querySelector('.highlights-highlight')).toHaveTextContent(
+      'ponto a ponto.',
+    );
+
+    expect(screen.getByText('Ver Galeria')).toBeInTheDocument();
+    expect(screen.getByText('Conhecer a Catarina')).toBeInTheDocument();
   });
 });

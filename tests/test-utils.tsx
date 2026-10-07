@@ -30,7 +30,7 @@ export const wrapper = ({
 };
 
 const customRender = (ui: ReactElement) => {
-  const locale = 'en';
+  const locale = 'pt';
   const messages = getMessages(locale) ?? {};
 
   return render(ui, {
@@ -41,7 +41,7 @@ const customRender = (ui: ReactElement) => {
 
 export const createWrapper = (
   messages: MessagesType = {},
-  locale: string = 'en',
+  locale: string = 'pt',
 ) => {
   return ({ children }: { children: React.ReactNode }) =>
     wrapper({ children, messages, locale });

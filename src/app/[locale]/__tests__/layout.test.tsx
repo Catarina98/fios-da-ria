@@ -38,10 +38,6 @@ vi.mock('../../../providers', () => ({
   Providers: mockProviders,
 }));
 
-vi.mock('@/showcase/ShowcaseShell', () => ({
-  default: ({ children }: { children: ReactNode }) => <>{children}</>,
-}));
-
 import RootLayout from '../layout';
 
 describe('<RootLayout />', () => {
@@ -54,15 +50,15 @@ describe('<RootLayout />', () => {
   it('renders the layout shell and passes locale and messages to providers', async () => {
     const result = await RootLayout({
       children: <div>Page content</div>,
-      params: Promise.resolve({ locale: 'en' }),
+      params: Promise.resolve({ locale: 'pt' }),
     });
 
     render(result);
 
-    expect(document.documentElement.lang).toBe('en');
+    expect(document.documentElement.lang).toBe('pt');
     expect(screen.getByRole('main')).toBeInTheDocument();
     expect(screen.getByText('Page content')).toBeInTheDocument();
-    expect(mockSetRequestLocale).toHaveBeenCalledWith('en');
+    expect(mockSetRequestLocale).toHaveBeenCalledWith('pt');
     expect(mockGetMessages).toHaveBeenCalled();
     expect(mockProviders).toHaveBeenCalled();
   });
