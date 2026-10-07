@@ -8,6 +8,7 @@ import {
 } from '@typing/components/button';
 import type { HighlightsType } from '@typing/components/highlights';
 import { cn } from '@utils/cn';
+import { getAssetPath } from '@utils/getAssetPath';
 import { highlightText } from '@utils/highlightText';
 
 import './Highlights.scss';
@@ -91,7 +92,7 @@ const Highlights: FC<HighlightsType> = ({
         >
           <div className="highlights-visual-card">
             <img
-              src={imageSrc}
+              src={getAssetPath(imageSrc)}
               alt={imageAlt}
               className="highlights-image"
               data-testid="highlights-image"

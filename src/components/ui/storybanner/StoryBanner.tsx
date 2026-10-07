@@ -4,6 +4,7 @@ import { Body, Caption, Heading } from '@components/ui/typography';
 import { BadgeVariant } from '@typing/components/badge';
 import type { StoryBannerType } from '@typing/components/storybanner';
 import { cn } from '@utils/cn';
+import { getAssetPath } from '@utils/getAssetPath';
 
 import './StoryBanner.scss';
 
@@ -24,7 +25,7 @@ const StoryBanner: FC<StoryBannerType> = ({
     >
       <div className="story-image-wrapper">
         <img
-          src={imageSrc}
+          src={getAssetPath(imageSrc)}
           alt={imageAlt || (typeof title === 'string' ? title : '')}
           data-testid="story-banner-image"
         />

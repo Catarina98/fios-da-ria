@@ -39,6 +39,7 @@ jobs:
       - name: Build Next.js static site
         env:
           GITHUB_ACTIONS: 'true'
+          NEXT_PUBLIC_BASE_PATH: '/fios-da-ria'
         run: pnpm run build
 
       - name: Upload Pages artifact
