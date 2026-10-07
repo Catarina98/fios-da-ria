@@ -14,6 +14,7 @@ const basePath =
 const nextConfig: NextConfig = {
   reactStrictMode: true,
   output: 'export',
+  trailingSlash: true,
   basePath: basePath || undefined,
   assetPrefix: basePath || undefined,
   images: {

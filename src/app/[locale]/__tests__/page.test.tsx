@@ -9,7 +9,7 @@ vi.mock('next-intl/server', () => ({
   setRequestLocale: mockSetRequestLocale,
 }));
 
-import Home from '../page';
+import Home, { generateStaticParams } from '../page';
 
 describe('<Home />', () => {
   afterEach(cleanup);
@@ -67,5 +67,10 @@ describe('<Home />', () => {
     expect(screen.getByText('Avenida 18 de Julho, Olhão')).toBeInTheDocument();
     expect(screen.getByText('Todos os sábados')).toBeInTheDocument();
     expect(screen.getByText('9h às 13h')).toBeInTheDocument();
+  });
+
+  it('generates static params for all supported locales', () => {
+    const params = generateStaticParams();
+    expect(params).toEqual([{ locale: 'pt' }, { locale: 'en' }]);
   });
 });
