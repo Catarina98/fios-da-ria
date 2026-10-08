@@ -1,6 +1,8 @@
+'use client';
+
 import { FC, useState } from 'react';
+import { Link } from '@i18n/navigation';
 import { Home, Images, Menu, Store, X } from 'lucide-react';
-import Link from 'next/link';
 
 import './MobileModal.scss';
 import { getAssetPath } from '../../../../utils/getAssetPath';
@@ -38,7 +40,11 @@ const MobileModal: FC<{ data: MobileModalProps }> = ({ data }) => {
       {/* {isOpen && */}
       <div className={`navbar-modal ${isOpen ? 'is-open' : ''}`}>
         <div className="header">
-          <div className="header-text">
+          <Link
+            href="/"
+            className="header-text"
+            onClick={() => setIsOpen(false)}
+          >
             <img
               alt="Fios da Ria Logo"
               width={32}
@@ -46,7 +52,7 @@ const MobileModal: FC<{ data: MobileModalProps }> = ({ data }) => {
               src={getAssetPath('/logo.png')}
             />
             Fios da Ria
-          </div>
+          </Link>
           <X className="close" onClick={() => setIsOpen(false)} />
         </div>
         <div className="nav-links">
@@ -54,10 +60,15 @@ const MobileModal: FC<{ data: MobileModalProps }> = ({ data }) => {
             const Icon = iconMap[key];
 
             return (
-              <a key={key} href={getHrefLink(key)} className="nav-item">
+              <Link
+                key={key}
+                href={getHrefLink(key)}
+                className="nav-item"
+                onClick={() => setIsOpen(false)}
+              >
                 {Icon && <Icon className="nav-icon" />}
                 {value}
-              </a>
+              </Link>
             );
           })}
         </div>

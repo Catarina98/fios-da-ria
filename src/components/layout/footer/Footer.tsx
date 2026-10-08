@@ -1,5 +1,7 @@
 'use client';
+
 import { FC } from 'react';
+import { Link } from '@i18n/navigation';
 import { useTranslations } from 'next-intl';
 
 import './Footer.scss';
@@ -23,7 +25,7 @@ const Footer: FC = () => {
 
   return (
     <footer className="footer">
-      <a className="logo">
+      <Link href="/" className="logo">
         <img
           alt="Fios da Ria Logo"
           width={32}
@@ -31,20 +33,26 @@ const Footer: FC = () => {
           src={getAssetPath('/logo.png')}
         />
         Fios da Ria
-      </a>
+      </Link>
 
       <ul className="footer-menu">
         {footerItems.map((item, index) => (
           <li key={index}>
-            <a
-              href={item.href}
-              className="nav-link"
-              {...(item.isExternal
-                ? { target: '_blank', rel: 'noopener noreferrer' }
-                : {})}
-            >
-              <span>{item.label}</span>
-            </a>
+            {item.isExternal || item.href.startsWith('mailto:') ? (
+              <a
+                href={item.href}
+                className="nav-link"
+                {...(item.isExternal
+                  ? { target: '_blank', rel: 'noopener noreferrer' }
+                  : {})}
+              >
+                <span>{item.label}</span>
+              </a>
+            ) : (
+              <Link href={item.href} className="nav-link">
+                <span>{item.label}</span>
+              </Link>
+            )}
           </li>
         ))}
       </ul>

@@ -41,6 +41,7 @@ const Highlights: FC<HighlightsType> = ({
       rightIcon={btn.rightIcon}
       disabled={btn.disabled}
       onClick={btn.onClick}
+      url={btn.url}
     >
       {btn.children}
     </Button>

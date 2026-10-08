@@ -48,10 +48,12 @@ function HomeContent() {
         button={{
           children: t('highlights.galleryButton'),
           variant: ButtonVariant.Primary,
+          url: '/gallery',
         }}
         secondaryButton={{
           children: t('highlights.aboutButton'),
           variant: ButtonVariant.Ghost,
+          url: '/about',
         }}
         note={{
           text: t('highlights.note'),
@@ -98,7 +100,7 @@ function HomeContent() {
             eyebrow={t('featured.eyebrow')}
             title={t('featured.title')}
             action={
-              <Button variant={ButtonVariant.Ghost}>
+              <Button variant={ButtonVariant.Ghost} url="/gallery">
                 {t('featured.viewAll')}
               </Button>
             }
