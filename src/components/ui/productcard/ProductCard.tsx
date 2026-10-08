@@ -18,7 +18,13 @@ const ProductCard: FC<ProductCardType> = ({
   image,
   imageAlt = '',
   price,
-  actionText = 'Ver detalhes',
+  actionText = 'View details',
+  stock,
+  variantCount,
+  variantTextSingular = 'variant',
+  variantTextPlural = 'variants',
+  inStockText = 'in stock',
+  soldOutText = 'Sold out',
   onClick,
   className,
   ...props
@@ -75,6 +81,28 @@ const ProductCard: FC<ProductCardType> = ({
         >
           {description}
         </Body>
+
+        {typeof variantCount === 'number' && variantCount > 0 && (
+          <span
+            className="product-card-variant-count"
+            data-testid="product-card-variant-count"
+          >
+            {variantCount}{' '}
+            {variantCount === 1 ? variantTextSingular : variantTextPlural}
+          </span>
+        )}
+
+        {typeof stock === 'number' && (
+          <span
+            className={cn(
+              'product-card-stock',
+              stock <= 0 && 'product-card-stock-sold-out',
+            )}
+            data-testid="product-card-stock"
+          >
+            {stock > 0 ? `${stock} ${inStockText}` : soldOutText}
+          </span>
+        )}
 
         <div data-testid="product-card-action">
           <Button

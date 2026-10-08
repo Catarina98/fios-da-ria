@@ -20,7 +20,7 @@ describe('ProductCard Component', () => {
     );
 
     const actionContainer = screen.getByTestId('product-card-action');
-    expect(actionContainer).toHaveTextContent('Ver detalhes');
+    expect(actionContainer).toHaveTextContent('View details');
     const actionBtn = actionContainer.querySelector('button')!;
     fireEvent.click(actionBtn);
     expect(handleClick).toHaveBeenCalledTimes(1);
@@ -36,5 +36,24 @@ describe('ProductCard Component', () => {
     expect(screen.getByTestId('product-card-action')).toHaveTextContent(
       'Comprar',
     );
+  });
+
+  it('renders variant count and stock labels when provided', () => {
+    render(<ProductCard {...woodyProductMock} variantCount={3} stock={4} />);
+
+    expect(screen.getByTestId('product-card-variant-count')).toHaveTextContent(
+      '3 variants',
+    );
+    expect(screen.getByTestId('product-card-stock')).toHaveTextContent(
+      '4 in stock',
+    );
+  });
+
+  it('renders sold out label when stock is 0', () => {
+    render(<ProductCard {...woodyProductMock} stock={0} />);
+
+    const stockEl = screen.getByTestId('product-card-stock');
+    expect(stockEl).toHaveTextContent('Sold out');
+    expect(stockEl).toHaveClass('product-card-stock-sold-out');
   });
 });
