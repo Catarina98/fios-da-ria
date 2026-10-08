@@ -67,5 +67,55 @@
     "gallery": "Galeria",
     "about": "Sobre",
     "contact": "Contacto"
+  },
+  "Gallery": {
+    "eyebrow": "Coleções",
+    "title": "Peças com alma",
+    "description": "Descubra pequenos personagens e objetos de crochet, todos criados à mão em edições muito limitadas.",
+    "filters": {
+      "title": "Filtros",
+      "showFilters": "Mostrar filtros",
+      "hideFilters": "Ocultar filtros",
+      "searchPlaceholder": "Pesquisar peças",
+      "clearSearch": "Limpar pesquisa",
+      "category": "Categoria",
+      "price": "Preço",
+      "sort": "Ordenar",
+      "all": "Todos",
+      "under50": "Até €50",
+      "over50": "Mais de €50",
+      "sortRelevance": "Relevância",
+      "sortPriceAsc": "Preço mais baixo",
+      "sortPriceDesc": "Preço mais alto",
+      "clearFilters": "Limpar filtros",
+      "emptyTitle": "Nenhuma peça encontrada",
+      "emptyDescription": "Tente pesquisar outro nome ou remover alguns filtros."
+    },
+    "categories": {
+      "all": "Todos",
+      "toy_story": "Toy Story",
+      "princesas_disney": "Princesas Disney",
+      "spy_family": "Spy x Family"
+    },
+    "products": {
+      "woody": {
+        "title": "Woody",
+        "category": "Toy Story",
+        "description": "O xerife mais leal de Toy Story, recriado ponto a ponto com todos os detalhes do seu traje.",
+        "price": "€48"
+      },
+      "snowWhite": {
+        "title": "Branca de Neve",
+        "category": "Princesas Diney",
+        "description": "A primeira princesa Disney numa versão delicada, com o icónico vestido azul e amarelo.",
+        "price": "€65"
+      },
+      "anya": {
+        "title": "Anya Forger",
+        "category": "Spy × Family",
+        "description": "A pequena telepata de Spy × Family, com o seu cabelo cor-de-rosa e uniforme inconfundível.",
+        "price": "€42"
+      }
+    }
   }
 }

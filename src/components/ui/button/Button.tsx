@@ -17,17 +17,20 @@ const Button: FC<ButtonType> = ({
   rightIcon,
   disabled,
   onClick,
+  className,
+  ...props
 }) => {
   return (
     <button
       data-testid="button-component"
       type="button"
-      className={clsx('btn', `btn-${variant}`, `btn-${size}`, {
+      className={clsx('btn', `btn-${variant}`, `btn-${size}`, className, {
         'btn-loading': isLoading,
         'btn-disabled': disabled || isLoading,
       })}
       disabled={disabled || isLoading}
       onClick={onClick}
+      {...props}
     >
       {isLoading && <span className="btn-spinner" aria-hidden="true" />}
       {!isLoading && leftIcon && (

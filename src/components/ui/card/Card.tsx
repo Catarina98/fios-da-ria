@@ -11,6 +11,7 @@ const Card: FC<CardType> = ({
   iconVariant = 'primary',
   items,
   description,
+  children,
   className,
   ...props
 }) => {
@@ -55,6 +56,8 @@ const Card: FC<CardType> = ({
           <Body size="M">{description}</Body>
         </div>
       )}
+
+      {children}
     </div>
   );
 };
