@@ -6,9 +6,10 @@ import ProductPage from '../page';
 
 export async function generateStaticParams() {
   const ids = await getAllProductIds();
+  const safeIds = ids.length > 0 ? ids : ['_'];
 
   return routing.locales.flatMap(locale =>
-    ids.map(id => ({
+    safeIds.map(id => ({
       locale,
       id,
     })),
