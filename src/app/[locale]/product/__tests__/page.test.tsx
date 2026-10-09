@@ -118,13 +118,49 @@ describe('Product Pages', () => {
       const pageResult = await ProductDetailPage({ params });
       render(pageResult);
 
-      const buyLink = await screen.findByRole('link', {
-        name: /link to the buy/i,
-      });
+      const buyLink = await screen.findByTestId('product-buy-button');
       expect(buyLink).toBeInTheDocument();
       expect(buyLink).toHaveAttribute('href', 'https://www.vinted.pt');
       expect(buyLink).toHaveAttribute('target', '_blank');
       expect(buyLink).toHaveAttribute('rel', 'noopener noreferrer');
+    });
+
+    it('renders Instagram contact link when product or variant has no vintedUrl', async () => {
+      const outOfStockProduct = {
+        ...mockProduct,
+        id: 'sold-out-collection',
+        vintedUrl: undefined,
+        variants: [
+          {
+            id: 'unlisted-variant',
+            name: 'Special Piece',
+            image: '/images/catalog/toy-story-woody.JPG',
+            price: '€50',
+            stock: 0,
+            vintedUrl: undefined,
+          },
+        ],
+      };
+      const { getProductById } = await import('@lib/sanity/products');
+      vi.mocked(getProductById).mockResolvedValueOnce(outOfStockProduct as any);
+
+      const params = Promise.resolve({
+        locale: 'pt',
+        id: 'sold-out-collection',
+      });
+      const pageResult = await ProductDetailPage({ params });
+      render(pageResult);
+
+      const contactBtn = await screen.findByTestId('product-buy-button');
+      expect(contactBtn).toBeInTheDocument();
+      expect(contactBtn).toHaveAttribute(
+        'href',
+        expect.stringContaining('https://ig.me/m/fiosdaria'),
+      );
+      expect(contactBtn).toHaveAttribute(
+        'href',
+        expect.stringContaining(encodeURIComponent('Special Piece')),
+      );
     });
 
     it('navigates gallery images via next/prev buttons and thumbnails', async () => {

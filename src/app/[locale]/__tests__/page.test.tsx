@@ -9,6 +9,40 @@ vi.mock('next-intl/server', () => ({
   setRequestLocale: mockSetRequestLocale,
 }));
 
+const mockFeaturedProducts = [
+  {
+    id: 'collection-toy-story',
+    title: 'Woody',
+    category: 'Toy Story',
+    description: 'O xerife mais leal de Toy Story',
+    image: '/images/woody.jpg',
+    price: '€48',
+    variants: [],
+  },
+  {
+    id: 'collection-disney-princesses',
+    title: 'Branca de Neve',
+    category: 'Princesas Disney',
+    description: 'A primeira princesa Disney',
+    image: '/images/snow-white.jpg',
+    price: '€65',
+    variants: [],
+  },
+  {
+    id: 'collection-spy-family',
+    title: 'Anya Forger',
+    category: 'Spy × Family',
+    description: 'A pequena telepata',
+    image: '/images/anya.jpg',
+    price: '€42',
+    variants: [],
+  },
+];
+
+vi.mock('@lib/sanity/products', () => ({
+  getProducts: vi.fn(async () => mockFeaturedProducts),
+}));
+
 import Home, { generateStaticParams } from '../page';
 
 describe('<Home />', () => {

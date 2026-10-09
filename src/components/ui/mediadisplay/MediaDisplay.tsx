@@ -1,6 +1,6 @@
 'use client';
 
-import { FC, useState } from 'react';
+import { FC, useMemo, useState } from 'react';
 import { MediaDisplayProps } from '@typing/components/mediadisplay';
 import { cn } from '@utils/cn';
 import { getAssetPath } from '@utils/getAssetPath';
@@ -8,6 +8,8 @@ import { ChevronLeft, ChevronRight } from 'lucide-react';
 import { useTranslations } from 'next-intl';
 
 import './MediaDisplay.scss';
+
+const MAX_THUMBNAILS = 4;
 
 export const MediaDisplay: FC<MediaDisplayProps> = ({
   images = [],
@@ -21,6 +23,25 @@ export const MediaDisplay: FC<MediaDisplayProps> = ({
 
   const activeIndex =
     typeof selectedIndex === 'number' ? selectedIndex : internalIndex;
+
+  const visibleThumbnails = useMemo(() => {
+    if (images.length <= MAX_THUMBNAILS) {
+      return images.map((src, index) => ({ src, originalIndex: index }));
+    }
+
+    let start = activeIndex - Math.floor(MAX_THUMBNAILS / 2);
+    if (start < 0) {
+      start = 0;
+    }
+    if (start + MAX_THUMBNAILS > images.length) {
+      start = images.length - MAX_THUMBNAILS;
+    }
+
+    return images.slice(start, start + MAX_THUMBNAILS).map((src, idx) => ({
+      src,
+      originalIndex: start + idx,
+    }));
+  }, [images, activeIndex]);
 
   if (images.length === 0) {
     return null;
@@ -92,20 +113,23 @@ export const MediaDisplay: FC<MediaDisplayProps> = ({
         )}
       </div>
 
-      {/* Thumbnail strip */}
+      {/* Thumbnails grid: neatly fills the width of the main image */}
       {images.length > 1 && (
         <div
           className="media-display-thumbnails product-thumbnails"
           role="tablist"
           aria-label="Thumbnails"
           data-testid="product-thumbnails"
+          style={{
+            gridTemplateColumns: `repeat(${visibleThumbnails.length}, minmax(0, 1fr))`,
+          }}
         >
-          {images.map((imgSrc, index) => {
-            const isSelected = index === activeIndex;
+          {visibleThumbnails.map(({ src: imgSrc, originalIndex }) => {
+            const isSelected = originalIndex === activeIndex;
 
             return (
               <button
-                key={imgSrc + index}
+                key={`${imgSrc}-${originalIndex}`}
                 type="button"
                 role="tab"
                 aria-selected={isSelected}
@@ -113,14 +137,17 @@ export const MediaDisplay: FC<MediaDisplayProps> = ({
                   'media-display-thumbnail thumbnail-btn',
                   isSelected && 'active',
                 )}
-                onClick={() => handleThumbnailClick(index)}
+                onClick={() => handleThumbnailClick(originalIndex)}
                 aria-label={
-                  t('gallery.thumbnail', { number: index + 1 }) ||
-                  `View image ${index + 1}`
+                  t('gallery.thumbnail', { number: originalIndex + 1 }) ||
+                  `View image ${originalIndex + 1}`
                 }
-                data-testid={`gallery-thumbnail-${index}`}
+                data-testid={`gallery-thumbnail-${originalIndex}`}
               >
-                <img src={getAssetPath(imgSrc)} alt={`${alt} ${index + 1}`} />
+                <img
+                  src={getAssetPath(imgSrc)}
+                  alt={`${alt} ${originalIndex + 1}`}
+                />
               </button>
             );
           })}

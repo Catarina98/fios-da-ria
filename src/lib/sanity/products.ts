@@ -61,16 +61,27 @@ const formatSanityProduct = (
       .map(img => (typeof img === 'string' ? img : urlFor(img)))
       .filter(Boolean);
 
+    const variantVintedUrl =
+      v.vintedUrl ||
+      (raw.variants && raw.variants.length > 1 ? undefined : raw.vintedUrl) ||
+      undefined;
+    const hasVariantStock = Boolean(variantVintedUrl);
+
     return {
       id: v.id,
       name: getLocalizedValue(v.name, locale),
       image: variantImg || mainImage,
       images: variantGallery.length > 0 ? variantGallery : undefined,
       price: typeof v.price === 'number' ? `€${v.price}` : v.price || '',
-      stock: typeof v.stock === 'number' ? v.stock : 1,
-      vintedUrl: v.vintedUrl || raw.vintedUrl || 'https://www.vinted.pt',
+      stock: hasVariantStock ? 1 : 0,
+      vintedUrl: variantVintedUrl,
     };
   });
+
+  const productVintedUrl = raw.vintedUrl || undefined;
+  const hasProductStock = Boolean(
+    productVintedUrl || variants.some(v => Boolean(v.vintedUrl)),
+  );
 
   return {
     id: productId,
@@ -80,9 +91,9 @@ const formatSanityProduct = (
     image: mainImage,
     images: galleryImages,
     price: typeof raw.price === 'number' ? `€${raw.price}` : raw.price || '€0',
-    stock: typeof raw.stock === 'number' ? raw.stock : 1,
+    stock: hasProductStock ? 1 : 0,
     variants,
-    vintedUrl: raw.vintedUrl || 'https://www.vinted.pt',
+    vintedUrl: productVintedUrl,
   };
 };
 
