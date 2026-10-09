@@ -8,16 +8,13 @@ import ProductCard from '@components/ui/productcard';
 import RangeSlider from '@components/ui/rangeslider';
 import TitleSection from '@components/ui/titlesection';
 import { Body, Heading } from '@components/ui/typography';
+import { getProducts } from '@lib/sanity/products';
 import { ButtonVariant } from '@typing/components/button';
 import clsx from 'clsx';
 import { Plus, Search, X } from 'lucide-react';
-import { useTranslations } from 'next-intl';
+import { useLocale, useTranslations } from 'next-intl';
 
-import {
-  CATALOG_PRODUCTS,
-  getProductDisplayPrice,
-  getProductPrices,
-} from './data';
+import { getProductDisplayPrice, getProductPrices, StoreProduct } from './data';
 
 import './page.scss';
 
@@ -26,7 +23,14 @@ export type SortKey = 'sortPriceAsc' | 'sortPriceDesc';
 const SORT_OPTIONS: SortKey[] = ['sortPriceAsc', 'sortPriceDesc'];
 
 export default function GalleryPage() {
-  const products = CATALOG_PRODUCTS;
+  const locale = useLocale();
+  const [products, setProducts] = useState<StoreProduct[]>([]);
+
+  useEffect(() => {
+    getProducts(locale).then(fetched => {
+      setProducts(fetched || []);
+    });
+  }, [locale]);
 
   const t = useTranslations('Gallery');
   const tNav = useTranslations('Navigation');
@@ -79,13 +83,6 @@ export default function GalleryPage() {
   }, [normalizedProducts]);
 
   const effectiveMaxPrice = maxPrice ?? catalogMaxPrice;
-
-  useEffect(() => {
-    setMaxPrice(current =>
-      current == null || current > catalogMaxPrice ? catalogMaxPrice : current,
-    );
-    setMinPrice(current => Math.min(current, catalogMaxPrice));
-  }, [catalogMaxPrice]);
 
   useEffect(() => {
     if (!filters.includes(filter)) setFilter('All');
@@ -164,7 +161,7 @@ export default function GalleryPage() {
     setQuery('');
     setFilter('All');
     setMinPrice(0);
-    setMaxPrice(catalogMaxPrice);
+    setMaxPrice(null);
     setSortOption('sortPriceAsc');
   };
 

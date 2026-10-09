@@ -1,14 +1,16 @@
 import { routing } from '@i18n/routing';
+import { getAllProductIds } from '@lib/sanity/products';
 import { setRequestLocale } from 'next-intl/server';
 
-import { CATALOG_PRODUCTS } from '../../gallery/data';
-import { ProductView } from '../page';
+import ProductPage from '../page';
 
-export function generateStaticParams() {
+export async function generateStaticParams() {
+  const ids = await getAllProductIds();
+
   return routing.locales.flatMap(locale =>
-    CATALOG_PRODUCTS.map(product => ({
+    ids.map(id => ({
       locale,
-      id: product.id,
+      id,
     })),
   );
 }
@@ -23,7 +25,5 @@ export default async function ProductDetailPage({
   const { locale, id } = await params;
   setRequestLocale(locale);
 
-  const product = CATALOG_PRODUCTS.find(item => item.id === id);
-
-  return <ProductView product={product} />;
+  return <ProductPage productId={id} />;
 }

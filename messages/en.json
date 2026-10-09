@@ -143,6 +143,12 @@
       "soldOut": "Sold out"
     },
     "chooseCharacter": "Choose a character",
+    "linkToBuy": "Link to the buy",
+    "gallery": {
+      "previousImage": "Previous image",
+      "nextImage": "Next image",
+      "thumbnail": "View image {number}"
+    },
     "addToBag": "Add to bag",
     "addedToBag": "Added to bag",
     "materials": {

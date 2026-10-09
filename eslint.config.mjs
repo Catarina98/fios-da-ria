@@ -8,7 +8,14 @@ import simpleImportSort from 'eslint-plugin-simple-import-sort';
 const eslintConfig = defineConfig([
   ...nextVitals,
   ...nextTs,
-  globalIgnores(['.next/**', 'out/**', 'build/**', 'next-env.d.ts']),
+  globalIgnores([
+    '.next/**',
+    'out/**',
+    'build/**',
+    'next-env.d.ts',
+    '.sanity/**',
+    'dist/**',
+  ]),
   {
     plugins: {
       import: _import,

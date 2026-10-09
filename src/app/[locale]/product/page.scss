@@ -14,18 +14,6 @@
   width: 100%;
 }
 
-.product-main-image {
-  width: 100%;
-  height: 440px;
-  object-fit: cover;
-  border-radius: var(--radius-md, 20px);
-  background-color: var(--bg-quaternary);
-  border: 1px solid var(--border-primary);
-  transition:
-    opacity 0.25s ease,
-    transform 0.25s ease;
-}
-
 .product-info {
   display: flex;
   flex-direction: column;
@@ -130,7 +118,7 @@
   }
 }
 
-.add-button {
+.buy-button {
   width: 100%;
   height: 48px;
   border-radius: 12px;
@@ -138,11 +126,11 @@
   font-weight: 600;
   margin-bottom: 28px;
   transition: all 0.25s ease;
-
-  &.added {
-    background-color: #2e7d32;
-    border-color: #2e7d32;
-  }
+  text-decoration: none;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
 }
 
 .maker-note {
@@ -205,9 +193,5 @@
   .product-detail {
     grid-template-columns: 1.05fr 0.95fr;
     gap: 64px;
-  }
-
-  .product-main-image {
-    height: 600px;
   }
 }

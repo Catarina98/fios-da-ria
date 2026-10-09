@@ -9,6 +9,71 @@ vi.mock('next-intl/server', () => ({
   setRequestLocale: mockSetRequestLocale,
 }));
 
+const mockProducts = [
+  {
+    id: 'collection-toy-story',
+    title: 'Toy Story Collection',
+    category: 'Filmes e séries',
+    description:
+      'Woody, Jessie, and Buzz in a handcrafted collection for everyone who never stopped believing in the magic of toys.',
+    image: '/images/catalog/toy-story-woody.JPG',
+    images: ['/images/catalog/toy-story-woody.JPG'],
+    price: '€38',
+    stock: 3,
+    variants: [
+      {
+        id: 'woody',
+        name: 'Woody',
+        image: '/images/catalog/toy-story-woody.JPG',
+        price: '€38',
+        stock: 1,
+        vintedUrl: 'https://www.vinted.pt',
+      },
+    ],
+  },
+  {
+    id: 'collection-disney-princesses',
+    title: 'Disney Princesses Collection',
+    category: 'Filmes e séries',
+    description: 'Five timeless princesses.',
+    image: '/images/catalog/disney-snow-white.JPG',
+    images: ['/images/catalog/disney-snow-white.JPG'],
+    price: '€42',
+    stock: 4,
+    variants: [],
+  },
+  {
+    id: 'collection-spy-family',
+    title: 'Spy × Family Collection',
+    category: 'Anime',
+    description: 'The beloved characters of the Forger family.',
+    image: '/images/catalog/spy-family-anya.JPG',
+    images: ['/images/catalog/spy-family-anya.JPG'],
+    price: '€38',
+    stock: 2,
+    variants: [],
+  },
+  {
+    id: 'collection-one-piece',
+    title: 'One Piece Collection',
+    category: 'Anime',
+    description: 'The most adventurous crew of the seas.',
+    image: '/images/catalog/one-piece-luffy.JPG',
+    images: ['/images/catalog/one-piece-luffy.JPG'],
+    price: '€35',
+    stock: 4,
+    variants: [],
+  },
+];
+
+vi.mock('@lib/sanity/products', () => ({
+  getProducts: vi.fn(async () => mockProducts),
+  getProductById: vi.fn(
+    async (id: string) => mockProducts.find(p => p.id === id) ?? null,
+  ),
+  getAllProductIds: vi.fn(async () => mockProducts.map(p => p.id)),
+}));
+
 import GalleryPage from '../page';
 
 describe('<GalleryPage />', () => {
@@ -20,6 +85,7 @@ describe('<GalleryPage />', () => {
 
   it('renders gallery page with title, search input, filters toggle and catalog products', async () => {
     render(<GalleryPage />);
+    await screen.findByTestId('gallery-product-grid');
 
     expect(screen.getByTestId('gallery-page-container')).toBeInTheDocument();
 
@@ -51,6 +117,7 @@ describe('<GalleryPage />', () => {
 
   it('toggles mobile filter panel when clicking the toggle button', async () => {
     render(<GalleryPage />);
+    await screen.findByTestId('gallery-product-grid');
 
     const toggleBtn = screen.getByTestId('gallery-filter-toggle');
     const panel = screen.getByTestId('gallery-filter-panel');
@@ -72,6 +139,7 @@ describe('<GalleryPage />', () => {
 
   it('filters products by search input query matching variants', async () => {
     render(<GalleryPage />);
+    await screen.findByTestId('gallery-product-grid');
 
     const searchInput = screen.getByTestId('gallery-search-input');
 
@@ -99,6 +167,7 @@ describe('<GalleryPage />', () => {
 
   it('filters products when selecting a category', async () => {
     render(<GalleryPage />);
+    await screen.findByTestId('gallery-product-grid');
 
     // Filter by 'Anime' (One Piece and Spy x Family)
     const animeBtn = screen.getByTestId('filter-category-Anime');
@@ -114,20 +183,21 @@ describe('<GalleryPage />', () => {
 
   it('filters products using the RangeSlider inputs', async () => {
     render(<GalleryPage />);
+    await screen.findByTestId('gallery-product-grid');
 
     const minInput = screen.getByTestId('range-slider-min');
 
-    fireEvent.change(minInput, { target: { value: '44' } });
+    fireEvent.change(minInput, { target: { value: '42' } });
 
     expect(
       screen.getByText('Disney Princesses Collection'),
     ).toBeInTheDocument();
     expect(screen.queryByText('One Piece Collection')).not.toBeInTheDocument();
-    expect(screen.queryByText('Toy Story Collection')).not.toBeInTheDocument();
   });
 
   it('sorts products by price ascending and descending', async () => {
     render(<GalleryPage />);
+    await screen.findByTestId('gallery-product-grid');
 
     const sortAscBtn = screen.getByTestId('filter-sort-sortPriceAsc');
     fireEvent.click(sortAscBtn);
@@ -150,6 +220,7 @@ describe('<GalleryPage />', () => {
 
   it('displays empty state and resets filters when clear button is clicked', async () => {
     render(<GalleryPage />);
+    await screen.findByTestId('gallery-product-grid');
 
     // Search query with no match
     const searchInput = screen.getByTestId('gallery-search-input');

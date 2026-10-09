@@ -9,6 +9,56 @@ vi.mock('next-intl/server', () => ({
   setRequestLocale: mockSetRequestLocale,
 }));
 
+const mockProduct = {
+  id: 'collection-toy-story',
+  title: 'Toy Story Collection',
+  category: 'Filmes e séries',
+  description:
+    'Woody, Jessie, and Buzz in a handcrafted collection for everyone who never stopped believing in the magic of toys.',
+  image: '/images/catalog/toy-story-woody.JPG',
+  images: [
+    '/images/catalog/toy-story-woody.JPG',
+    '/images/catalog/toy-story-jessie.JPG',
+    '/images/catalog/toy-story-buzz.JPG',
+  ],
+  price: '€38',
+  stock: 3,
+  variants: [
+    {
+      id: 'woody',
+      name: 'Woody',
+      image: '/images/catalog/toy-story-woody.JPG',
+      price: '€38',
+      stock: 1,
+      vintedUrl: 'https://www.vinted.pt',
+    },
+    {
+      id: 'jessie',
+      name: 'Jessie',
+      image: '/images/catalog/toy-story-jessie.JPG',
+      price: '€38',
+      stock: 1,
+      vintedUrl: 'https://www.vinted.pt',
+    },
+    {
+      id: 'buzz',
+      name: 'Buzz Lightyear',
+      image: '/images/catalog/toy-story-buzz.JPG',
+      price: '€42',
+      stock: 1,
+      vintedUrl: 'https://www.vinted.pt',
+    },
+  ],
+};
+
+vi.mock('@lib/sanity/products', () => ({
+  getProducts: vi.fn(async () => [mockProduct]),
+  getProductById: vi.fn(async (id: string) =>
+    id === 'collection-toy-story' ? mockProduct : null,
+  ),
+  getAllProductIds: vi.fn(async () => ['collection-toy-story']),
+}));
+
 import ProductDetailPage, {
   generateStaticParams as generateDetailStaticParams,
 } from '../[id]/page';
@@ -25,9 +75,9 @@ describe('Product Pages', () => {
     it('renders the default featured product', async () => {
       render(<ProductPage />);
 
-      expect(screen.getByRole('heading', { level: 1 })).toHaveTextContent(
-        'Toy Story Collection',
-      );
+      expect(
+        await screen.findByRole('heading', { level: 1 }),
+      ).toHaveTextContent('Toy Story Collection');
       expect(screen.getByText('€38')).toBeInTheDocument();
       expect(screen.getByText('Woody')).toBeInTheDocument();
     });
@@ -43,9 +93,9 @@ describe('Product Pages', () => {
       render(pageResult);
 
       expect(mockSetRequestLocale).toHaveBeenCalledWith('pt');
-      expect(screen.getByRole('heading', { level: 1 })).toHaveTextContent(
-        'Toy Story Collection',
-      );
+      expect(
+        await screen.findByRole('heading', { level: 1 }),
+      ).toHaveTextContent('Toy Story Collection');
 
       // Breadcrumbs
       expect(screen.getByText('Início')).toBeInTheDocument();
@@ -60,7 +110,7 @@ describe('Product Pages', () => {
       expect(jessieBtn).toHaveAttribute('aria-checked', 'true');
     });
 
-    it('handles add to bag interaction', async () => {
+    it('renders the Vinted buy link button with external redirect', async () => {
       const params = Promise.resolve({
         locale: 'pt',
         id: 'collection-toy-story',
@@ -68,16 +118,96 @@ describe('Product Pages', () => {
       const pageResult = await ProductDetailPage({ params });
       render(pageResult);
 
-      const addBtn = screen.getByRole('button', {
-        name: /adicionar ao carrinho/i,
+      const buyLink = await screen.findByRole('link', {
+        name: /link to the buy/i,
       });
-      expect(addBtn).toBeInTheDocument();
+      expect(buyLink).toBeInTheDocument();
+      expect(buyLink).toHaveAttribute('href', 'https://www.vinted.pt');
+      expect(buyLink).toHaveAttribute('target', '_blank');
+      expect(buyLink).toHaveAttribute('rel', 'noopener noreferrer');
+    });
 
-      fireEvent.click(addBtn);
+    it('navigates gallery images via next/prev buttons and thumbnails', async () => {
+      const params = Promise.resolve({
+        locale: 'pt',
+        id: 'collection-toy-story',
+      });
+      const pageResult = await ProductDetailPage({ params });
+      render(pageResult);
 
-      expect(
-        screen.getByRole('button', { name: /adicionado ao carrinho/i }),
-      ).toBeInTheDocument();
+      const mainImg = await screen.findByTestId('product-main-image');
+      expect(mainImg).toHaveAttribute(
+        'src',
+        '/images/catalog/toy-story-woody.JPG',
+      );
+
+      const nextBtn = screen.getByTestId('gallery-next-button');
+      const prevBtn = screen.getByTestId('gallery-prev-button');
+
+      // Click next image -> Jessie
+      fireEvent.click(nextBtn);
+      expect(mainImg).toHaveAttribute(
+        'src',
+        '/images/catalog/toy-story-jessie.JPG',
+      );
+
+      // Click next image -> Buzz
+      fireEvent.click(nextBtn);
+      expect(mainImg).toHaveAttribute(
+        'src',
+        '/images/catalog/toy-story-buzz.JPG',
+      );
+
+      // Click next again -> wraps to Woody
+      fireEvent.click(nextBtn);
+      expect(mainImg).toHaveAttribute(
+        'src',
+        '/images/catalog/toy-story-woody.JPG',
+      );
+
+      // Click prev -> wraps to Buzz
+      fireEvent.click(prevBtn);
+      expect(mainImg).toHaveAttribute(
+        'src',
+        '/images/catalog/toy-story-buzz.JPG',
+      );
+
+      // Click thumbnail 1 -> Jessie
+      const thumb1 = screen.getByTestId('gallery-thumbnail-1');
+      fireEvent.click(thumb1);
+      expect(mainImg).toHaveAttribute(
+        'src',
+        '/images/catalog/toy-story-jessie.JPG',
+      );
+    });
+
+    it('syncs gallery image when selecting a variant and vice versa', async () => {
+      const params = Promise.resolve({
+        locale: 'pt',
+        id: 'collection-toy-story',
+      });
+      const pageResult = await ProductDetailPage({ params });
+      render(pageResult);
+
+      const mainImg = await screen.findByTestId('product-main-image');
+      const jessieBtn = screen.getByRole('radio', { name: /Jessie/i });
+      const buzzBtn = screen.getByRole('radio', { name: /Buzz Lightyear/i });
+
+      // Click Jessie variant -> changes image to Jessie
+      fireEvent.click(jessieBtn);
+      expect(mainImg).toHaveAttribute(
+        'src',
+        '/images/catalog/toy-story-jessie.JPG',
+      );
+      expect(jessieBtn).toHaveAttribute('aria-checked', 'true');
+
+      // Click Buzz variant -> changes image to Buzz
+      fireEvent.click(buzzBtn);
+      expect(mainImg).toHaveAttribute(
+        'src',
+        '/images/catalog/toy-story-buzz.JPG',
+      );
+      expect(buzzBtn).toHaveAttribute('aria-checked', 'true');
     });
 
     it('renders materials and care guidance cards', async () => {
@@ -89,7 +219,7 @@ describe('Product Pages', () => {
       render(pageResult);
 
       expect(
-        screen.getByTestId('guidance-cards-component'),
+        await screen.findByTestId('guidance-cards-component'),
       ).toBeInTheDocument();
       expect(screen.getByText('Materiais naturais')).toBeInTheDocument();
       expect(screen.getByText('Fio 100% algodão')).toBeInTheDocument();
@@ -108,7 +238,7 @@ describe('Product Pages', () => {
       render(pageResult);
 
       expect(
-        screen.getByRole('heading', {
+        await screen.findByRole('heading', {
           level: 2,
           name: 'Produto não encontrado',
         }),
@@ -118,8 +248,8 @@ describe('Product Pages', () => {
       ).toBeInTheDocument();
     });
 
-    it('generates static params for all locales and catalog products', () => {
-      const params = generateDetailStaticParams();
+    it('generates static params for all locales and catalog products', async () => {
+      const params = await generateDetailStaticParams();
       expect(params.length).toBeGreaterThan(0);
       expect(params).toContainEqual({
         locale: 'pt',

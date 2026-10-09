@@ -1,30 +1,77 @@
 'use client';
 
-import { useMemo, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import Badge from '@components/ui/badge';
 import Breadcrumbs from '@components/ui/breadcrumbs';
 import Button from '@components/ui/button';
 import GuidanceCards from '@components/ui/guidancecards';
+import MediaDisplay from '@components/ui/mediadisplay';
 import { Body, Heading } from '@components/ui/typography';
 import { Link } from '@i18n/navigation';
+import { getProductById, getProducts } from '@lib/sanity/products';
 import { BadgeSize, BadgeVariant } from '@typing/components/badge';
 import { ButtonVariant } from '@typing/components/button';
 import { cn } from '@utils/cn';
 import { getAssetPath } from '@utils/getAssetPath';
-import { ArrowLeft, Check, Heart, ShoppingBag } from 'lucide-react';
-import { useTranslations } from 'next-intl';
+import { ArrowLeft, ExternalLink, Heart } from 'lucide-react';
+import { useLocale, useTranslations } from 'next-intl';
 
 import './page.scss';
-import { CATALOG_PRODUCTS, StoreProduct } from '../gallery/data';
+import { StoreProduct } from '../gallery/data';
 
-export function ProductView({ product }: { product?: StoreProduct | null }) {
+export interface ProductPageProps {
+  params?: Promise<{ locale?: string; id?: string }>;
+  searchParams?: Promise<Record<string, string | string[] | undefined>>;
+  productId?: string;
+}
+
+export default function ProductPage(props: any = {}) {
+  const productId = props?.productId;
   const t = useTranslations('Product');
+  const locale = useLocale();
+
+  const [product, setProduct] = useState<StoreProduct | null>(null);
+
+  useEffect(() => {
+    if (productId) {
+      getProductById(productId, locale).then(res => {
+        if (res) setProduct(res);
+      });
+    } else {
+      getProducts(locale).then(res => {
+        if (res && res.length > 0) setProduct(res[0]);
+      });
+    }
+  }, [productId, locale]);
 
   const variants = useMemo(() => product?.variants ?? [], [product?.variants]);
   const [selectedVariantId, setSelectedVariantId] = useState<string>(() => {
     return variants[0]?.id ?? '';
   });
-  const [added, setAdded] = useState(false);
+
+  useEffect(() => {
+    if (
+      variants.length > 0 &&
+      !variants.some(v => v.id === selectedVariantId)
+    ) {
+      setSelectedVariantId(variants[0].id);
+    }
+  }, [variants, selectedVariantId]);
+
+  const galleryImages = useMemo(() => {
+    if (!product) return [];
+    if (product.images && product.images.length > 0) {
+      return product.images;
+    }
+    const variantImages = (product.variants ?? [])
+      .map(v => v.image)
+      .filter(Boolean);
+    const combined = [product.image, ...variantImages].filter(Boolean);
+
+    return Array.from(new Set(combined));
+  }, [product]);
+
+  const [currentImageIndex, setCurrentImageIndex] = useState(0);
 
   if (!product) {
     return (
@@ -51,21 +98,32 @@ export function ProductView({ product }: { product?: StoreProduct | null }) {
   const activeVariant =
     variants.find(variant => variant.id === selectedVariantId) ?? variants[0];
 
-  const currentImage = activeVariant?.image || product.image;
   const currentPrice = activeVariant?.price || product.price;
   const currentStock = activeVariant?.stock ?? product.stock ?? 0;
   const isSoldOut = currentStock <= 0;
+  const currentVintedUrl =
+    activeVariant?.vintedUrl || product.vintedUrl || 'https://www.vinted.pt';
 
   const handleSelectVariant = (variantId: string) => {
     setSelectedVariantId(variantId);
-    setAdded(false);
+    const targetVariant = variants.find(v => v.id === variantId);
+    if (targetVariant?.image) {
+      const imgIdx = galleryImages.findIndex(
+        img => img === targetVariant.image,
+      );
+      if (imgIdx !== -1) {
+        setCurrentImageIndex(imgIdx);
+      }
+    }
   };
 
-  const handleAddToBag = () => {
-    setAdded(true);
-    setTimeout(() => {
-      setAdded(false);
-    }, 2500);
+  const handleSelectImage = (index: number) => {
+    setCurrentImageIndex(index);
+    const targetImg = galleryImages[index];
+    const matchingVariant = variants.find(v => v.image === targetImg);
+    if (matchingVariant) {
+      setSelectedVariantId(matchingVariant.id);
+    }
   };
 
   return (
@@ -82,16 +140,17 @@ export function ProductView({ product }: { product?: StoreProduct | null }) {
 
         {/* Product Details Section */}
         <div className="product-detail">
-          {/* Main Product Media */}
+          {/* Main Product Media & Gallery */}
           <div className="product-media">
-            <img
-              src={getAssetPath(currentImage)}
+            <MediaDisplay
+              images={galleryImages}
+              selectedIndex={currentImageIndex}
+              onSelectImage={handleSelectImage}
               alt={
                 activeVariant?.name
                   ? `${product.title} - ${activeVariant.name}`
                   : product.title
               }
-              className="product-main-image"
             />
           </div>
 
@@ -156,23 +215,18 @@ export function ProductView({ product }: { product?: StoreProduct | null }) {
               </div>
             )}
 
-            {/* Add to Bag Button */}
+            {/* Link to Buy on Vinted Button */}
             <Button
               variant={ButtonVariant.Primary}
-              className={cn('add-button', added && 'added')}
+              className="buy-button"
               disabled={isSoldOut}
-              onClick={handleAddToBag}
-              leftIcon={added ? <Check size={18} /> : <ShoppingBag size={18} />}
+              url={isSoldOut ? undefined : currentVintedUrl}
+              rightIcon={<ExternalLink size={18} />}
+              data-testid="product-buy-button"
             >
-              {added ? (
-                <>{t('addedToBag') || 'Added to bag'}</>
-              ) : (
-                <>
-                  {isSoldOut
-                    ? t('status.soldOut') || 'Sold out'
-                    : t('addToBag') || 'Add to bag'}
-                </>
-              )}
+              {isSoldOut
+                ? t('status.soldOut') || 'Sold out'
+                : t('linkToBuy') || 'Link to the buy'}
             </Button>
 
             {/* Materials and Care Cards */}
@@ -192,8 +246,4 @@ export function ProductView({ product }: { product?: StoreProduct | null }) {
       </div>
     </div>
   );
-}
-
-export default function ProductPage() {
-  return <ProductView product={CATALOG_PRODUCTS[0]} />;
 }
