@@ -1,12 +1,12 @@
 import Button from '@components/ui/button';
-import Card from '@components/ui/card';
+import GuidanceCards from '@components/ui/guidancecards/GuidanceCards';
 import Highlights from '@components/ui/highlights';
 import ProductCard from '@components/ui/productcard';
 import StoryBanner from '@components/ui/storybanner';
 import TitleSection from '@components/ui/titlesection';
 import { routing } from '@i18n/routing';
 import { ButtonVariant } from '@typing/components/button';
-import { Flower, Heart, Shield } from 'lucide-react';
+import { Heart } from 'lucide-react';
 import { useTranslations } from 'next-intl';
 import { setRequestLocale } from 'next-intl/server';
 
@@ -29,9 +29,6 @@ export default async function Home({ params }: HomeProps) {
 
 function HomeContent() {
   const t = useTranslations('Homepage');
-
-  const materialsItems = t.raw('guidance.materialsItems') as string[];
-  const careItems = t.raw('guidance.careItems') as string[];
 
   return (
     <main className="home-page" data-testid="homepage-container">
@@ -73,20 +70,7 @@ function HomeContent() {
             description={t('guidance.description')}
             align="center"
           />
-          <div className="feature-grid">
-            <Card
-              title={t('guidance.materialsTitle')}
-              icon={<Flower size={20} />}
-              iconVariant="primary"
-              items={materialsItems}
-            />
-            <Card
-              title={t('guidance.careTitle')}
-              icon={<Shield size={20} />}
-              iconVariant="secondary"
-              items={careItems}
-            />
-          </div>
+          <GuidanceCards />
         </div>
       </section>
 
@@ -112,6 +96,7 @@ function HomeContent() {
               description={t('featured.products.woody.description')}
               image="/images/woody.jpg"
               price={t('featured.products.woody.price')}
+              url="/product/collection-toy-story"
             />
             <ProductCard
               title={t('featured.products.snowWhite.title')}
@@ -119,6 +104,7 @@ function HomeContent() {
               description={t('featured.products.snowWhite.description')}
               image="/images/snow-white.jpg"
               price={t('featured.products.snowWhite.price')}
+              url="/product/collection-disney-princesses"
             />
             <ProductCard
               title={t('featured.products.anya.title')}
@@ -126,6 +112,7 @@ function HomeContent() {
               description={t('featured.products.anya.description')}
               image="/images/anya.jpg"
               price={t('featured.products.anya.price')}
+              url="/product/collection-spy-family"
             />
           </div>
         </div>

@@ -27,7 +27,8 @@ describe('<GalleryPage />', () => {
     expect(mockSetRequestLocale).toHaveBeenCalledWith('pt');
     expect(screen.getByTestId('gallery-page-container')).toBeInTheDocument();
 
-    // 1. Title section
+    // 1. Breadcrumbs & Title section
+    expect(screen.getByTestId('breadcrumbs-component')).toBeInTheDocument();
     expect(screen.getByTestId('titlesection-component')).toBeInTheDocument();
     expect(screen.getByText('Coleções')).toBeInTheDocument();
     expect(screen.getByText('Peças com alma')).toBeInTheDocument();
@@ -128,10 +129,11 @@ describe('<GalleryPage />', () => {
 
     const minInput = screen.getByTestId('range-slider-min');
 
-    // Filter minimum price to 60 (only Forest Guardian at €65)
-    fireEvent.change(minInput, { target: { value: '60' } });
+    fireEvent.change(minInput, { target: { value: '44' } });
 
-    expect(screen.getByText('Forest Guardian')).toBeInTheDocument();
+    expect(
+      screen.getByText('Disney Princesses Collection'),
+    ).toBeInTheDocument();
     expect(screen.queryByText('One Piece Collection')).not.toBeInTheDocument();
     expect(screen.queryByText('Toy Story Collection')).not.toBeInTheDocument();
   });
@@ -148,8 +150,7 @@ describe('<GalleryPage />', () => {
       .getAllByTestId('product-card-title')
       .map(el => el.textContent);
 
-    // Enchanted Mushroom is €32
-    expect(titlesAsc[0]).toBe('Enchanted Mushroom');
+    expect(titlesAsc[0]).toBe('One Piece Collection');
 
     const sortDescBtn = screen.getByTestId('filter-sort-sortPriceDesc');
     fireEvent.click(sortDescBtn);
@@ -158,8 +159,7 @@ describe('<GalleryPage />', () => {
       .getAllByTestId('product-card-title')
       .map(el => el.textContent);
 
-    // Forest Guardian is €65
-    expect(titlesDesc[0]).toBe('Forest Guardian');
+    expect(titlesDesc[0]).toBe('Disney Princesses Collection');
   });
 
   it('displays empty state and resets filters when clear button is clicked', async () => {

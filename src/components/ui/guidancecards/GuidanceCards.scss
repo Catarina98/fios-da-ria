@@ -1,0 +1,11 @@
+.guidance-cards {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 18px;
+}
+
+@media (min-width: 768px) {
+  .guidance-cards {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}

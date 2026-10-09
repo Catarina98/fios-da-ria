@@ -14,5 +14,5 @@ export type ProductCardType = Omit<HTMLAttributes<HTMLDivElement>, 'title'> & {
   variantTextPlural?: string;
   inStockText?: string;
   soldOutText?: string;
-  onClick?: () => void;
+  url: string;
 };

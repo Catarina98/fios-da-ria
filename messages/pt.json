@@ -132,5 +132,40 @@
         "price": "€42"
       }
     }
+  },
+  "Product": {
+    "breadcrumbs": {
+      "home": "Início",
+      "gallery": "Galeria"
+    },
+    "status": {
+      "available": "Disponível",
+      "soldOut": "Esgotado"
+    },
+    "chooseCharacter": "Escolha a personagem",
+    "addToBag": "Adicionar ao carrinho",
+    "addedToBag": "Adicionado ao carrinho",
+    "materials": {
+      "title": "Materiais",
+      "item1": "Fio 100% algodão",
+      "item2": "Olhos com travas de segurança",
+      "item3": "Enchimento antialérgico"
+    },
+    "care": {
+      "title": "Cuidados com o teu amigurumi",
+      "item1": "Lavar à mão",
+      "item2": "Não torcer",
+      "item3": "Secar à sombra",
+      "item4": "Tratar com carinho"
+    },
+    "makerNote": {
+      "quote": "“Cada peça leva muitas horas de trabalho e um bocadinho da minha história.”",
+      "author": "— Catarina"
+    },
+    "notFound": {
+      "title": "Produto não encontrado",
+      "description": "O produto que procura não existe ou já não está disponível.",
+      "backToGallery": "Voltar à galeria"
+    }
   }
 }

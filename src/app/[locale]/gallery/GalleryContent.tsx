@@ -1,6 +1,7 @@
 'use client';
 
 import { useEffect, useMemo, useState } from 'react';
+import Breadcrumbs from '@components/ui/breadcrumbs';
 import Button from '@components/ui/button';
 import Card from '@components/ui/card';
 import ProductCard from '@components/ui/productcard';
@@ -29,6 +30,7 @@ export default function GalleryContent({
   products?: StoreProduct[];
 }) {
   const t = useTranslations('Gallery');
+  const tNav = useTranslations('Navigation');
 
   const [query, setQuery] = useState('');
   const [filtersOpen, setFiltersOpen] = useState(false);
@@ -101,16 +103,16 @@ export default function GalleryContent({
     if (t.has(`categories.${categoryName}`)) {
       return t(`categories.${categoryName}`);
     }
-    
-return categoryName;
+
+    return categoryName;
   };
 
   const getProductCategory = (categoryName: string) => {
     if (t.has(`categories.${categoryName}`)) {
       return t(`categories.${categoryName}`);
     }
-    
-return categoryName;
+
+    return categoryName;
   };
 
   const normalizedQuery = query.trim().toLocaleLowerCase();
@@ -127,8 +129,8 @@ return categoryName;
         ]
           .join(' ')
           .toLocaleLowerCase();
-        
-return matchString.includes(normalizedQuery);
+
+        return matchString.includes(normalizedQuery);
       })
       .filter(product => filter === 'All' || product.category === filter)
       .filter(product =>
@@ -147,8 +149,8 @@ return matchString.includes(normalizedQuery);
             Math.max(...getProductPrices(b)) - Math.max(...getProductPrices(a))
           );
         }
-        
-return 0;
+
+        return 0;
       });
   }, [
     normalizedProducts,
@@ -170,6 +172,12 @@ return 0;
   return (
     <main className="gallery-page" data-testid="gallery-page-container">
       <div className="gallery-container">
+        <Breadcrumbs
+          items={[
+            { label: tNav('home'), href: '/' },
+            { label: tNav('gallery') },
+          ]}
+        />
         <TitleSection
           eyebrow={t('eyebrow')}
           title={t('title')}
@@ -344,6 +352,7 @@ return 0;
                     inStockText={t('filters.inStock')}
                     soldOutText={t('filters.soldOut')}
                     actionText={t('filters.viewDetails')}
+                    url={`/product/${product.id}`}
                   />
                 ))}
               </div>

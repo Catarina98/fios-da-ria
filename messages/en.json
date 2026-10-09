@@ -132,5 +132,40 @@
         "price": "€42"
       }
     }
+  },
+  "Product": {
+    "breadcrumbs": {
+      "home": "Home",
+      "gallery": "Gallery"
+    },
+    "status": {
+      "available": "In stock",
+      "soldOut": "Sold out"
+    },
+    "chooseCharacter": "Choose a character",
+    "addToBag": "Add to bag",
+    "addedToBag": "Added to bag",
+    "materials": {
+      "title": "Materials",
+      "item1": "100% cotton yarn",
+      "item2": "Safety eyes with backings",
+      "item3": "Hypoallergenic stuffing"
+    },
+    "care": {
+      "title": "Care instructions",
+      "item1": "Hand wash",
+      "item2": "Do not wring",
+      "item3": "Dry in the shade",
+      "item4": "Handle with love"
+    },
+    "makerNote": {
+      "quote": "“Each piece takes many hours of work and a little bit of my story.”",
+      "author": "— Catarina"
+    },
+    "notFound": {
+      "title": "Product not found",
+      "description": "The piece you are looking for does not exist or is no longer available.",
+      "backToGallery": "Back to gallery"
+    }
   }
 }
