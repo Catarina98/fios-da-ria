@@ -43,24 +43,28 @@ export default function GalleryPage() {
   const [sortOption, setSortOption] = useState<SortKey>('sortPriceAsc');
 
   const normalizedProducts = useMemo(() => {
-    return (Array.isArray(products) ? products : []).flatMap(product =>
-      product
-        ? [
-            {
-              ...product,
-              title: product.title ?? 'Untitled Product',
-              category: product.category ?? 'Uncategorized',
-              description: product.description ?? '',
-              image: product.image,
-              price: typeof product.price === 'string' ? product.price : '€0',
-              stock: Number.isFinite(product.stock) ? product.stock : 0,
-              variants: Array.isArray(product.variants)
-                ? product.variants.filter(Boolean)
-                : [],
-            },
-          ]
-        : [],
-    );
+    return (Array.isArray(products) ? products : []).flatMap(product => {
+      if (!product) return [];
+      const hasStock = Boolean(
+        product.vintedUrl ||
+        (product.variants ?? []).some(v => Boolean(v.vintedUrl)),
+      );
+
+      return [
+        {
+          ...product,
+          title: product.title ?? 'Untitled Product',
+          category: product.category ?? 'Uncategorized',
+          description: product.description ?? '',
+          image: product.image,
+          price: typeof product.price === 'string' ? product.price : '€0',
+          stock: hasStock ? 1 : 0,
+          variants: Array.isArray(product.variants)
+            ? product.variants.filter(Boolean)
+            : [],
+        },
+      ];
+    });
   }, [products]);
 
   const usedCategories = useMemo(() => {

@@ -5,10 +5,13 @@ import ProductCard from '@components/ui/productcard';
 import StoryBanner from '@components/ui/storybanner';
 import TitleSection from '@components/ui/titlesection';
 import { routing } from '@i18n/routing';
+import { getProducts } from '@lib/sanity/products';
 import { ButtonVariant } from '@typing/components/button';
 import { Heart } from 'lucide-react';
 import { useTranslations } from 'next-intl';
 import { setRequestLocale } from 'next-intl/server';
+
+import { getProductDisplayPrice, StoreProduct } from './gallery/data';
 
 import './page.scss';
 
@@ -24,11 +27,15 @@ export default async function Home({ params }: HomeProps) {
   const { locale } = await params;
   setRequestLocale(locale);
 
-  return <HomeContent />;
+  const products = await getProducts(locale);
+
+  return <HomeContent products={products} />;
 }
 
-function HomeContent() {
+function HomeContent({ products = [] }: { products?: StoreProduct[] }) {
   const t = useTranslations('Homepage');
+  const tGallery = useTranslations('Gallery');
+  const featuredProducts = products.slice(0, 3);
 
   return (
     <div className="home-page" data-testid="homepage-container">
@@ -89,31 +96,35 @@ function HomeContent() {
               </Button>
             }
           />
-          <div className="product-grid">
-            <ProductCard
-              title={t('featured.products.woody.title')}
-              category={t('featured.products.woody.category')}
-              description={t('featured.products.woody.description')}
-              image="/images/woody.jpg"
-              price={t('featured.products.woody.price')}
-              url="/product/collection-toy-story"
-            />
-            <ProductCard
-              title={t('featured.products.snowWhite.title')}
-              category={t('featured.products.snowWhite.category')}
-              description={t('featured.products.snowWhite.description')}
-              image="/images/snow-white.jpg"
-              price={t('featured.products.snowWhite.price')}
-              url="/product/collection-disney-princesses"
-            />
-            <ProductCard
-              title={t('featured.products.anya.title')}
-              category={t('featured.products.anya.category')}
-              description={t('featured.products.anya.description')}
-              image="/images/anya.jpg"
-              price={t('featured.products.anya.price')}
-              url="/product/collection-spy-family"
-            />
+          <div className="product-grid" data-testid="home-product-grid">
+            {featuredProducts.map(product => {
+              const hasStock = Boolean(
+                product.vintedUrl ||
+                (product.variants ?? []).some(v => Boolean(v.vintedUrl)),
+              );
+
+              return (
+                <ProductCard
+                  key={product.id}
+                  title={product.title}
+                  category={product.category}
+                  description={product.description}
+                  image={product.image}
+                  price={getProductDisplayPrice(
+                    product,
+                    tGallery('filters.from'),
+                  )}
+                  variantCount={(product.variants ?? []).length}
+                  stock={hasStock ? 1 : 0}
+                  variantTextSingular={tGallery('filters.variant')}
+                  variantTextPlural={tGallery('filters.variants')}
+                  inStockText={tGallery('filters.inStock')}
+                  soldOutText={tGallery('filters.soldOut')}
+                  actionText={tGallery('filters.viewDetails')}
+                  url={`/product/${product.id}`}
+                />
+              );
+            })}
           </div>
         </div>
       </section>

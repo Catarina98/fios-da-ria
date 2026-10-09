@@ -5,18 +5,21 @@
 
 .product-detail {
   display: grid;
-  grid-template-columns: 1fr;
+  grid-template-columns: minmax(0, 1fr);
   gap: 36px;
   align-items: start;
 }
 
 .product-media {
   width: 100%;
+  min-width: 0;
+  max-width: 100%;
 }
 
 .product-info {
   display: flex;
   flex-direction: column;
+  min-width: 0;
 }
 
 .badge-row {
@@ -191,7 +194,7 @@
   }
 
   .product-detail {
-    grid-template-columns: 1.05fr 0.95fr;
+    grid-template-columns: minmax(0, 1.05fr) minmax(0, 0.95fr);
     gap: 64px;
   }
 }

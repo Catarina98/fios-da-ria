@@ -30,27 +30,7 @@
     "featured": {
       "eyebrow": "Pequenos tesouros",
       "title": "Os mais queridos",
-      "viewAll": "Ver tudo",
-      "products": {
-        "woody": {
-          "title": "Woody",
-          "category": "Toy Story",
-          "description": "O xerife mais leal de Toy Story, recriado ponto a ponto com todos os detalhes do seu traje.",
-          "price": "€48"
-        },
-        "snowWhite": {
-          "title": "Branca de Neve",
-          "category": "Disney Princess",
-          "description": "A primeira princesa Disney numa versão delicada, com o icónico vestido azul e amarelo.",
-          "price": "€65"
-        },
-        "anya": {
-          "title": "Anya Forger",
-          "category": "Spy × Family",
-          "description": "A pequena telepata de Spy × Family, com o seu cabelo cor-de-rosa e uniforme inconfundível.",
-          "price": "€42"
-        }
-      }
+      "viewAll": "Ver tudo"
     },
     "agenda": {
       "badge": "Agenda",
@@ -111,26 +91,6 @@
       "toy_story": "Toy Story",
       "princesas_disney": "Princesas Disney",
       "spy_family": "Spy x Family"
-    },
-    "products": {
-      "woody": {
-        "title": "Woody",
-        "category": "Toy Story",
-        "description": "O xerife mais leal de Toy Story, recriado ponto a ponto com todos os detalhes do seu traje.",
-        "price": "€48"
-      },
-      "snowWhite": {
-        "title": "Branca de Neve",
-        "category": "Princesas Diney",
-        "description": "A primeira princesa Disney numa versão delicada, com o icónico vestido azul e amarelo.",
-        "price": "€65"
-      },
-      "anya": {
-        "title": "Anya Forger",
-        "category": "Spy × Family",
-        "description": "A pequena telepata de Spy × Family, com o seu cabelo cor-de-rosa e uniforme inconfundível.",
-        "price": "€42"
-      }
     }
   },
   "Product": {
@@ -143,7 +103,9 @@
       "soldOut": "Esgotado"
     },
     "chooseCharacter": "Escolha a personagem",
-    "linkToBuy": "Link to the buy",
+    "linkToBuy": "Link para a loja",
+    "contactSeller": "Contactar no Instagram",
+    "instagramMessage": "Olá! Gostaria de encomendar a peça: {product}",
     "gallery": {
       "previousImage": "Imagem anterior",
       "nextImage": "Próxima imagem",

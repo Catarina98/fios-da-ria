@@ -30,27 +30,7 @@
     "featured": {
       "eyebrow": "Little treasures",
       "title": "Most beloved",
-      "viewAll": "View all",
-      "products": {
-        "woody": {
-          "title": "Woody",
-          "category": "Toy Story",
-          "description": "The most loyal sheriff from Toy Story, recreated stitch by stitch with every detail of his outfit.",
-          "price": "€48"
-        },
-        "snowWhite": {
-          "title": "Snow White",
-          "category": "Disney Princess",
-          "description": "The first Disney princess in a delicate version, featuring her iconic blue and yellow dress.",
-          "price": "€65"
-        },
-        "anya": {
-          "title": "Anya Forger",
-          "category": "Spy × Family",
-          "description": "The little telepath from Spy × Family, with her pink hair and unmistakable Eden uniform.",
-          "price": "€42"
-        }
-      }
+      "viewAll": "View all"
     },
     "agenda": {
       "badge": "Agenda",
@@ -111,26 +91,6 @@
       "toy_story": "Toy Story",
       "princesas_disney": "Disney Princesses",
       "spy_family": "Spy x Family"
-    },
-    "products": {
-      "woody": {
-        "title": "Woody",
-        "category": "Collection",
-        "description": "The most loyal sheriff from Toy Story, recreated stitch by stitch with every detail of his outfit.",
-        "price": "€48"
-      },
-      "snowWhite": {
-        "title": "Snow White",
-        "category": "Collection",
-        "description": "The first Disney princess in a delicate version, featuring her iconic blue and yellow dress.",
-        "price": "€65"
-      },
-      "anya": {
-        "title": "Anya Forger",
-        "category": "Collection",
-        "description": "The little telepath from Spy × Family, with her pink hair and unmistakable Eden uniform.",
-        "price": "€42"
-      }
     }
   },
   "Product": {
@@ -143,7 +103,9 @@
       "soldOut": "Sold out"
     },
     "chooseCharacter": "Choose a character",
-    "linkToBuy": "Link to the buy",
+    "linkToBuy": "Link to buy",
+    "contactSeller": "Contact on Instagram",
+    "instagramMessage": "Hello! I would like to order the piece: {product}",
     "gallery": {
       "previousImage": "Previous image",
       "nextImage": "Next image",

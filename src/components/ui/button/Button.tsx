@@ -60,6 +60,7 @@ const Button: FC<ButtonType> = ({
           className={buttonClasses}
           target="_blank"
           rel="noopener noreferrer"
+          {...props}
         >
           {content}
         </a>
@@ -67,7 +68,12 @@ const Button: FC<ButtonType> = ({
     }
 
     return (
-      <Link data-testid="button-component" href={url} className={buttonClasses}>
+      <Link
+        data-testid="button-component"
+        href={url}
+        className={buttonClasses}
+        {...props}
+      >
         {content}
       </Link>
     );
