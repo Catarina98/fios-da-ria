@@ -16,7 +16,7 @@ const nextConfig: NextConfig = {
     NEXT_PUBLIC_BASE_PATH: basePath,
   },
   reactStrictMode: true,
-  output: 'export',
+  output: process.env.NODE_ENV === 'production' ? 'export' : undefined,
   trailingSlash: true,
   basePath: basePath || undefined,
   assetPrefix: basePath || undefined,

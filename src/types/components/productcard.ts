@@ -8,5 +8,11 @@ export type ProductCardType = Omit<HTMLAttributes<HTMLDivElement>, 'title'> & {
   imageAlt?: string;
   price: string;
   actionText?: string;
-  onClick?: () => void;
+  stock?: number;
+  variantCount?: number;
+  variantTextSingular?: string;
+  variantTextPlural?: string;
+  inStockText?: string;
+  soldOutText?: string;
+  url: string;
 };

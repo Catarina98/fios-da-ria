@@ -67,5 +67,111 @@
     "gallery": "Gallery",
     "about": "About",
     "contact": "Contact"
+  },
+  "Gallery": {
+    "eyebrow": "Collections",
+    "title": "Pieces with soul",
+    "description": "Discover small crochet characters and objects, all crafted by hand in very limited editions.",
+    "filters": {
+      "title": "Filters",
+      "showFilters": "Show filters",
+      "hideFilters": "Hide filters",
+      "searchPlaceholder": "Search pieces",
+      "clearSearch": "Clear search",
+      "category": "Category",
+      "price": "Price",
+      "sort": "Sort by price",
+      "sortByPrice": "Sort by price",
+      "all": "All",
+      "minPrice": "Minimum",
+      "maxPrice": "Maximum",
+      "from": "From",
+      "variant": "variant",
+      "variants": "variants",
+      "inStock": "in stock",
+      "soldOut": "Sold out",
+      "viewDetails": "View details",
+      "under50": "Up to €50",
+      "over50": "Over €50",
+      "sortRelevance": "Relevance",
+      "sortPriceAsc": "Lowest price",
+      "sortPriceDesc": "Highest price",
+      "clearFilters": "Clear filters",
+      "emptyTitle": "No pieces found",
+      "emptyDescription": "Try searching for another name or clearing some filters."
+    },
+    "categories": {
+      "all": "All",
+      "All": "All",
+      "Movies & Series": "Movies & Series",
+      "Anime": "Anime",
+      "Amigurumi": "Amigurumi",
+      "Collection": "Collection",
+      "Decoration": "Decoration",
+      "toy_story": "Toy Story",
+      "princesas_disney": "Disney Princesses",
+      "spy_family": "Spy x Family"
+    },
+    "products": {
+      "woody": {
+        "title": "Woody",
+        "category": "Collection",
+        "description": "The most loyal sheriff from Toy Story, recreated stitch by stitch with every detail of his outfit.",
+        "price": "€48"
+      },
+      "snowWhite": {
+        "title": "Snow White",
+        "category": "Collection",
+        "description": "The first Disney princess in a delicate version, featuring her iconic blue and yellow dress.",
+        "price": "€65"
+      },
+      "anya": {
+        "title": "Anya Forger",
+        "category": "Collection",
+        "description": "The little telepath from Spy × Family, with her pink hair and unmistakable Eden uniform.",
+        "price": "€42"
+      }
+    }
+  },
+  "Product": {
+    "breadcrumbs": {
+      "home": "Home",
+      "gallery": "Gallery"
+    },
+    "status": {
+      "available": "In stock",
+      "soldOut": "Sold out"
+    },
+    "chooseCharacter": "Choose a character",
+    "linkToBuy": "Link to the buy",
+    "gallery": {
+      "previousImage": "Previous image",
+      "nextImage": "Next image",
+      "thumbnail": "View image {number}"
+    },
+    "addToBag": "Add to bag",
+    "addedToBag": "Added to bag",
+    "materials": {
+      "title": "Materials",
+      "item1": "100% cotton yarn",
+      "item2": "Safety eyes with backings",
+      "item3": "Hypoallergenic stuffing"
+    },
+    "care": {
+      "title": "Care instructions",
+      "item1": "Hand wash",
+      "item2": "Do not wring",
+      "item3": "Dry in the shade",
+      "item4": "Handle with love"
+    },
+    "makerNote": {
+      "quote": "“Each piece takes many hours of work and a little bit of my story.”",
+      "author": "— Catarina"
+    },
+    "notFound": {
+      "title": "Product not found",
+      "description": "The piece you are looking for does not exist or is no longer available.",
+      "backToGallery": "Back to gallery"
+    }
   }
 }

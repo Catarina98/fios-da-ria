@@ -14,6 +14,7 @@ const ProductCardDemo = () => (
           description="O xerife mais leal de Toy Story, recriado ponto a ponto com todos os detalhes do seu traje."
           image="/images/toystory-highlight.jpg"
           price="€48"
+          url="/product/collection-toy-story"
         />
         <ProductCard
           title="Branca de Neve"
@@ -21,6 +22,7 @@ const ProductCardDemo = () => (
           description="A primeira princesa Disney numa versão delicada, com o icónico vestido azul e amarelo."
           image="/images/snow-white.jpg"
           price="€65"
+          url="/product/collection-disney-princesses"
         />
         <ProductCard
           title="Anya Forger"
@@ -28,6 +30,7 @@ const ProductCardDemo = () => (
           description="A pequena telepata de Spy × Family, com o seu cabelo cor-de-rosa e uniforme inconfundível."
           image="/images/anya.jpg"
           price="€42"
+          url="/product/collection-spy-family"
         />
       </div>
     </Stack>

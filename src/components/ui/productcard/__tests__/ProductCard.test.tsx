@@ -1,13 +1,12 @@
 import { woodyProductMock } from '@tests/__mocks__/components/productcard';
-import { fireEvent, render, screen } from '@tests/test-utils';
-import { describe, expect, it, vi } from 'vitest';
+import { render, screen } from '@tests/test-utils';
+import { describe, expect, it } from 'vitest';
 
 import ProductCard from '../ProductCard';
 
 describe('ProductCard Component', () => {
-  it('renders product information, badge, price and handles click', () => {
-    const handleClick = vi.fn();
-    render(<ProductCard {...woodyProductMock} onClick={handleClick} />);
+  it('renders product information, badge, price and links to url', () => {
+    render(<ProductCard {...woodyProductMock} />);
 
     expect(screen.getByTestId('product-card-component')).toBeInTheDocument();
     expect(screen.getByTestId('product-card-title')).toHaveTextContent('Woody');
@@ -20,14 +19,12 @@ describe('ProductCard Component', () => {
     );
 
     const actionContainer = screen.getByTestId('product-card-action');
-    expect(actionContainer).toHaveTextContent('Ver detalhes');
-    const actionBtn = actionContainer.querySelector('button')!;
-    fireEvent.click(actionBtn);
-    expect(handleClick).toHaveBeenCalledTimes(1);
+    expect(actionContainer).toHaveTextContent('View details');
+    const actionLink = actionContainer.querySelector('a')!;
+    expect(actionLink).toHaveAttribute('href', woodyProductMock.url);
 
-    const imgBtn = screen.getByTestId('product-card-image-button');
-    fireEvent.click(imgBtn);
-    expect(handleClick).toHaveBeenCalledTimes(2);
+    const imgLink = screen.getByTestId('product-card-image-button');
+    expect(imgLink).toHaveAttribute('href', woodyProductMock.url);
   });
 
   it('renders custom action text', () => {
@@ -36,5 +33,24 @@ describe('ProductCard Component', () => {
     expect(screen.getByTestId('product-card-action')).toHaveTextContent(
       'Comprar',
     );
+  });
+
+  it('renders variant count and stock labels when provided', () => {
+    render(<ProductCard {...woodyProductMock} variantCount={3} stock={4} />);
+
+    expect(screen.getByTestId('product-card-variant-count')).toHaveTextContent(
+      '3 variants',
+    );
+    expect(screen.getByTestId('product-card-stock')).toHaveTextContent(
+      '4 in stock',
+    );
+  });
+
+  it('renders sold out label when stock is 0', () => {
+    render(<ProductCard {...woodyProductMock} stock={0} />);
+
+    const stockEl = screen.getByTestId('product-card-stock');
+    expect(stockEl).toHaveTextContent('Sold out');
+    expect(stockEl).toHaveClass('product-card-stock-sold-out');
   });
 });

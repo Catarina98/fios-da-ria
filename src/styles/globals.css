@@ -9,3 +9,41 @@ body {
   font-family: var(--font-manrope), sans-serif;
   color: var(--txt-primary);
 }
+
+main {
+  width: 100%;
+  min-height: 70vh;
+}
+
+.container,
+.page-container {
+  width: 100%;
+  margin: 0 auto;
+  padding: 0 var(--spacing-16);
+}
+
+@media (min-width: 1024px) {
+  .container,
+  .page-container {
+    width: min(1180px, 100%);
+    padding: 0 var(--spacing-32);
+  }
+}
+
+.product-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: var(--spacing-24);
+}
+
+@media (min-width: 640px) {
+  .product-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (min-width: 1024px) {
+  .product-grid {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}

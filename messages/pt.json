@@ -67,5 +67,111 @@
     "gallery": "Galeria",
     "about": "Sobre",
     "contact": "Contacto"
+  },
+  "Gallery": {
+    "eyebrow": "Coleções",
+    "title": "Peças com alma",
+    "description": "Descubra pequenos personagens e objetos de crochet, todos criados à mão em edições muito limitadas.",
+    "filters": {
+      "title": "Filtros",
+      "showFilters": "Mostrar filtros",
+      "hideFilters": "Ocultar filtros",
+      "searchPlaceholder": "Pesquisar peças",
+      "clearSearch": "Limpar pesquisa",
+      "category": "Categoria",
+      "price": "Preço",
+      "sort": "Ordenar por preço",
+      "sortByPrice": "Ordenar por preço",
+      "all": "Todos",
+      "minPrice": "Mínimo",
+      "maxPrice": "Máximo",
+      "from": "Desde",
+      "variant": "variante",
+      "variants": "variantes",
+      "inStock": "em stock",
+      "soldOut": "Esgotado",
+      "viewDetails": "Ver detalhes",
+      "under50": "Até €50",
+      "over50": "Mais de €50",
+      "sortRelevance": "Relevância",
+      "sortPriceAsc": "Preço mais baixo",
+      "sortPriceDesc": "Preço mais alto",
+      "clearFilters": "Limpar filtros",
+      "emptyTitle": "Nenhuma peça encontrada",
+      "emptyDescription": "Tente pesquisar outro nome ou remover alguns filtros."
+    },
+    "categories": {
+      "all": "Todos",
+      "All": "Todos",
+      "Movies & Series": "Filmes e séries",
+      "Anime": "Anime",
+      "Amigurumi": "Amigurumi",
+      "Collection": "Coleção",
+      "Decoration": "Decoração",
+      "toy_story": "Toy Story",
+      "princesas_disney": "Princesas Disney",
+      "spy_family": "Spy x Family"
+    },
+    "products": {
+      "woody": {
+        "title": "Woody",
+        "category": "Toy Story",
+        "description": "O xerife mais leal de Toy Story, recriado ponto a ponto com todos os detalhes do seu traje.",
+        "price": "€48"
+      },
+      "snowWhite": {
+        "title": "Branca de Neve",
+        "category": "Princesas Diney",
+        "description": "A primeira princesa Disney numa versão delicada, com o icónico vestido azul e amarelo.",
+        "price": "€65"
+      },
+      "anya": {
+        "title": "Anya Forger",
+        "category": "Spy × Family",
+        "description": "A pequena telepata de Spy × Family, com o seu cabelo cor-de-rosa e uniforme inconfundível.",
+        "price": "€42"
+      }
+    }
+  },
+  "Product": {
+    "breadcrumbs": {
+      "home": "Início",
+      "gallery": "Galeria"
+    },
+    "status": {
+      "available": "Disponível",
+      "soldOut": "Esgotado"
+    },
+    "chooseCharacter": "Escolha a personagem",
+    "linkToBuy": "Link to the buy",
+    "gallery": {
+      "previousImage": "Imagem anterior",
+      "nextImage": "Próxima imagem",
+      "thumbnail": "Ver imagem {number}"
+    },
+    "addToBag": "Adicionar ao carrinho",
+    "addedToBag": "Adicionado ao carrinho",
+    "materials": {
+      "title": "Materiais",
+      "item1": "Fio 100% algodão",
+      "item2": "Olhos com travas de segurança",
+      "item3": "Enchimento antialérgico"
+    },
+    "care": {
+      "title": "Cuidados com o teu amigurumi",
+      "item1": "Lavar à mão",
+      "item2": "Não torcer",
+      "item3": "Secar à sombra",
+      "item4": "Tratar com carinho"
+    },
+    "makerNote": {
+      "quote": "“Cada peça leva muitas horas de trabalho e um bocadinho da minha história.”",
+      "author": "— Catarina"
+    },
+    "notFound": {
+      "title": "Produto não encontrado",
+      "description": "O produto que procura não existe ou já não está disponível.",
+      "backToGallery": "Voltar à galeria"
+    }
   }
 }

@@ -1,12 +1,12 @@
 import Button from '@components/ui/button';
-import Card from '@components/ui/card';
+import GuidanceCards from '@components/ui/guidancecards/GuidanceCards';
 import Highlights from '@components/ui/highlights';
 import ProductCard from '@components/ui/productcard';
 import StoryBanner from '@components/ui/storybanner';
 import TitleSection from '@components/ui/titlesection';
 import { routing } from '@i18n/routing';
 import { ButtonVariant } from '@typing/components/button';
-import { Flower, Heart, Shield } from 'lucide-react';
+import { Heart } from 'lucide-react';
 import { useTranslations } from 'next-intl';
 import { setRequestLocale } from 'next-intl/server';
 
@@ -30,11 +30,8 @@ export default async function Home({ params }: HomeProps) {
 function HomeContent() {
   const t = useTranslations('Homepage');
 
-  const materialsItems = t.raw('guidance.materialsItems') as string[];
-  const careItems = t.raw('guidance.careItems') as string[];
-
   return (
-    <main className="home-page" data-testid="homepage-container">
+    <div className="home-page" data-testid="homepage-container">
       <Highlights
         badge={t('highlights.badge')}
         title={t.rich('highlights.title', {
@@ -48,10 +45,12 @@ function HomeContent() {
         button={{
           children: t('highlights.galleryButton'),
           variant: ButtonVariant.Primary,
+          url: '/gallery',
         }}
         secondaryButton={{
           children: t('highlights.aboutButton'),
           variant: ButtonVariant.Ghost,
+          url: '/about',
         }}
         note={{
           text: t('highlights.note'),
@@ -64,27 +63,14 @@ function HomeContent() {
         aria-label="O que nos guia"
         data-testid="home-guidance-section"
       >
-        <div className="home-container">
+        <div className="container home-container">
           <TitleSection
             eyebrow={t('guidance.eyebrow')}
             title={t('guidance.title')}
             description={t('guidance.description')}
             align="center"
           />
-          <div className="feature-grid">
-            <Card
-              title={t('guidance.materialsTitle')}
-              icon={<Flower size={20} />}
-              iconVariant="primary"
-              items={materialsItems}
-            />
-            <Card
-              title={t('guidance.careTitle')}
-              icon={<Shield size={20} />}
-              iconVariant="secondary"
-              items={careItems}
-            />
-          </div>
+          <GuidanceCards />
         </div>
       </section>
 
@@ -93,12 +79,12 @@ function HomeContent() {
         aria-label="Pequenos tesouros"
         data-testid="home-featured-section"
       >
-        <div className="home-container">
+        <div className="container home-container">
           <TitleSection
             eyebrow={t('featured.eyebrow')}
             title={t('featured.title')}
             action={
-              <Button variant={ButtonVariant.Ghost}>
+              <Button variant={ButtonVariant.Ghost} url="/gallery">
                 {t('featured.viewAll')}
               </Button>
             }
@@ -110,6 +96,7 @@ function HomeContent() {
               description={t('featured.products.woody.description')}
               image="/images/woody.jpg"
               price={t('featured.products.woody.price')}
+              url="/product/collection-toy-story"
             />
             <ProductCard
               title={t('featured.products.snowWhite.title')}
@@ -117,6 +104,7 @@ function HomeContent() {
               description={t('featured.products.snowWhite.description')}
               image="/images/snow-white.jpg"
               price={t('featured.products.snowWhite.price')}
+              url="/product/collection-disney-princesses"
             />
             <ProductCard
               title={t('featured.products.anya.title')}
@@ -124,6 +112,7 @@ function HomeContent() {
               description={t('featured.products.anya.description')}
               image="/images/anya.jpg"
               price={t('featured.products.anya.price')}
+              url="/product/collection-spy-family"
             />
           </div>
         </div>
@@ -134,7 +123,7 @@ function HomeContent() {
         aria-label="Agenda de eventos"
         data-testid="home-agenda-section"
       >
-        <div className="home-container">
+        <div className="container home-container">
           <StoryBanner
             badge={t('agenda.badge')}
             title={t('agenda.title')}
@@ -151,6 +140,6 @@ function HomeContent() {
           />
         </div>
       </section>
-    </main>
+    </div>
   );
 }

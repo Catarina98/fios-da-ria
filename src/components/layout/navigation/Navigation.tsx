@@ -1,5 +1,7 @@
 'use client';
+
 import { FC } from 'react';
+import { Link } from '@i18n/navigation';
 import { useTranslations } from 'next-intl';
 
 import MobileModal from './components/MobileModal';
@@ -23,7 +25,7 @@ const Navigation: FC = () => {
 
   return isDesktop ? (
     <nav className="navbar-desktop">
-      <a className="logo">
+      <Link href="/" className="logo">
         <img
           alt="Fios da Ria Logo"
           width={32}
@@ -31,14 +33,14 @@ const Navigation: FC = () => {
           src={getAssetPath('/logo.png')}
         />
         Fios da Ria
-      </a>
+      </Link>
 
       <ul className="nav-menu">
         {Object.entries(navItems).map(([key, value]) => (
           <li key={key}>
-            <a href={getHrefLink(key)} className="nav-link">
+            <Link href={getHrefLink(key)} className="nav-link">
               {value}
-            </a>
+            </Link>
           </li>
         ))}
       </ul>
