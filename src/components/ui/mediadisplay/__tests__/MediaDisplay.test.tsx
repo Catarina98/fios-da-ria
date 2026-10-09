@@ -93,4 +93,27 @@ describe('<MediaDisplay />', () => {
     fireEvent.click(screen.getByTestId('gallery-thumbnail-2'));
     expect(mainImg).toHaveAttribute('src', sampleImages[2]);
   });
+
+  it('renders at most 4 thumbnails occupying the width without thumbnail scroll buttons when there are many images', () => {
+    const manyImages = [
+      '/img1.jpg',
+      '/img2.jpg',
+      '/img3.jpg',
+      '/img4.jpg',
+      '/img5.jpg',
+      '/img6.jpg',
+      '/img7.jpg',
+    ];
+
+    render(<MediaDisplay images={manyImages} selectedIndex={0} />);
+
+    const thumbnails = screen.getAllByRole('tab');
+    expect(thumbnails).toHaveLength(4);
+    expect(
+      screen.queryByTestId('gallery-thumb-prev-button'),
+    ).not.toBeInTheDocument();
+    expect(
+      screen.queryByTestId('gallery-thumb-next-button'),
+    ).not.toBeInTheDocument();
+  });
 });

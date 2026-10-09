@@ -99,10 +99,24 @@ export default function ProductPage(props: any = {}) {
     variants.find(variant => variant.id === selectedVariantId) ?? variants[0];
 
   const currentPrice = activeVariant?.price || product.price;
-  const currentStock = activeVariant?.stock ?? product.stock ?? 0;
-  const isSoldOut = currentStock <= 0;
   const currentVintedUrl =
-    activeVariant?.vintedUrl || product.vintedUrl || 'https://www.vinted.pt';
+    activeVariant?.vintedUrl ||
+    (variants.length <= 1 ? product.vintedUrl : undefined);
+  const isSoldOut = !currentVintedUrl;
+
+  const requestedProductName =
+    activeVariant?.name && activeVariant.name !== product.title
+      ? `${product.title} (${activeVariant.name})`
+      : product.title;
+
+  const contactMessage =
+    locale === 'pt'
+      ? `Olá! Gostaria de encomendar a peça: ${requestedProductName}`
+      : `Hello! I would like to order the piece: ${requestedProductName}`;
+
+  const instagramDmUrl = `https://ig.me/m/fiosdaria?text=${encodeURIComponent(
+    contactMessage,
+  )}`;
 
   const handleSelectVariant = (variantId: string) => {
     setSelectedVariantId(variantId);
@@ -171,7 +185,11 @@ export default function ProductPage(props: any = {}) {
               {product.title}
             </Heading>
 
-            <div className="product-price-tag">{currentPrice}</div>
+            <div className="product-price-tag">
+              {currentPrice?.startsWith('€')
+                ? currentPrice
+                : `€${currentPrice}`}
+            </div>
 
             <Body size="M" className="product-lead">
               {product.description}
@@ -215,18 +233,20 @@ export default function ProductPage(props: any = {}) {
               </div>
             )}
 
-            {/* Link to Buy on Vinted Button */}
+            {/* Link to Buy on Vinted (if in stock) or Contact on Instagram (if sold out) */}
             <Button
               variant={ButtonVariant.Primary}
-              className="buy-button"
-              disabled={isSoldOut}
-              url={isSoldOut ? undefined : currentVintedUrl}
+              className={cn('buy-button', isSoldOut && 'contact-seller-button')}
+              url={isSoldOut ? instagramDmUrl : currentVintedUrl}
               rightIcon={<ExternalLink size={18} />}
               data-testid="product-buy-button"
             >
               {isSoldOut
-                ? t('status.soldOut') || 'Sold out'
-                : t('linkToBuy') || 'Link to the buy'}
+                ? t('contactSeller') ||
+                  (locale === 'pt'
+                    ? 'Contactar no Instagram'
+                    : 'Contact on Instagram')
+                : t('linkToBuy') || 'Link to buy'}
             </Button>
 
             {/* Materials and Care Cards */}

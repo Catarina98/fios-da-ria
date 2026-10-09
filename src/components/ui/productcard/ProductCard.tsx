@@ -106,7 +106,11 @@ const ProductCard: FC<ProductCardType> = ({
             )}
             data-testid="product-card-stock"
           >
-            {stock > 0 ? `${stock} ${inStockText}` : soldOutText}
+            {stock > 0
+              ? stock === 1
+                ? inStockText
+                : `${stock} ${inStockText}`
+              : soldOutText}
           </span>
         )}
 
