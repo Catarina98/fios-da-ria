@@ -9,7 +9,7 @@ vi.mock('next-intl/server', () => ({
   setRequestLocale: mockSetRequestLocale,
 }));
 
-import GalleryPage, { generateStaticParams } from '../page';
+import GalleryPage from '../page';
 
 describe('<GalleryPage />', () => {
   afterEach(cleanup);
@@ -19,12 +19,8 @@ describe('<GalleryPage />', () => {
   });
 
   it('renders gallery page with title, search input, filters toggle and catalog products', async () => {
-    const params = Promise.resolve({ locale: 'pt' });
+    render(<GalleryPage />);
 
-    const pageResult = await GalleryPage({ params });
-    render(pageResult);
-
-    expect(mockSetRequestLocale).toHaveBeenCalledWith('pt');
     expect(screen.getByTestId('gallery-page-container')).toBeInTheDocument();
 
     // 1. Breadcrumbs & Title section
@@ -54,9 +50,7 @@ describe('<GalleryPage />', () => {
   });
 
   it('toggles mobile filter panel when clicking the toggle button', async () => {
-    const params = Promise.resolve({ locale: 'pt' });
-    const pageResult = await GalleryPage({ params });
-    render(pageResult);
+    render(<GalleryPage />);
 
     const toggleBtn = screen.getByTestId('gallery-filter-toggle');
     const panel = screen.getByTestId('gallery-filter-panel');
@@ -77,9 +71,7 @@ describe('<GalleryPage />', () => {
   });
 
   it('filters products by search input query matching variants', async () => {
-    const params = Promise.resolve({ locale: 'pt' });
-    const pageResult = await GalleryPage({ params });
-    render(pageResult);
+    render(<GalleryPage />);
 
     const searchInput = screen.getByTestId('gallery-search-input');
 
@@ -106,9 +98,7 @@ describe('<GalleryPage />', () => {
   });
 
   it('filters products when selecting a category', async () => {
-    const params = Promise.resolve({ locale: 'pt' });
-    const pageResult = await GalleryPage({ params });
-    render(pageResult);
+    render(<GalleryPage />);
 
     // Filter by 'Anime' (One Piece and Spy x Family)
     const animeBtn = screen.getByTestId('filter-category-Anime');
@@ -123,9 +113,7 @@ describe('<GalleryPage />', () => {
   });
 
   it('filters products using the RangeSlider inputs', async () => {
-    const params = Promise.resolve({ locale: 'pt' });
-    const pageResult = await GalleryPage({ params });
-    render(pageResult);
+    render(<GalleryPage />);
 
     const minInput = screen.getByTestId('range-slider-min');
 
@@ -139,9 +127,7 @@ describe('<GalleryPage />', () => {
   });
 
   it('sorts products by price ascending and descending', async () => {
-    const params = Promise.resolve({ locale: 'pt' });
-    const pageResult = await GalleryPage({ params });
-    render(pageResult);
+    render(<GalleryPage />);
 
     const sortAscBtn = screen.getByTestId('filter-sort-sortPriceAsc');
     fireEvent.click(sortAscBtn);
@@ -163,9 +149,7 @@ describe('<GalleryPage />', () => {
   });
 
   it('displays empty state and resets filters when clear button is clicked', async () => {
-    const params = Promise.resolve({ locale: 'pt' });
-    const pageResult = await GalleryPage({ params });
-    render(pageResult);
+    render(<GalleryPage />);
 
     // Search query with no match
     const searchInput = screen.getByTestId('gallery-search-input');
@@ -181,10 +165,5 @@ describe('<GalleryPage />', () => {
     expect(screen.queryByTestId('gallery-empty-state')).not.toBeInTheDocument();
     expect(screen.getByTestId('gallery-product-grid')).toBeInTheDocument();
     expect(screen.getByText('Toy Story Collection')).toBeInTheDocument();
-  });
-
-  it('generates static params for all supported locales', () => {
-    const params = generateStaticParams();
-    expect(params).toEqual([{ locale: 'pt' }, { locale: 'en' }]);
   });
 });

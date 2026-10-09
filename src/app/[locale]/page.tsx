@@ -31,7 +31,7 @@ function HomeContent() {
   const t = useTranslations('Homepage');
 
   return (
-    <main className="home-page" data-testid="homepage-container">
+    <div className="home-page" data-testid="homepage-container">
       <Highlights
         badge={t('highlights.badge')}
         title={t.rich('highlights.title', {
@@ -63,7 +63,7 @@ function HomeContent() {
         aria-label="O que nos guia"
         data-testid="home-guidance-section"
       >
-        <div className="home-container">
+        <div className="container home-container">
           <TitleSection
             eyebrow={t('guidance.eyebrow')}
             title={t('guidance.title')}
@@ -79,7 +79,7 @@ function HomeContent() {
         aria-label="Pequenos tesouros"
         data-testid="home-featured-section"
       >
-        <div className="home-container">
+        <div className="container home-container">
           <TitleSection
             eyebrow={t('featured.eyebrow')}
             title={t('featured.title')}
@@ -123,7 +123,7 @@ function HomeContent() {
         aria-label="Agenda de eventos"
         data-testid="home-agenda-section"
       >
-        <div className="home-container">
+        <div className="container home-container">
           <StoryBanner
             badge={t('agenda.badge')}
             title={t('agenda.title')}
@@ -140,6 +140,6 @@ function HomeContent() {
           />
         </div>
       </section>
-    </main>
+    </div>
   );
 }

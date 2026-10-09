@@ -1,13 +1,6 @@
 .product-page {
   width: 100%;
-  min-height: 70vh;
   padding: 40px 0 80px;
-}
-
-.product-container {
-  width: 100%;
-  margin: 0 auto;
-  padding: 0 var(--spacing-16);
 }
 
 .product-detail {
@@ -207,11 +200,6 @@
 @media (min-width: 1024px) {
   .product-page {
     padding: 60px 0 100px;
-  }
-
-  .product-container {
-    width: min(1180px, 100%);
-    padding: 0 var(--spacing-32);
   }
 
   .product-detail {

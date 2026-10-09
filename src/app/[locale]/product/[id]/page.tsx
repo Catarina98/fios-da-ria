@@ -2,7 +2,7 @@ import { routing } from '@i18n/routing';
 import { setRequestLocale } from 'next-intl/server';
 
 import { CATALOG_PRODUCTS } from '../../gallery/data';
-import ProductContent from '../ProductContent';
+import { ProductView } from '../page';
 
 export function generateStaticParams() {
   return routing.locales.flatMap(locale =>
@@ -25,5 +25,5 @@ export default async function ProductDetailPage({
 
   const product = CATALOG_PRODUCTS.find(item => item.id === id);
 
-  return <ProductContent product={product} />;
+  return <ProductView product={product} />;
 }

@@ -12,9 +12,7 @@ vi.mock('next-intl/server', () => ({
 import ProductDetailPage, {
   generateStaticParams as generateDetailStaticParams,
 } from '../[id]/page';
-import ProductPage, {
-  generateStaticParams as generateRootStaticParams,
-} from '../page';
+import ProductPage from '../page';
 
 describe('Product Pages', () => {
   afterEach(cleanup);
@@ -24,22 +22,14 @@ describe('Product Pages', () => {
   });
 
   describe('<ProductPage /> (Root)', () => {
-    it('renders the default featured product and sets request locale', async () => {
-      const params = Promise.resolve({ locale: 'pt' });
-      const pageResult = await ProductPage({ params });
-      render(pageResult);
+    it('renders the default featured product', async () => {
+      render(<ProductPage />);
 
-      expect(mockSetRequestLocale).toHaveBeenCalledWith('pt');
       expect(screen.getByRole('heading', { level: 1 })).toHaveTextContent(
         'Toy Story Collection',
       );
       expect(screen.getByText('€38')).toBeInTheDocument();
       expect(screen.getByText('Woody')).toBeInTheDocument();
-    });
-
-    it('generates static params for all supported locales', () => {
-      const params = generateRootStaticParams();
-      expect(params).toEqual([{ locale: 'pt' }, { locale: 'en' }]);
     });
   });
 
