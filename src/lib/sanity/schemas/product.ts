@@ -87,6 +87,9 @@ export const productSchema = {
       name: 'images',
       title: 'Product Images Gallery',
       type: 'array',
+      options: {
+        layout: 'grid',
+      },
       of: [{ type: 'image', options: { hotspot: true } }],
       validation: (Rule: any) => Rule.required().min(1),
     },
@@ -136,6 +139,9 @@ export const productSchema = {
               name: 'images',
               title: 'Variant Gallery Images',
               type: 'array',
+              options: {
+                layout: 'grid',
+              },
               of: [{ type: 'image', options: { hotspot: true } }],
             },
           ],
