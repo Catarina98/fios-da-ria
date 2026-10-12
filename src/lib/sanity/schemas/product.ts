@@ -51,6 +51,39 @@ export const productSchema = {
       type: 'url',
     },
     {
+      name: 'isVisible',
+      title: 'Show Product',
+      type: 'boolean',
+      description:
+        'Turn off to hide the product from the website regardless of scheduling dates',
+      initialValue: true,
+    },
+    {
+      name: 'visibleFrom',
+      title: 'Visible From (Start Date)',
+      type: 'datetime',
+      description: 'Optional. Leave blank to show immediately.',
+    },
+    {
+      name: 'visibleUntil',
+      title: 'Visible Until (End Date)',
+      type: 'datetime',
+      description: 'Optional. Leave blank to keep visible indefinitely.',
+      validation: (Rule: any) =>
+        Rule.custom((visibleUntil: string | undefined, context: any) => {
+          const visibleFrom = context.document?.visibleFrom;
+          if (
+            visibleUntil &&
+            visibleFrom &&
+            new Date(visibleUntil) <= new Date(visibleFrom)
+          ) {
+            return 'End date must be after the start date';
+          }
+
+          return true;
+        }),
+    },
+    {
       name: 'images',
       title: 'Product Images Gallery',
       type: 'array',
@@ -118,6 +151,7 @@ export const productSchema = {
       categoryRefTitleEn: 'category.title.en',
       categoryString: 'category',
       media: 'images.0',
+      isVisible: 'isVisible',
     },
     prepare({
       titlePt,
@@ -126,8 +160,10 @@ export const productSchema = {
       categoryRefTitleEn,
       categoryString,
       media,
+      isVisible,
     }: any) {
-      const title = titlePt || titleEn || 'Untitled Product';
+      const baseTitle = titlePt || titleEn || 'Untitled Product';
+      const title = isVisible === false ? `${baseTitle} (Hidden)` : baseTitle;
       const category =
         categoryRefTitlePt ||
         categoryRefTitleEn ||
