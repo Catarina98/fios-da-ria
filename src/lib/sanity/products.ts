@@ -23,6 +23,9 @@ export interface SanityProductRaw {
   vintedUrl?: string;
   images?: any[];
   variants?: SanityProductVariantRaw[];
+  isVisible?: boolean;
+  visibleFrom?: string;
+  visibleUntil?: string;
 }
 
 const getLocalizedValue = (
@@ -105,7 +108,11 @@ export async function getProducts(
   }
 
   try {
-    const query = `*[_type == "product"] {
+    const query = `*[_type == "product"
+      && coalesce(isVisible, true) == true
+      && (!defined(visibleFrom) || visibleFrom <= now())
+      && (!defined(visibleUntil) || visibleUntil > now())
+    ] {
       _id,
       "id": coalesce(id.current, _id),
       title,
@@ -154,7 +161,11 @@ export async function getAllProductIds(): Promise<string[]> {
   }
 
   try {
-    const query = `*[_type == "product"].id.current`;
+    const query = `*[_type == "product"
+      && coalesce(isVisible, true) == true
+      && (!defined(visibleFrom) || visibleFrom <= now())
+      && (!defined(visibleUntil) || visibleUntil > now())
+    ].id.current`;
     const ids = await sanityClient.fetch<string[]>(query);
     if (!ids || ids.length === 0) {
       return [];
