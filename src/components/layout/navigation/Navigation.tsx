@@ -23,30 +23,34 @@ const Navigation: FC = () => {
 
   const { isDesktop } = useViewport();
 
-  return isDesktop ? (
-    <nav className="navbar-desktop">
-      <Link href="/" className="logo">
-        <img
-          alt="Fios da Ria Logo"
-          width={32}
-          height={32}
-          src={getAssetPath('/logo.png')}
-        />
-        Fios da Ria
-      </Link>
+  return (
+    <header className="site-header">
+      {isDesktop ? (
+        <nav className="navbar-desktop">
+          <Link href="/" className="logo">
+            <img
+              alt="Fios da Ria Logo"
+              width={32}
+              height={32}
+              src={getAssetPath('/logo.png')}
+            />
+            Fios da Ria
+          </Link>
 
-      <ul className="nav-menu">
-        {Object.entries(navItems).map(([key, value]) => (
-          <li key={key}>
-            <Link href={getHrefLink(key)} className="nav-link">
-              {value}
-            </Link>
-          </li>
-        ))}
-      </ul>
-    </nav>
-  ) : (
-    <MobileModal data={{ navItems }} />
+          <ul className="nav-menu">
+            {Object.entries(navItems).map(([key, value]) => (
+              <li key={key}>
+                <Link href={getHrefLink(key)} className="nav-link">
+                  {value}
+                </Link>
+              </li>
+            ))}
+          </ul>
+        </nav>
+      ) : (
+        <MobileModal data={{ navItems }} />
+      )}
+    </header>
   );
 };
 
