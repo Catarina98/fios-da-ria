@@ -41,10 +41,10 @@ export const productSchema = {
 
     {
       name: 'order',
-      title: 'Ordem de Exibição (Display Order)',
+      title: 'Display Order',
       type: 'number',
       description:
-        'Número para definir a ordem na lista (ex: 1 para aparecer primeiro, 2 a seguir...). Se vazio, ordena pelos mais recentes.',
+        'Number to define the order in the list (e.g. 1 to appear first, 2 next...). If empty, sorted by newest.',
     },
     {
       name: 'vintedUrl',

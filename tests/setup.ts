@@ -19,7 +19,23 @@ vi.mock('@i18n/navigation', () => {
     }),
     usePathname: () => '/',
     redirect: vi.fn(),
-    getPathname: vi.fn(),
+  };
+});
+
+vi.mock('next/navigation', () => {
+  return {
+    useSearchParams: () => new URLSearchParams(),
+    useRouter: () => ({
+      push: vi.fn(),
+      replace: vi.fn(),
+      prefetch: vi.fn(),
+      back: vi.fn(),
+      forward: vi.fn(),
+      refresh: vi.fn(),
+    }),
+    usePathname: () => '/',
+    notFound: vi.fn(),
+    redirect: vi.fn(),
   };
 });
 
