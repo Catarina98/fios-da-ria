@@ -3,7 +3,7 @@ import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
 
 const { mockUseTranslations } = vi.hoisted(() => ({
   mockUseTranslations: vi.fn(() => (key: string) => {
-    if (key === 'contact') return 'Contacto';
+    if (key === 'contact' || key === 'Contact') return 'Contacto';
 
     return key;
   }),

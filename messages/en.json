@@ -45,9 +45,9 @@
   "Navigation": {
     "home": "Home",
     "gallery": "Gallery",
-    "about": "About",
-    "contact": "Contact"
+    "about": "About"
   },
+  "Contact": "Contact",
   "Gallery": {
     "eyebrow": "Collections",
     "title": "Pieces with soul",
@@ -136,6 +136,49 @@
       "title": "Product not found",
       "description": "The piece you are looking for does not exist or is no longer available.",
       "backToGallery": "Back to gallery"
+    }
+  },
+  "About": {
+    "breadcrumbs": {
+      "home": "Home",
+      "about": "About"
+    },
+    "hero": {
+      "badge": "The artisan",
+      "greeting": "Hello, I'm",
+      "name": "Catarina.",
+      "lead": "It started with a simple crochet hook and a great desire to create. Today, I dedicate my days to weaving stories in stitches, bringing to life amigurumi creatures designed to enchant young and old. Welcome to Fios da Ria's little corner.",
+      "galleryButton": "Discover the pieces",
+      "imageAlt": "Catarina working in her studio"
+    },
+    "process": {
+      "eyebrow": "The process",
+      "title": "Slowly, as it should be",
+      "description": "Three simple gestures transform a thread into a keepsake.",
+      "step1": {
+        "number": "01",
+        "title": "The idea",
+        "description": "Everything begins with a drawing and a palette inspired by the ria."
+      },
+      "step2": {
+        "number": "02",
+        "title": "The stitch",
+        "description": "Each shape grows slowly, row by row."
+      },
+      "step3": {
+        "number": "03",
+        "title": "The soul",
+        "description": "The final details bring expression and make each piece unique."
+      }
+    },
+    "contact": {
+      "badge": "Let's talk",
+      "title": "Have a special idea?",
+      "lead": "I accept a limited number of custom orders throughout the year.",
+      "email": "ola@fiosdaria.pt",
+      "instagram": "@fiosdaria",
+      "sendMessage": "Send message",
+      "emailSubject": "Special idea / Custom order"
     }
   }
 }

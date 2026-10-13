@@ -45,9 +45,9 @@
   "Navigation": {
     "home": "Home",
     "gallery": "Galeria",
-    "about": "Sobre",
-    "contact": "Contacto"
+    "about": "Sobre"
   },
+  "Contact": "Contacto",
   "Gallery": {
     "eyebrow": "Coleções",
     "title": "Peças com alma",
@@ -136,6 +136,49 @@
       "title": "Produto não encontrado",
       "description": "O produto que procura não existe ou já não está disponível.",
       "backToGallery": "Voltar à galeria"
+    }
+  },
+  "About": {
+    "breadcrumbs": {
+      "home": "Home",
+      "about": "Sobre"
+    },
+    "hero": {
+      "badge": "A artesã",
+      "greeting": "Olá, sou a",
+      "name": "Catarina.",
+      "lead": "Começou com uma simples agulha de crochê e muita vontade de criar. Hoje, dedico os meus dias a tecer histórias em pontos, dando vida a criaturas em amigurumi, pensadas para encantar miúdos e graúdos. Bem-vindos ao cantinho da Fios da Ria.",
+      "galleryButton": "Descobrir as peças",
+      "imageAlt": "Catarina a trabalhar no seu atelier"
+    },
+    "process": {
+      "eyebrow": "O processo",
+      "title": "Devagar, como deve ser",
+      "description": "Três gestos simples transformam um fio numa peça para guardar.",
+      "step1": {
+        "number": "01",
+        "title": "A ideia",
+        "description": "Tudo começa num desenho e numa paleta inspirada na ria."
+      },
+      "step2": {
+        "number": "02",
+        "title": "O ponto",
+        "description": "Cada forma cresce lentamente, carreira após carreira."
+      },
+      "step3": {
+        "number": "03",
+        "title": "A alma",
+        "description": "Os últimos detalhes dão expressão e tornam a peça única."
+      }
+    },
+    "contact": {
+      "badge": "Vamos conversar",
+      "title": "Tem uma ideia especial?",
+      "lead": "Aceito um número limitado de encomendas personalizadas ao longo do ano.",
+      "email": "ola@fiosdaria.pt",
+      "instagram": "@fiosdaria",
+      "sendMessage": "Enviar mensagem",
+      "emailSubject": "Ideia especial / Encomenda personalizada"
     }
   }
 }
