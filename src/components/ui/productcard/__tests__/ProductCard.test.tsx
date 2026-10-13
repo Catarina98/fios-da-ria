@@ -47,4 +47,28 @@ describe('ProductCard Component', () => {
     expect(stockEl).toHaveTextContent('Sold out');
     expect(stockEl).toHaveClass('product-card-stock-sold-out');
   });
+
+  it('applies custom tag colors when provided', () => {
+    render(
+      <ProductCard
+        {...woodyProductMock}
+        categoryTagBg="#00ff00"
+        categoryTagColor="#ff0000"
+      />,
+    );
+
+    const badge = screen.getByTestId('product-card-category');
+    expect(badge).toHaveStyle({
+      backgroundColor: '#00ff00',
+      color: '#ff0000',
+    });
+  });
+
+  it('does not set inline styles when tag colors are not provided', () => {
+    render(<ProductCard {...woodyProductMock} />);
+
+    const badge = screen.getByTestId('product-card-category');
+    expect(badge.style.backgroundColor).toBe('');
+    expect(badge.style.color).toBe('');
+  });
 });

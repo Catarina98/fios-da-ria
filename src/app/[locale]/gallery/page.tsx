@@ -544,6 +544,8 @@ function GalleryContent() {
                     key={product.id}
                     title={product.title}
                     category={getProductCategory(product.category)}
+                    categoryTagBg={product.categoryTagBg}
+                    categoryTagColor={product.categoryTagColor}
                     image={product.image}
                     price={getProductDisplayPrice(product, t('filters.from'))}
                     stock={product.stock}

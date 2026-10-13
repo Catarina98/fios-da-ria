@@ -171,7 +171,18 @@ export default function ProductPage(props: any = {}) {
           {/* Product Information */}
           <div className="product-info">
             <div className="badge-row">
-              <Badge variant={BadgeVariant.Secondary} size={BadgeSize.Small}>
+              <Badge
+                variant={BadgeVariant.Secondary}
+                size={BadgeSize.Small}
+                style={{
+                  ...(product.categoryTagBg
+                    ? { backgroundColor: product.categoryTagBg }
+                    : {}),
+                  ...(product.categoryTagColor
+                    ? { color: product.categoryTagColor }
+                    : {}),
+                }}
+              >
                 {product.category}
               </Badge>
               <Badge variant={BadgeVariant.Neutral} size={BadgeSize.Small}>

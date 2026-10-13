@@ -177,4 +177,48 @@ describe('Sanity & Catalog Data Fetching', () => {
 
     consoleSpy.mockRestore();
   });
+
+  it('filters out products belonging to unavailable categories', async () => {
+    mockFetch.mockResolvedValueOnce([
+      ...mockRawProducts,
+      {
+        _id: 'product-hidden',
+        id: { current: 'product-hidden' },
+        title: { pt: 'Produto Oculto', en: 'Hidden Product' },
+        category: {
+          pt: 'Indisponível',
+          en: 'Unavailable',
+          available: false,
+        },
+        price: 20,
+      },
+    ]);
+
+    const products = await getProducts('pt');
+    expect(products.find(p => p.id === 'product-hidden')).toBeUndefined();
+    expect(products.map(p => p.id)).toContain('collection-toy-story');
+  });
+
+  it('maps custom category tag colors when provided', async () => {
+    mockFetch.mockResolvedValueOnce([
+      {
+        _id: 'product-colored',
+        id: { current: 'product-colored' },
+        title: { pt: 'Produto Colorido', en: 'Colored Product' },
+        category: {
+          pt: 'Especial',
+          en: 'Special',
+          tagBackgroundColor: '#123456',
+          tagTextColor: '#ffffff',
+        },
+        price: 25,
+      },
+    ]);
+
+    const products = await getProducts('pt');
+    const coloredProduct = products.find(p => p.id === 'product-colored');
+    expect(coloredProduct).toBeDefined();
+    expect(coloredProduct?.categoryTagBg).toBe('#123456');
+    expect(coloredProduct?.categoryTagColor).toBe('#ffffff');
+  });
 });

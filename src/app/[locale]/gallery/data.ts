@@ -12,6 +12,8 @@ export interface StoreProduct {
   id: string;
   title: string;
   category: string;
+  categoryTagBg?: string;
+  categoryTagColor?: string;
   description: string;
   image: string;
   images?: string[];

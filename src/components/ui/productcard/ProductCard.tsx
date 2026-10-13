@@ -15,6 +15,8 @@ import './ProductCard.scss';
 const ProductCard: FC<ProductCardType> = ({
   title,
   category,
+  categoryTagBg,
+  categoryTagColor,
   image,
   imageAlt = '',
   price,
@@ -26,6 +28,11 @@ const ProductCard: FC<ProductCardType> = ({
   className,
   ...props
 }) => {
+  const badgeStyle = {
+    ...(categoryTagBg ? { backgroundColor: categoryTagBg } : {}),
+    ...(categoryTagColor ? { color: categoryTagColor } : {}),
+  };
+
   const imageContent = (
     <>
       <img src={getAssetPath(image)} alt={imageAlt || title} />
@@ -34,6 +41,7 @@ const ProductCard: FC<ProductCardType> = ({
           variant={BadgeVariant.Secondary}
           className="product-category-badge"
           data-testid="product-card-category"
+          style={Object.keys(badgeStyle).length > 0 ? badgeStyle : undefined}
         >
           {category}
         </Badge>
