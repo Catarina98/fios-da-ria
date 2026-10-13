@@ -10,3 +10,4 @@ export * from './storybanner';
 export * from './guidancecards';
 export * from './breadcrumbs';
 export * from './mediadisplay';
+export * from './icon';
