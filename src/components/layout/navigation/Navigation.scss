@@ -1,12 +1,23 @@
+.site-header {
+  position: sticky;
+  top: 0;
+  left: 0;
+  right: 0;
+  width: 100%;
+  z-index: 100;
+  background-color: var(--bg-white);
+  box-shadow:
+    0 4px 20px rgba(48, 82, 99, 0.08),
+    0 2px 6px rgba(0, 0, 0, 0.04);
+}
+
 .navbar-desktop {
   display: flex;
   align-items: center;
   justify-content: space-between;
   padding: var(--spacing-16) var(--spacing-40);
-  border-radius: var(--radius-6);
-  background-color: var(--bg-white);
+  background-color: transparent;
   color: var(--txt-tertiary);
-  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.08);
 
   .logo {
     display: flex;

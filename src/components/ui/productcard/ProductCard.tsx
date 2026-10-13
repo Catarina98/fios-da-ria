@@ -1,7 +1,7 @@
 import { FC } from 'react';
 import Badge from '@components/ui/badge';
 import Button from '@components/ui/button';
-import { Body, Heading } from '@components/ui/typography';
+import { Heading } from '@components/ui/typography';
 import { Link } from '@i18n/navigation';
 import { BadgeVariant } from '@typing/components/badge';
 import { ButtonVariant } from '@typing/components/button';
@@ -15,21 +15,24 @@ import './ProductCard.scss';
 const ProductCard: FC<ProductCardType> = ({
   title,
   category,
-  description,
+  categoryTagBg,
+  categoryTagColor,
   image,
   imageAlt = '',
   price,
   actionText = 'View details',
   stock,
-  variantCount,
-  variantTextSingular = 'variant',
-  variantTextPlural = 'variants',
   inStockText = 'in stock',
   soldOutText = 'Sold out',
   url,
   className,
   ...props
 }) => {
+  const badgeStyle = {
+    ...(categoryTagBg ? { backgroundColor: categoryTagBg } : {}),
+    ...(categoryTagColor ? { color: categoryTagColor } : {}),
+  };
+
   const imageContent = (
     <>
       <img src={getAssetPath(image)} alt={imageAlt || title} />
@@ -38,6 +41,7 @@ const ProductCard: FC<ProductCardType> = ({
           variant={BadgeVariant.Secondary}
           className="product-category-badge"
           data-testid="product-card-category"
+          style={Object.keys(badgeStyle).length > 0 ? badgeStyle : undefined}
         >
           {category}
         </Badge>
@@ -79,24 +83,6 @@ const ProductCard: FC<ProductCardType> = ({
             {price}
           </Heading>
         </div>
-
-        <Body
-          size="S"
-          className="product-card-description"
-          data-testid="product-card-description"
-        >
-          {description}
-        </Body>
-
-        {typeof variantCount === 'number' && variantCount > 0 && (
-          <span
-            className="product-card-variant-count"
-            data-testid="product-card-variant-count"
-          >
-            {variantCount}{' '}
-            {variantCount === 1 ? variantTextSingular : variantTextPlural}
-          </span>
-        )}
 
         {typeof stock === 'number' && (
           <span

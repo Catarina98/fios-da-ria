@@ -61,13 +61,10 @@
   &-ghost {
     background-color: transparent;
     color: var(--txt-primary);
+    padding: 0;
 
     &:hover:not(:disabled) {
-      background-color: var(--bg-quaternary);
-    }
-
-    &:active:not(:disabled) {
-      background-color: var(--bg-disabled);
+      text-decoration: underline;
     }
   }
 

@@ -38,12 +38,13 @@ export const productSchema = {
       type: 'string',
       validation: (Rule: any) => Rule.required(),
     },
+
     {
-      name: 'stock',
-      title: 'Stock Quantity',
+      name: 'order',
+      title: 'Display Order',
       type: 'number',
-      initialValue: 1,
-      validation: (Rule: any) => Rule.required().min(0),
+      description:
+        'Number to define the order in the list (e.g. 1 to appear first, 2 next...). If empty, sorted by newest.',
     },
     {
       name: 'vintedUrl',
@@ -87,6 +88,9 @@ export const productSchema = {
       name: 'images',
       title: 'Product Images Gallery',
       type: 'array',
+      options: {
+        layout: 'grid',
+      },
       of: [{ type: 'image', options: { hotspot: true } }],
       validation: (Rule: any) => Rule.required().min(1),
     },
@@ -115,12 +119,7 @@ export const productSchema = {
               title: 'Variant Price (e.g. €38)',
               type: 'string',
             },
-            {
-              name: 'stock',
-              title: 'Stock',
-              type: 'number',
-              initialValue: 1,
-            },
+
             {
               name: 'vintedUrl',
               title: 'Vinted URL',
@@ -136,6 +135,9 @@ export const productSchema = {
               name: 'images',
               title: 'Variant Gallery Images',
               type: 'array',
+              options: {
+                layout: 'grid',
+              },
               of: [{ type: 'image', options: { hotspot: true } }],
             },
           ],
@@ -152,6 +154,7 @@ export const productSchema = {
       categoryString: 'category',
       media: 'images.0',
       isVisible: 'isVisible',
+      order: 'order',
     },
     prepare({
       titlePt,
@@ -161,6 +164,7 @@ export const productSchema = {
       categoryString,
       media,
       isVisible,
+      order,
     }: any) {
       const baseTitle = titlePt || titleEn || 'Untitled Product';
       const title = isVisible === false ? `${baseTitle} (Hidden)` : baseTitle;
@@ -169,10 +173,11 @@ export const productSchema = {
         categoryRefTitleEn ||
         (typeof categoryString === 'string' ? categoryString : '') ||
         'Uncategorized';
+      const orderLabel = typeof order === 'number' ? ` [#${order}]` : '';
 
       return {
         title,
-        subtitle: category,
+        subtitle: `${category}${orderLabel}`,
         media,
       };
     },

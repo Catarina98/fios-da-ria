@@ -69,6 +69,9 @@
     line-height: 1.25;
     color: var(--txt-tertiary);
     margin: 0;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
   }
 
   .product-card-price {

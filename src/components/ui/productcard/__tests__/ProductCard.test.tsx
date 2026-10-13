@@ -14,9 +14,6 @@ describe('ProductCard Component', () => {
       'Toy Story',
     );
     expect(screen.getByTestId('product-card-price')).toHaveTextContent('€48');
-    expect(screen.getByTestId('product-card-description')).toHaveTextContent(
-      woodyProductMock.description,
-    );
 
     const actionContainer = screen.getByTestId('product-card-action');
     expect(actionContainer).toHaveTextContent('View details');
@@ -35,12 +32,9 @@ describe('ProductCard Component', () => {
     );
   });
 
-  it('renders variant count and stock labels when provided', () => {
-    render(<ProductCard {...woodyProductMock} variantCount={3} stock={4} />);
+  it('renders stock label when provided', () => {
+    render(<ProductCard {...woodyProductMock} stock={4} />);
 
-    expect(screen.getByTestId('product-card-variant-count')).toHaveTextContent(
-      '3 variants',
-    );
     expect(screen.getByTestId('product-card-stock')).toHaveTextContent(
       '4 in stock',
     );
@@ -52,5 +46,29 @@ describe('ProductCard Component', () => {
     const stockEl = screen.getByTestId('product-card-stock');
     expect(stockEl).toHaveTextContent('Sold out');
     expect(stockEl).toHaveClass('product-card-stock-sold-out');
+  });
+
+  it('applies custom tag colors when provided', () => {
+    render(
+      <ProductCard
+        {...woodyProductMock}
+        categoryTagBg="#00ff00"
+        categoryTagColor="#ff0000"
+      />,
+    );
+
+    const badge = screen.getByTestId('product-card-category');
+    expect(badge).toHaveStyle({
+      backgroundColor: '#00ff00',
+      color: '#ff0000',
+    });
+  });
+
+  it('does not set inline styles when tag colors are not provided', () => {
+    render(<ProductCard {...woodyProductMock} />);
+
+    const badge = screen.getByTestId('product-card-category');
+    expect(badge.style.backgroundColor).toBe('');
+    expect(badge.style.color).toBe('');
   });
 });

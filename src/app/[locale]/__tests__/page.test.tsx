@@ -43,6 +43,21 @@ vi.mock('@lib/sanity/products', () => ({
   getProducts: vi.fn(async () => mockFeaturedProducts),
 }));
 
+const mockHeroHighlight = {
+  id: 'mock-hero',
+  badge: 'Feito à mão em Portugal',
+  title: 'Histórias feitas de fio, ponto a ponto.',
+  description: 'Bem-vindos à Fios da Ria.',
+  imageSrc: '/images/toystory-highlight.jpg',
+  button: { children: 'Ver Galeria', url: '/gallery' },
+  secondaryButton: { children: 'Conhecer a Catarina', url: '/about' },
+  note: { text: 'Peças únicas, feitas com carinho' },
+};
+
+vi.mock('@lib/sanity/highlights', () => ({
+  getHighlights: vi.fn(async () => [mockHeroHighlight]),
+}));
+
 import Home, { generateStaticParams } from '../page';
 
 describe('<Home />', () => {

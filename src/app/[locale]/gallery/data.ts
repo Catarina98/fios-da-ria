@@ -12,6 +12,8 @@ export interface StoreProduct {
   id: string;
   title: string;
   category: string;
+  categoryTagBg?: string;
+  categoryTagColor?: string;
   description: string;
   image: string;
   images?: string[];
@@ -19,6 +21,7 @@ export interface StoreProduct {
   stock: number;
   variants: ProductVariant[];
   vintedUrl?: string;
+  order?: number;
 }
 
 export function getProductPrices(product: StoreProduct): number[] {
@@ -37,11 +40,11 @@ export function getProductDisplayPrice(
   product: StoreProduct,
   fromPrefix = 'From',
 ): string {
-  if ((product.variants ?? []).length === 0) return product.price;
+  if ((product.variants ?? []).length === 0) return product.price + '€';
 
   const prices = getProductPrices(product);
 
   return prices.length > 0
-    ? `${fromPrefix} €${Math.min(...prices)}`
+    ? `${fromPrefix} ${Math.min(...prices)}€`
     : product.price;
 }

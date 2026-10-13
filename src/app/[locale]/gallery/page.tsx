@@ -1,6 +1,13 @@
 'use client';
 
-import { useEffect, useMemo, useState } from 'react';
+import {
+  Suspense,
+  useCallback,
+  useEffect,
+  useMemo,
+  useRef,
+  useState,
+} from 'react';
 import Breadcrumbs from '@components/ui/breadcrumbs';
 import Button from '@components/ui/button';
 import Card from '@components/ui/card';
@@ -8,22 +15,36 @@ import ProductCard from '@components/ui/productcard';
 import RangeSlider from '@components/ui/rangeslider';
 import TitleSection from '@components/ui/titlesection';
 import { Body, Heading } from '@components/ui/typography';
+import { usePathname, useRouter } from '@i18n/navigation';
 import { getProducts } from '@lib/sanity/products';
 import { ButtonVariant } from '@typing/components/button';
 import clsx from 'clsx';
 import { Plus, Search, X } from 'lucide-react';
+import { useSearchParams } from 'next/navigation';
 import { useLocale, useTranslations } from 'next-intl';
 
 import { getProductDisplayPrice, getProductPrices, StoreProduct } from './data';
 
 import './page.scss';
 
-export type SortKey = 'sortPriceAsc' | 'sortPriceDesc';
+export type SortKey = 'default' | 'sortPriceAsc' | 'sortPriceDesc';
 
 const SORT_OPTIONS: SortKey[] = ['sortPriceAsc', 'sortPriceDesc'];
 
 export default function GalleryPage() {
+  return (
+    <Suspense fallback={null}>
+      <GalleryContent />
+    </Suspense>
+  );
+}
+
+function GalleryContent() {
   const locale = useLocale();
+  const router = useRouter();
+  const pathname = usePathname();
+  const searchParams = useSearchParams();
+
   const [products, setProducts] = useState<StoreProduct[]>([]);
 
   useEffect(() => {
@@ -35,12 +56,56 @@ export default function GalleryPage() {
   const t = useTranslations('Gallery');
   const tNav = useTranslations('Navigation');
 
-  const [query, setQuery] = useState('');
   const [filtersOpen, setFiltersOpen] = useState(false);
-  const [filter, setFilter] = useState('All');
-  const [minPrice, setMinPrice] = useState(0);
-  const [maxPrice, setMaxPrice] = useState<number | null>(null);
-  const [sortOption, setSortOption] = useState<SortKey>('sortPriceAsc');
+
+  // Initialize filter states from URL search params
+  const categoryParam = searchParams.get('category');
+  const searchParam = searchParams.get('search');
+  const inStockParam = searchParams.get('inStock') === 'true';
+  const minPriceParam = searchParams.get('minPrice');
+  const maxPriceParam = searchParams.get('maxPrice');
+  const sortParam = searchParams.get('sort') as SortKey | null;
+
+  const [query, setQuery] = useState(() => searchParam || '');
+  const [filter, setFilter] = useState(() => categoryParam || 'All');
+  const [inStockOnly, setInStockOnly] = useState(() => inStockParam);
+  const [minPrice, setMinPrice] = useState(() =>
+    minPriceParam ? Number(minPriceParam) || 0 : 0,
+  );
+  const [maxPrice, setMaxPrice] = useState<number | null>(() =>
+    maxPriceParam ? Number(maxPriceParam) || null : null,
+  );
+  const [sortOption, setSortOption] = useState<SortKey>(() =>
+    sortParam && SORT_OPTIONS.includes(sortParam) ? sortParam : 'default',
+  );
+
+  const currentParamsString = searchParams.toString();
+  const lastParamsStringRef = useRef(currentParamsString);
+
+  // Synchronize state if URL changes externally (e.g. browser back/forward)
+  useEffect(() => {
+    if (currentParamsString !== lastParamsStringRef.current) {
+      lastParamsStringRef.current = currentParamsString;
+
+      const newCategory = searchParams.get('category') || 'All';
+      const newSearch = searchParams.get('search') || '';
+      const newInStock = searchParams.get('inStock') === 'true';
+      const newMin = searchParams.get('minPrice')
+        ? Number(searchParams.get('minPrice')) || 0
+        : 0;
+      const newMax = searchParams.get('maxPrice')
+        ? Number(searchParams.get('maxPrice')) || null
+        : null;
+      const newSort = (searchParams.get('sort') as SortKey) || 'default';
+
+      setFilter(newCategory);
+      setQuery(newSearch);
+      setInStockOnly(newInStock);
+      setMinPrice(newMin);
+      setMaxPrice(newMax);
+      setSortOption(SORT_OPTIONS.includes(newSort) ? newSort : 'default');
+    }
+  }, [currentParamsString, searchParams]);
 
   const normalizedProducts = useMemo(() => {
     return (Array.isArray(products) ? products : []).flatMap(product => {
@@ -62,6 +127,7 @@ export default function GalleryPage() {
           variants: Array.isArray(product.variants)
             ? product.variants.filter(Boolean)
             : [],
+          order: product.order,
         },
       ];
     });
@@ -88,15 +154,25 @@ export default function GalleryPage() {
 
   const effectiveMaxPrice = maxPrice ?? catalogMaxPrice;
 
-  useEffect(() => {
-    if (!filters.includes(filter)) setFilter('All');
-  }, [filter, filters]);
+  const activeFilter = useMemo(() => {
+    if (!filter || filter === 'All') return 'All';
+    const matchedCategory = usedCategories.find(
+      cat => cat.toLowerCase() === filter.toLowerCase(),
+    );
+    if (matchedCategory) return matchedCategory;
+
+    return filters.includes(filter) ? filter : 'All';
+  }, [filter, usedCategories, filters]);
 
   const categoryCount = (category: string) =>
     category === 'All'
       ? normalizedProducts.length
       : normalizedProducts.filter(product => product.category === category)
           .length;
+
+  const inStockCount = useMemo(() => {
+    return normalizedProducts.filter(product => product.stock > 0).length;
+  }, [normalizedProducts]);
 
   const getCategoryLabel = (categoryName: string) => {
     if (categoryName === 'All') return t('filters.all');
@@ -132,7 +208,10 @@ export default function GalleryPage() {
 
         return matchString.includes(normalizedQuery);
       })
-      .filter(product => filter === 'All' || product.category === filter)
+      .filter(
+        product => activeFilter === 'All' || product.category === activeFilter,
+      )
+      .filter(product => !inStockOnly || product.stock > 0)
       .filter(product =>
         getProductPrices(product).some(
           price => price >= minPrice && price <= effectiveMaxPrice,
@@ -150,23 +229,128 @@ export default function GalleryPage() {
           );
         }
 
-        return 0;
+        const orderA = typeof a.order === 'number' ? a.order : 9999;
+        const orderB = typeof b.order === 'number' ? b.order : 9999;
+
+        return orderA - orderB;
       });
   }, [
     normalizedProducts,
     normalizedQuery,
-    filter,
+    activeFilter,
+    inStockOnly,
     minPrice,
     effectiveMaxPrice,
     sortOption,
   ]);
 
+  const updateUrl = useCallback(
+    (updates: Record<string, string | null>) => {
+      const params = new URLSearchParams(lastParamsStringRef.current);
+      Object.entries(updates).forEach(([key, value]) => {
+        if (value === null || value === '' || value === undefined) {
+          params.delete(key);
+        } else {
+          params.set(key, value);
+        }
+      });
+
+      const queryString = params.toString();
+      lastParamsStringRef.current = queryString;
+      const newPath = queryString ? `${pathname}?${queryString}` : pathname;
+      router.replace(newPath, { scroll: false });
+    },
+    [pathname, router],
+  );
+
+  const searchDebounceRef = useRef<NodeJS.Timeout | null>(null);
+  const priceDebounceRef = useRef<NodeJS.Timeout | null>(null);
+
+  useEffect(() => {
+    return () => {
+      if (searchDebounceRef.current) clearTimeout(searchDebounceRef.current);
+      if (priceDebounceRef.current) clearTimeout(priceDebounceRef.current);
+    };
+  }, []);
+
+  const handleSearchChange = (value: string) => {
+    setQuery(value);
+    if (searchDebounceRef.current) {
+      clearTimeout(searchDebounceRef.current);
+    }
+    searchDebounceRef.current = setTimeout(() => {
+      const trimmed = value.trim();
+      updateUrl({ search: trimmed ? trimmed : null });
+    }, 300);
+  };
+
+  const handleSearchClear = () => {
+    if (searchDebounceRef.current) {
+      clearTimeout(searchDebounceRef.current);
+    }
+    setQuery('');
+    updateUrl({ search: null });
+  };
+
+  const handleCategorySelect = (item: string) => {
+    setFilter(item);
+    updateUrl({ category: item === 'All' ? null : item });
+  };
+
+  const handleInStockToggle = () => {
+    const nextInStock = !inStockOnly;
+    setInStockOnly(nextInStock);
+    updateUrl({ inStock: nextInStock ? 'true' : null });
+  };
+
+  const handleMinPriceChange = (value: number) => {
+    const nextMin = Math.min(value, effectiveMaxPrice);
+    setMinPrice(nextMin);
+    if (priceDebounceRef.current) {
+      clearTimeout(priceDebounceRef.current);
+    }
+    priceDebounceRef.current = setTimeout(() => {
+      updateUrl({ minPrice: nextMin > 0 ? String(nextMin) : null });
+    }, 300);
+  };
+
+  const handleMaxPriceChange = (value: number) => {
+    const nextMax = Math.max(value, minPrice);
+    setMaxPrice(nextMax);
+    if (priceDebounceRef.current) {
+      clearTimeout(priceDebounceRef.current);
+    }
+    priceDebounceRef.current = setTimeout(() => {
+      updateUrl({
+        maxPrice: nextMax < catalogMaxPrice ? String(nextMax) : null,
+      });
+    }, 300);
+  };
+
+  const handleSortSelect = (sort: SortKey) => {
+    const nextSort = sortOption === sort ? 'default' : sort;
+    setSortOption(nextSort);
+    updateUrl({ sort: nextSort === 'default' ? null : nextSort });
+  };
+
   const handleResetFilters = () => {
+    if (searchDebounceRef.current) clearTimeout(searchDebounceRef.current);
+    if (priceDebounceRef.current) clearTimeout(priceDebounceRef.current);
     setQuery('');
     setFilter('All');
+    setInStockOnly(false);
     setMinPrice(0);
     setMaxPrice(null);
-    setSortOption('sortPriceAsc');
+    setSortOption('default');
+
+    updateUrl({
+      category: null,
+      search: null,
+      inStock: null,
+      minPrice: null,
+      maxPrice: null,
+      sort: null,
+    });
   };
 
   return (
@@ -182,7 +366,7 @@ export default function GalleryPage() {
           eyebrow={t('eyebrow')}
           title={t('title')}
           description={t('description')}
-          align="left"
+          align="center"
         />
 
         <div className="gallery-layout">
@@ -236,7 +420,7 @@ export default function GalleryPage() {
                     aria-label={t('filters.searchPlaceholder')}
                     placeholder={t('filters.searchPlaceholder')}
                     value={query}
-                    onChange={event => setQuery(event.target.value)}
+                    onChange={event => handleSearchChange(event.target.value)}
                     data-testid="gallery-search-input"
                   />
                   {query && (
@@ -244,7 +428,7 @@ export default function GalleryPage() {
                       type="button"
                       className="search-field-clear"
                       aria-label={t('filters.clearSearch')}
-                      onClick={() => setQuery('')}
+                      onClick={handleSearchClear}
                       data-testid="gallery-search-clear"
                     >
                       <X size={14} />
@@ -258,7 +442,7 @@ export default function GalleryPage() {
                 >
                   <span className="filter-label">{t('filters.category')}</span>
                   {filters.map(item => {
-                    const isActive = filter === item;
+                    const isActive = activeFilter === item;
 
                     return (
                       <Button
@@ -270,7 +454,7 @@ export default function GalleryPage() {
                         variant={ButtonVariant.Tertiary}
                         aria-pressed={isActive}
                         data-testid={`filter-category-${item}`}
-                        onClick={() => setFilter(item)}
+                        onClick={() => handleCategorySelect(item)}
                       >
                         <span>{getCategoryLabel(item)}</span>
                         <span className="filter-count">
@@ -281,18 +465,36 @@ export default function GalleryPage() {
                   })}
                 </div>
 
+                <div
+                  className="filter-group"
+                  data-testid="filter-group-availability"
+                >
+                  <span className="filter-label">
+                    {t('filters.availability')}
+                  </span>
+                  <Button
+                    className={clsx(
+                      'filter-option',
+                      inStockOnly && 'filter-option-active',
+                    )}
+                    variant={ButtonVariant.Tertiary}
+                    aria-pressed={inStockOnly}
+                    data-testid="filter-stock-only"
+                    onClick={handleInStockToggle}
+                  >
+                    <span>{t('filters.inStockOnly')}</span>
+                    <span className="filter-count">{inStockCount}</span>
+                  </Button>
+                </div>
+
                 <div className="filter-group" data-testid="filter-group-price">
                   <RangeSlider
                     min={0}
                     max={catalogMaxPrice}
                     minValue={minPrice}
                     maxValue={effectiveMaxPrice}
-                    onMinChange={value =>
-                      setMinPrice(Math.min(value, effectiveMaxPrice))
-                    }
-                    onMaxChange={value =>
-                      setMaxPrice(Math.max(value, minPrice))
-                    }
+                    onMinChange={handleMinPriceChange}
+                    onMaxChange={handleMaxPriceChange}
                     label={t('filters.price')}
                     minLabel={t('filters.minPrice')}
                     maxLabel={t('filters.maxPrice')}
@@ -316,7 +518,7 @@ export default function GalleryPage() {
                         variant={ButtonVariant.Tertiary}
                         aria-pressed={isActive}
                         data-testid={`filter-sort-${sort}`}
-                        onClick={() => setSortOption(sort)}
+                        onClick={() => handleSortSelect(sort)}
                       >
                         <span>{t(`filters.${sort}`)}</span>
                       </Button>
@@ -342,13 +544,11 @@ export default function GalleryPage() {
                     key={product.id}
                     title={product.title}
                     category={getProductCategory(product.category)}
-                    description={product.description}
+                    categoryTagBg={product.categoryTagBg}
+                    categoryTagColor={product.categoryTagColor}
                     image={product.image}
                     price={getProductDisplayPrice(product, t('filters.from'))}
-                    variantCount={(product.variants ?? []).length}
                     stock={product.stock}
-                    variantTextSingular={t('filters.variant')}
-                    variantTextPlural={t('filters.variants')}
                     inStockText={t('filters.inStock')}
                     soldOutText={t('filters.soldOut')}
                     actionText={t('filters.viewDetails')}
