@@ -34,7 +34,6 @@ const mockRawProducts = [
       en: 'Woody, Jessie, and Buzz in a handcrafted collection for everyone who never stopped believing in the magic of toys.',
     },
     price: 38,
-    stock: 3,
     vintedUrl: 'https://www.vinted.pt/items/1',
     images: ['https://cdn.sanity.io/images/mock-toy-story.jpg'],
     variants: [
@@ -42,7 +41,6 @@ const mockRawProducts = [
         id: 'woody',
         name: { pt: 'Woody', en: 'Woody' },
         price: 38,
-        stock: 1,
         vintedUrl: 'https://www.vinted.pt',
       },
     ],
@@ -63,7 +61,6 @@ const mockRawProducts = [
       en: 'The most adventurous crew of the seas.',
     },
     price: 35,
-    stock: 4,
     vintedUrl: 'https://www.vinted.pt/items/2',
     images: ['https://cdn.sanity.io/images/mock-one-piece.jpg'],
     variants: [
@@ -90,7 +87,6 @@ const mockRawProducts = [
       en: 'Wednesday Addams handcrafted in crochet.',
     },
     price: 30,
-    stock: 2,
     vintedUrl: 'https://www.vinted.pt/items/3',
     images: ['https://cdn.sanity.io/images/mock-wednesday.jpg'],
     variants: [],

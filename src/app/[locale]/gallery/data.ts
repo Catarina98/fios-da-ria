@@ -19,6 +19,7 @@ export interface StoreProduct {
   stock: number;
   variants: ProductVariant[];
   vintedUrl?: string;
+  order?: number;
 }
 
 export function getProductPrices(product: StoreProduct): number[] {

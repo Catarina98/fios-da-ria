@@ -69,6 +69,8 @@
       "variant": "variante",
       "variants": "variantes",
       "inStock": "em stock",
+      "inStockOnly": "Em stock",
+      "availability": "Disponibilidade",
       "soldOut": "Esgotado",
       "viewDetails": "Ver detalhes",
       "under50": "Até €50",

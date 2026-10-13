@@ -181,6 +181,32 @@ describe('<GalleryPage />', () => {
     ).not.toBeInTheDocument();
   });
 
+  it('filters products when clicking the in-stock availability filter', async () => {
+    render(<GalleryPage />);
+    await screen.findByTestId('gallery-product-grid');
+
+    const inStockBtn = screen.getByTestId('filter-stock-only');
+
+    // Click to filter by in-stock only
+    fireEvent.click(inStockBtn);
+
+    expect(screen.getByText('Toy Story Collection')).toBeInTheDocument();
+    expect(
+      screen.queryByText('Disney Princesses Collection'),
+    ).not.toBeInTheDocument();
+    expect(
+      screen.queryByText('Spy × Family Collection'),
+    ).not.toBeInTheDocument();
+    expect(screen.queryByText('One Piece Collection')).not.toBeInTheDocument();
+
+    // Click again to toggle off
+    fireEvent.click(inStockBtn);
+    expect(screen.getByText('Toy Story Collection')).toBeInTheDocument();
+    expect(
+      screen.getByText('Disney Princesses Collection'),
+    ).toBeInTheDocument();
+  });
+
   it('filters products using the RangeSlider inputs', async () => {
     render(<GalleryPage />);
     await screen.findByTestId('gallery-product-grid');

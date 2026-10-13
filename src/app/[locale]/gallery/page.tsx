@@ -18,7 +18,7 @@ import { getProductDisplayPrice, getProductPrices, StoreProduct } from './data';
 
 import './page.scss';
 
-export type SortKey = 'sortPriceAsc' | 'sortPriceDesc';
+export type SortKey = 'default' | 'sortPriceAsc' | 'sortPriceDesc';
 
 const SORT_OPTIONS: SortKey[] = ['sortPriceAsc', 'sortPriceDesc'];
 
@@ -38,9 +38,10 @@ export default function GalleryPage() {
   const [query, setQuery] = useState('');
   const [filtersOpen, setFiltersOpen] = useState(false);
   const [filter, setFilter] = useState('All');
+  const [inStockOnly, setInStockOnly] = useState(false);
   const [minPrice, setMinPrice] = useState(0);
   const [maxPrice, setMaxPrice] = useState<number | null>(null);
-  const [sortOption, setSortOption] = useState<SortKey>('sortPriceAsc');
+  const [sortOption, setSortOption] = useState<SortKey>('default');
 
   const normalizedProducts = useMemo(() => {
     return (Array.isArray(products) ? products : []).flatMap(product => {
@@ -62,6 +63,7 @@ export default function GalleryPage() {
           variants: Array.isArray(product.variants)
             ? product.variants.filter(Boolean)
             : [],
+          order: product.order,
         },
       ];
     });
@@ -88,15 +90,17 @@ export default function GalleryPage() {
 
   const effectiveMaxPrice = maxPrice ?? catalogMaxPrice;
 
-  useEffect(() => {
-    if (!filters.includes(filter)) setFilter('All');
-  }, [filter, filters]);
+  const activeFilter = filters.includes(filter) ? filter : 'All';
 
   const categoryCount = (category: string) =>
     category === 'All'
       ? normalizedProducts.length
       : normalizedProducts.filter(product => product.category === category)
           .length;
+
+  const inStockCount = useMemo(() => {
+    return normalizedProducts.filter(product => product.stock > 0).length;
+  }, [normalizedProducts]);
 
   const getCategoryLabel = (categoryName: string) => {
     if (categoryName === 'All') return t('filters.all');
@@ -132,7 +136,10 @@ export default function GalleryPage() {
 
         return matchString.includes(normalizedQuery);
       })
-      .filter(product => filter === 'All' || product.category === filter)
+      .filter(
+        product => activeFilter === 'All' || product.category === activeFilter,
+      )
+      .filter(product => !inStockOnly || product.stock > 0)
       .filter(product =>
         getProductPrices(product).some(
           price => price >= minPrice && price <= effectiveMaxPrice,
@@ -150,12 +157,16 @@ export default function GalleryPage() {
           );
         }
 
-        return 0;
+        const orderA = typeof a.order === 'number' ? a.order : 9999;
+        const orderB = typeof b.order === 'number' ? b.order : 9999;
+
+        return orderA - orderB;
       });
   }, [
     normalizedProducts,
     normalizedQuery,
-    filter,
+    activeFilter,
+    inStockOnly,
     minPrice,
     effectiveMaxPrice,
     sortOption,
@@ -164,9 +175,10 @@ export default function GalleryPage() {
   const handleResetFilters = () => {
     setQuery('');
     setFilter('All');
+    setInStockOnly(false);
     setMinPrice(0);
     setMaxPrice(null);
-    setSortOption('sortPriceAsc');
+    setSortOption('default');
   };
 
   return (
@@ -258,7 +270,7 @@ export default function GalleryPage() {
                 >
                   <span className="filter-label">{t('filters.category')}</span>
                   {filters.map(item => {
-                    const isActive = filter === item;
+                    const isActive = activeFilter === item;
 
                     return (
                       <Button
@@ -279,6 +291,28 @@ export default function GalleryPage() {
                       </Button>
                     );
                   })}
+                </div>
+
+                <div
+                  className="filter-group"
+                  data-testid="filter-group-availability"
+                >
+                  <span className="filter-label">
+                    {t('filters.availability')}
+                  </span>
+                  <Button
+                    className={clsx(
+                      'filter-option',
+                      inStockOnly && 'filter-option-active',
+                    )}
+                    variant={ButtonVariant.Tertiary}
+                    aria-pressed={inStockOnly}
+                    data-testid="filter-stock-only"
+                    onClick={() => setInStockOnly(prev => !prev)}
+                  >
+                    <span>{t('filters.inStockOnly')}</span>
+                    <span className="filter-count">{inStockCount}</span>
+                  </Button>
                 </div>
 
                 <div className="filter-group" data-testid="filter-group-price">
@@ -316,7 +350,9 @@ export default function GalleryPage() {
                         variant={ButtonVariant.Tertiary}
                         aria-pressed={isActive}
                         data-testid={`filter-sort-${sort}`}
-                        onClick={() => setSortOption(sort)}
+                        onClick={() =>
+                          setSortOption(isActive ? 'default' : sort)
+                        }
                       >
                         <span>{t(`filters.${sort}`)}</span>
                       </Button>
@@ -342,13 +378,9 @@ export default function GalleryPage() {
                     key={product.id}
                     title={product.title}
                     category={getProductCategory(product.category)}
-                    description={product.description}
                     image={product.image}
                     price={getProductDisplayPrice(product, t('filters.from'))}
-                    variantCount={(product.variants ?? []).length}
                     stock={product.stock}
-                    variantTextSingular={t('filters.variant')}
-                    variantTextPlural={t('filters.variants')}
                     inStockText={t('filters.inStock')}
                     soldOutText={t('filters.soldOut')}
                     actionText={t('filters.viewDetails')}

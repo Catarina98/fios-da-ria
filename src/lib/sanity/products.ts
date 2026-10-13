@@ -6,7 +6,6 @@ export interface SanityProductVariantRaw {
   id: string;
   name?: { pt?: string; en?: string } | string;
   price?: string | number;
-  stock?: number;
   vintedUrl?: string;
   image?: any;
   images?: any[];
@@ -19,13 +18,13 @@ export interface SanityProductRaw {
   category?: { pt?: string; en?: string } | string;
   description?: { pt?: string; en?: string } | string;
   price?: string | number;
-  stock?: number;
   vintedUrl?: string;
   images?: any[];
   variants?: SanityProductVariantRaw[];
   isVisible?: boolean;
   visibleFrom?: string;
   visibleUntil?: string;
+  order?: number;
 }
 
 const getLocalizedValue = (
@@ -97,6 +96,7 @@ const formatSanityProduct = (
     stock: hasProductStock ? 1 : 0,
     variants,
     vintedUrl: productVintedUrl,
+    order: typeof raw.order === 'number' ? raw.order : undefined,
   };
 };
 
@@ -112,21 +112,20 @@ export async function getProducts(
       && coalesce(isVisible, true) == true
       && (!defined(visibleFrom) || visibleFrom <= now())
       && (!defined(visibleUntil) || visibleUntil > now())
-    ] {
+    ] | order(coalesce(order, 9999) asc, _createdAt desc) {
       _id,
       "id": coalesce(id.current, _id),
       title,
       "category": coalesce(category->title, category),
       description,
       price,
-      stock,
       vintedUrl,
       images,
+      order,
       variants[] {
         id,
         name,
         price,
-        stock,
         vintedUrl,
         image,
         images
@@ -165,7 +164,7 @@ export async function getAllProductIds(): Promise<string[]> {
       && coalesce(isVisible, true) == true
       && (!defined(visibleFrom) || visibleFrom <= now())
       && (!defined(visibleUntil) || visibleUntil > now())
-    ].id.current`;
+    ] | order(coalesce(order, 9999) asc, _createdAt desc).id.current`;
     const ids = await sanityClient.fetch<string[]>(query);
     if (!ids || ids.length === 0) {
       return [];

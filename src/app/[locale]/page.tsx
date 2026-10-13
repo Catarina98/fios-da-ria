@@ -108,16 +108,12 @@ function HomeContent({ products = [] }: { products?: StoreProduct[] }) {
                   key={product.id}
                   title={product.title}
                   category={product.category}
-                  description={product.description}
                   image={product.image}
                   price={getProductDisplayPrice(
                     product,
                     tGallery('filters.from'),
                   )}
-                  variantCount={(product.variants ?? []).length}
                   stock={hasStock ? 1 : 0}
-                  variantTextSingular={tGallery('filters.variant')}
-                  variantTextPlural={tGallery('filters.variants')}
                   inStockText={tGallery('filters.inStock')}
                   soldOutText={tGallery('filters.soldOut')}
                   actionText={tGallery('filters.viewDetails')}

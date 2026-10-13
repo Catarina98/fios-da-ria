@@ -14,9 +14,6 @@ describe('ProductCard Component', () => {
       'Toy Story',
     );
     expect(screen.getByTestId('product-card-price')).toHaveTextContent('€48');
-    expect(screen.getByTestId('product-card-description')).toHaveTextContent(
-      woodyProductMock.description,
-    );
 
     const actionContainer = screen.getByTestId('product-card-action');
     expect(actionContainer).toHaveTextContent('View details');
@@ -35,12 +32,9 @@ describe('ProductCard Component', () => {
     );
   });
 
-  it('renders variant count and stock labels when provided', () => {
-    render(<ProductCard {...woodyProductMock} variantCount={3} stock={4} />);
+  it('renders stock label when provided', () => {
+    render(<ProductCard {...woodyProductMock} stock={4} />);
 
-    expect(screen.getByTestId('product-card-variant-count')).toHaveTextContent(
-      '3 variants',
-    );
     expect(screen.getByTestId('product-card-stock')).toHaveTextContent(
       '4 in stock',
     );

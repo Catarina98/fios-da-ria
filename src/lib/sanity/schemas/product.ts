@@ -38,12 +38,13 @@ export const productSchema = {
       type: 'string',
       validation: (Rule: any) => Rule.required(),
     },
+
     {
-      name: 'stock',
-      title: 'Stock Quantity',
+      name: 'order',
+      title: 'Ordem de Exibição (Display Order)',
       type: 'number',
-      initialValue: 1,
-      validation: (Rule: any) => Rule.required().min(0),
+      description:
+        'Número para definir a ordem na lista (ex: 1 para aparecer primeiro, 2 a seguir...). Se vazio, ordena pelos mais recentes.',
     },
     {
       name: 'vintedUrl',
@@ -118,12 +119,7 @@ export const productSchema = {
               title: 'Variant Price (e.g. €38)',
               type: 'string',
             },
-            {
-              name: 'stock',
-              title: 'Stock',
-              type: 'number',
-              initialValue: 1,
-            },
+
             {
               name: 'vintedUrl',
               title: 'Vinted URL',
@@ -158,6 +154,7 @@ export const productSchema = {
       categoryString: 'category',
       media: 'images.0',
       isVisible: 'isVisible',
+      order: 'order',
     },
     prepare({
       titlePt,
@@ -167,6 +164,7 @@ export const productSchema = {
       categoryString,
       media,
       isVisible,
+      order,
     }: any) {
       const baseTitle = titlePt || titleEn || 'Untitled Product';
       const title = isVisible === false ? `${baseTitle} (Hidden)` : baseTitle;
@@ -175,10 +173,11 @@ export const productSchema = {
         categoryRefTitleEn ||
         (typeof categoryString === 'string' ? categoryString : '') ||
         'Uncategorized';
+      const orderLabel = typeof order === 'number' ? ` [#${order}]` : '';
 
       return {
         title,
-        subtitle: category,
+        subtitle: `${category}${orderLabel}`,
         media,
       };
     },
