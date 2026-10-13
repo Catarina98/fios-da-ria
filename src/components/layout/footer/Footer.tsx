@@ -8,7 +8,7 @@ import './Footer.scss';
 import { getAssetPath } from '../../../utils/getAssetPath';
 
 const Footer: FC = () => {
-  const t = useTranslations('Navigation');
+  const t = useTranslations('');
 
   const footerItems = [
     {
@@ -20,7 +20,7 @@ const Footer: FC = () => {
       href: 'https://www.instagram.com/fiosdaria',
       isExternal: true,
     },
-    { label: t('contact'), href: '/about#contact' },
+    { label: t('Contact'), href: '/about#contact' },
   ];
 
   return (
