@@ -3,6 +3,21 @@
   width: 100%;
   overflow: hidden;
 
+  &.highlights-full-height {
+    min-height: calc(100vh - var(--header-height, 68px));
+    min-height: calc(100dvh - var(--header-height, 68px));
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+
+    .highlights-carousel-viewport,
+    .highlights-carousel-slide,
+    .highlights-section {
+      height: 100%;
+      min-height: inherit;
+    }
+  }
+
   &:focus-visible {
     outline: 2px solid var(--txt-secondary);
     outline-offset: -2px;

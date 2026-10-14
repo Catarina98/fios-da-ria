@@ -154,15 +154,93 @@ function GalleryContent() {
 
   const effectiveMaxPrice = maxPrice ?? catalogMaxPrice;
 
+  const isCategoryMatch = useCallback(
+    (product: StoreProduct, target: string) => {
+      if (!target || target === 'All') return false;
+
+      const slugifyCategory = (value: string) =>
+        value
+          .toLowerCase()
+          .normalize('NFD')
+          .replace(/[\u0300-\u036f]/g, '')
+          .replace(/[^a-z0-9]+/g, '-')
+          .replace(/(^-|-$)+/g, '');
+
+      const targetSlug = slugifyCategory(target);
+      const targetLower = target.toLowerCase();
+
+      // 1. Match localized category name
+      if (
+        product.category.toLowerCase() === targetLower ||
+        slugifyCategory(product.category) === targetSlug
+      ) {
+        return true;
+      }
+
+      // 2. Match categorySlug (e.g. from Sanity)
+      if (product.categorySlug) {
+        if (
+          product.categorySlug.toLowerCase() === targetLower ||
+          slugifyCategory(product.categorySlug) === targetSlug
+        ) {
+          return true;
+        }
+      }
+
+      // 3. Match language translations (e.g. pt/en titles)
+      if (product.categoryTranslations) {
+        const { pt: ptCat, en: enCat } = product.categoryTranslations;
+        if (
+          ptCat &&
+          (ptCat.toLowerCase() === targetLower ||
+            slugifyCategory(ptCat) === targetSlug)
+        ) {
+          return true;
+        }
+        if (
+          enCat &&
+          (enCat.toLowerCase() === targetLower ||
+            slugifyCategory(enCat) === targetSlug)
+        ) {
+          return true;
+        }
+      }
+
+      // 4. Match message dictionary translations
+      if (t.has(`categories.${product.category}`)) {
+        const translated = t(`categories.${product.category}`);
+        if (
+          translated.toLowerCase() === targetLower ||
+          slugifyCategory(translated) === targetSlug
+        ) {
+          return true;
+        }
+      }
+
+      return false;
+    },
+    [t],
+  );
+
   const activeFilter = useMemo(() => {
     if (!filter || filter === 'All') return 'All';
-    const matchedCategory = usedCategories.find(
+
+    // 1. Direct match in current locale usedCategories
+    const directMatch = usedCategories.find(
       cat => cat.toLowerCase() === filter.toLowerCase(),
     );
-    if (matchedCategory) return matchedCategory;
+    if (directMatch) return directMatch;
+
+    // 2. Multi-lingual / slug match across products
+    for (const cat of usedCategories) {
+      const sampleProduct = normalizedProducts.find(p => p.category === cat);
+      if (sampleProduct && isCategoryMatch(sampleProduct, filter)) {
+        return cat;
+      }
+    }
 
     return filters.includes(filter) ? filter : 'All';
-  }, [filter, usedCategories, filters]);
+  }, [filter, usedCategories, filters, normalizedProducts, isCategoryMatch]);
 
   const categoryCount = (category: string) =>
     category === 'All'
@@ -294,7 +372,14 @@ function GalleryContent() {
 
   const handleCategorySelect = (item: string) => {
     setFilter(item);
-    updateUrl({ category: item === 'All' ? null : item });
+    if (item === 'All') {
+      updateUrl({ category: null });
+
+      return;
+    }
+    const matchingProduct = normalizedProducts.find(p => p.category === item);
+    const categoryParamValue = matchingProduct?.categorySlug || item;
+    updateUrl({ category: categoryParamValue });
   };
 
   const handleInStockToggle = () => {

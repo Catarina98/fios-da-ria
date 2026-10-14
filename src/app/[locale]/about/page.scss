@@ -40,6 +40,14 @@
       }
     }
 
+    .about-hero-subtitle {
+      font-size: 1.125rem;
+      font-weight: 500;
+      color: var(--txt-secondary);
+      margin: 0 0 var(--spacing-16);
+      line-height: 1.5;
+    }
+
     .about-hero-lead {
       font-size: 1.0625rem;
       line-height: 1.8;
@@ -177,6 +185,21 @@
           .contact-link-icon {
             color: var(--txt-secondary);
             flex-shrink: 0;
+          }
+        }
+
+        .contact-detail-item {
+          display: inline-flex;
+          align-items: flex-start;
+          gap: 12px;
+          color: var(--txt-primary);
+          font-size: 0.9375rem;
+          line-height: 1.5;
+
+          .contact-link-icon {
+            color: var(--txt-secondary);
+            flex-shrink: 0;
+            margin-top: 2px;
           }
         }
 

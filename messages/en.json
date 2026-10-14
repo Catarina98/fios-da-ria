@@ -145,9 +145,9 @@
     },
     "hero": {
       "badge": "The artisan",
-      "greeting": "Hello, I'm",
-      "name": "Catarina.",
-      "lead": "It started with a simple crochet hook and a great desire to create. Today, I dedicate my days to weaving stories in stitches, bringing to life amigurumi creatures designed to enchant young and old. Welcome to Fios da Ria's little corner.",
+      "title": "Hi, I'm Catarina! 👋",
+      "subtitle": "The soul behind every skein and stitch.",
+      "lead": "In 2024, I discovered crochet, and what started as a passion quickly turned into a creative refuge. Fios da Ria was born from the desire to bring characters, ideas, and little pieces with soul to life. Each amigurumi is handmade, stitch by stitch, with immense dedication and attention to detail. From pop culture and video game icons to cozy seasonal themes, there's always a bit of what inspires me here—and I hope it brings a smile to whoever receives it.",
       "galleryButton": "Discover the pieces",
       "imageAlt": "Catarina working in her studio"
     },
@@ -173,10 +173,14 @@
     },
     "contact": {
       "badge": "Let's talk",
-      "title": "Have a special idea?",
-      "lead": "I accept a limited number of custom orders throughout the year.",
-      "email": "ola@fiosdaria.pt",
+      "title": "Let's talk?",
+      "lead": "Want to order a special character you can't find anywhere else, ask questions about the materials, or check if I'll be at the Olhão Market this Saturday? Send me a message! I love creating personalized pieces just for you.",
+      "email": "fiosdaria@gmail.com",
       "instagram": "@fiosdaria",
+      "handDeliveryLabel": "Hand deliveries",
+      "handDeliveryValue": "Available in Faro and Olhão.",
+      "marketLabel": "Local Market",
+      "marketValue": "Avenida 18 de Julho / Avenida da República, Olhão (usually on Saturdays, from 9am to 1pm).",
       "sendMessage": "Send message",
       "emailSubject": "Special idea / Custom order"
     }

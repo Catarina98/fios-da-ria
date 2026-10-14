@@ -19,6 +19,9 @@ export type HighlightItem = {
   note?: HighlightsNote;
   imagePosition?: 'left' | 'right';
   order?: number;
+  isFullHeight?: boolean;
+  fullHeight?: boolean;
+  breadcrumbs?: ReactNode;
 };
 
 export type HighlightsCarouselProps = Omit<
@@ -28,6 +31,9 @@ export type HighlightsCarouselProps = Omit<
   items: HighlightItem[];
   autoPlayInterval?: number;
   autoPlay?: boolean;
+  isFullHeight?: boolean;
+  fullHeight?: boolean;
+  breadcrumbs?: ReactNode;
 };
 
 export type HighlightsType = Omit<HTMLAttributes<HTMLElement>, 'title'> & {
@@ -40,4 +46,6 @@ export type HighlightsType = Omit<HTMLAttributes<HTMLElement>, 'title'> & {
   imageAlt?: string;
   note?: HighlightsNote;
   imagePosition?: 'left' | 'right';
+  isFullHeight?: boolean;
+  breadcrumbs?: ReactNode;
 };

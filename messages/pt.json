@@ -145,9 +145,9 @@
     },
     "hero": {
       "badge": "A artesã",
-      "greeting": "Olá, sou a",
-      "name": "Catarina.",
-      "lead": "Começou com uma simples agulha de crochê e muita vontade de criar. Hoje, dedico os meus dias a tecer histórias em pontos, dando vida a criaturas em amigurumi, pensadas para encantar miúdos e graúdos. Bem-vindos ao cantinho da Fios da Ria.",
+      "title": "Olá, sou a Catarina! 👋",
+      "subtitle": "A alma por trás de cada novelo e de cada ponto.",
+      "lead": "Em 2024, descobri o croché e aquilo que começou como uma paixão rápida depressa se transformou num refúgio criativo. O Fios da Ria nasceu dessa vontade de dar vida a personagens, ideias e pequenas peças com alma. Cada amigurumi é feito inteiramente à mão, ponto a ponto, com muita dedicação e atenção ao detalhe. De ícones da cultura pop e videojogos a temas sazonais aconchegantes, por aqui há sempre um bocadinho daquilo que me inspira — e que espero que traga um sorriso a quem o recebe.",
       "galleryButton": "Descobrir as peças",
       "imageAlt": "Catarina a trabalhar no seu atelier"
     },
@@ -173,10 +173,14 @@
     },
     "contact": {
       "badge": "Vamos conversar",
-      "title": "Tem uma ideia especial?",
-      "lead": "Aceito um número limitado de encomendas personalizadas ao longo do ano.",
-      "email": "ola@fiosdaria.pt",
+      "title": "Vamos conversar?",
+      "lead": "Queres encomendar uma personagem especial que não encontras em mais lado nenhum, tirar dúvidas sobre os materiais ou saber se vou estar este sábado no Mercadinho de Olhão? Envia-me uma mensagem! Adoro criar peças personalizadas feitas a pensar em ti.",
+      "email": "fiosdaria@gmail.com",
       "instagram": "@fiosdaria",
+      "handDeliveryLabel": "Entregas em mão",
+      "handDeliveryValue": "Disponíveis em Faro e Olhão.",
+      "marketLabel": "Mercadinho Local",
+      "marketValue": "Avenida 18 de Julho / Avenida da República, Olhão (habitualmente aos sábados, das 9h às 13h).",
       "sendMessage": "Enviar mensagem",
       "emailSubject": "Ideia especial / Encomenda personalizada"
     }

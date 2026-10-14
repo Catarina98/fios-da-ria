@@ -168,4 +168,19 @@ describe('HighlightsCarousel Component', () => {
     });
     expect(screen.getByTestId('highlights-slide-0')).toHaveClass('is-active');
   });
+
+  it('passes isFullHeight and breadcrumbs to slides and wrapper', () => {
+    render(
+      <HighlightsCarousel
+        items={mockItems}
+        isFullHeight
+        breadcrumbs={<span data-testid="carousel-crumbs">Home / Carousel</span>}
+      />,
+    );
+
+    expect(screen.getByTestId('highlights-carousel')).toHaveClass(
+      'highlights-full-height',
+    );
+    expect(screen.getAllByTestId('carousel-crumbs').length).toBeGreaterThan(0);
+  });
 });

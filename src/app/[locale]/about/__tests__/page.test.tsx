@@ -13,8 +13,8 @@ const getNestedValue = (obj: unknown, path: string): string => {
           : undefined,
       obj,
     );
-  
-return typeof result === 'string' ? result : path;
+
+  return typeof result === 'string' ? result : path;
 };
 
 const { mockSetRequestLocale, mockGetTranslations } = vi.hoisted(() => ({
@@ -22,8 +22,8 @@ const { mockSetRequestLocale, mockGetTranslations } = vi.hoisted(() => ({
   mockGetTranslations: vi.fn((namespace: string) => {
     const namespaceMessages =
       (ptMessages as Record<string, unknown>)[namespace] || {};
-    
-return (key: string) => getNestedValue(namespaceMessages, key);
+
+    return (key: string) => getNestedValue(namespaceMessages, key);
   }),
 }));
 
@@ -47,31 +47,28 @@ describe('<AboutPage />', () => {
 
     expect(screen.getByTestId('about-page-container')).toBeInTheDocument();
 
-    // 1. Breadcrumbs
+    // 1. Breadcrumbs inside Hero Section
+    expect(screen.getByTestId('highlights-breadcrumbs')).toBeInTheDocument();
     expect(screen.getByTestId('breadcrumbs-component')).toBeInTheDocument();
     expect(screen.getByText('Home')).toBeInTheDocument();
     expect(screen.getByText('Sobre')).toBeInTheDocument();
 
     // 2. Hero Section
-    expect(screen.getByTestId('about-hero-section')).toBeInTheDocument();
-    expect(screen.getByTestId('about-badge')).toHaveTextContent('A artesã');
-    expect(screen.getByTestId('about-title')).toHaveTextContent(
-      'Olá, sou a Catarina.',
-    );
-    expect(screen.getByTestId('about-lead')).toContainHTML(
-      'Começou com uma simples agulha de crochê',
-    );
+    const heroSection = screen.getByTestId('about-hero-section');
+    expect(heroSection).toBeInTheDocument();
+    expect(heroSection).toHaveClass('highlights-full-height');
+    expect(screen.getByText('A artesã')).toBeInTheDocument();
+    expect(screen.getByText('Olá, sou a Catarina! 👋')).toBeInTheDocument();
+    expect(screen.getByText(/Em 2024, descobri o croché/)).toBeInTheDocument();
 
     const galleryBtn = screen.getByTestId('about-gallery-btn');
     expect(galleryBtn).toHaveTextContent('Descobrir as peças');
     expect(galleryBtn).toHaveAttribute('href', '/gallery');
 
-    const heroImage = screen.getByTestId('about-hero-image');
-    expect(heroImage).toBeInTheDocument();
-    expect(heroImage).toHaveAttribute(
-      'alt',
+    const heroImage = screen.getByAltText(
       'Catarina a trabalhar no seu atelier',
     );
+    expect(heroImage).toBeInTheDocument();
 
     // 3. Process Section
     expect(screen.getByTestId('about-process-section')).toBeInTheDocument();
@@ -107,30 +104,37 @@ describe('<AboutPage />', () => {
     expect(contactSection).toHaveAttribute('id', 'contact');
     expect(screen.getByText('Vamos conversar')).toBeInTheDocument();
     expect(screen.getByTestId('about-contact-title')).toHaveTextContent(
-      'Tem uma ideia especial?',
+      'Vamos conversar?',
     );
     expect(screen.getByTestId('about-contact-lead')).toHaveTextContent(
-      'Aceito um número limitado de encomendas personalizadas ao longo do ano.',
+      'Queres encomendar uma personagem especial',
     );
 
     const emailLink = screen.getByTestId('about-email-link');
     expect(emailLink).toHaveAttribute(
       'href',
-      expect.stringContaining('mailto:ola@fiosdaria.pt'),
+      expect.stringContaining('mailto:fiosdaria@gmail.com'),
     );
 
     const instagramLink = screen.getByTestId('about-instagram-link');
     expect(instagramLink).toHaveAttribute(
       'href',
-      'https://instagram.com/fiosdaria',
+      'https://www.instagram.com/fiosdaria',
     );
     expect(instagramLink).toHaveAttribute('target', '_blank');
+
+    expect(screen.getByTestId('about-hand-delivery')).toHaveTextContent(
+      'Entregas em mão: Disponíveis em Faro e Olhão.',
+    );
+    expect(screen.getByTestId('about-market-info')).toHaveTextContent(
+      'Mercadinho Local: Avenida 18 de Julho',
+    );
 
     const sendMessageBtn = screen.getByTestId('about-send-message-btn');
     expect(sendMessageBtn).toHaveTextContent('Enviar mensagem');
     expect(sendMessageBtn).toHaveAttribute(
       'href',
-      expect.stringContaining('mailto:ola@fiosdaria.pt'),
+      expect.stringContaining('mailto:fiosdaria@gmail.com'),
     );
   });
 

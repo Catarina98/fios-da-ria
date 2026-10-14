@@ -63,5 +63,11 @@ describe('<Footer />', () => {
     expect(contactLink).toBeInTheDocument();
     expect(contactLink).toHaveAttribute('href', '/about#contact');
     expect(contactLink).not.toHaveAttribute('target');
+
+    // Language switcher links
+    const ptLink = screen.getByTestId('footer-lang-pt');
+    const enLink = screen.getByTestId('footer-lang-en');
+    expect(ptLink).toBeInTheDocument();
+    expect(enLink).toBeInTheDocument();
   });
 });
