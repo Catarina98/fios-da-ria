@@ -10,6 +10,10 @@ body {
   color: var(--txt-primary);
 }
 
+.text-accent {
+  color: var(--txt-accent);
+}
+
 main {
   width: 100%;
   min-height: 70vh;

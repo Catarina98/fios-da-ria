@@ -25,27 +25,48 @@ const Highlights: FC<HighlightsType> = ({
   imageAlt = '',
   note,
   imagePosition = 'right',
+  isFullHeight,
+  breadcrumbs,
   className,
   ...props
 }) => {
-  const renderBtn = (btn: ButtonType, key?: string | number) => (
-    <Button
-      key={key}
-      className={cn(
-        'highlights-btn',
-        btn.variant === ButtonVariant.Ghost && 'highlights-btn-ghost',
-      )}
-      variant={btn.variant ?? ButtonVariant.Primary}
-      size={btn.size ?? ButtonSize.Medium}
-      leftIcon={btn.leftIcon}
-      rightIcon={btn.rightIcon}
-      disabled={btn.disabled}
-      onClick={btn.onClick}
-      url={btn.url}
-    >
-      {btn.children}
-    </Button>
-  );
+  const hasFullHeight = Boolean(isFullHeight);
+
+  const renderBtn = (btn: ButtonType, key?: string | number) => {
+    const {
+      variant,
+      size,
+      leftIcon,
+      rightIcon,
+      disabled,
+      onClick,
+      url,
+      children,
+      className: btnClassName,
+      ...rest
+    } = btn;
+
+    return (
+      <Button
+        key={key}
+        className={cn(
+          'highlights-btn',
+          variant === ButtonVariant.Ghost && 'highlights-btn-ghost',
+          btnClassName,
+        )}
+        variant={variant ?? ButtonVariant.Primary}
+        size={size ?? ButtonSize.Medium}
+        leftIcon={leftIcon}
+        rightIcon={rightIcon}
+        disabled={disabled}
+        onClick={onClick}
+        url={url}
+        {...rest}
+      >
+        {children}
+      </Button>
+    );
+  };
 
   return (
     <section
@@ -53,11 +74,25 @@ const Highlights: FC<HighlightsType> = ({
       className={cn(
         'highlights-section',
         imagePosition === 'left' && 'image-left',
+        hasFullHeight && 'highlights-full-height',
         className,
       )}
       {...props}
     >
-      <div className="highlights-container">
+      <div
+        className={cn(
+          'highlights-container container',
+          breadcrumbs && 'has-breadcrumbs',
+        )}
+      >
+        {breadcrumbs && (
+          <div
+            className="highlights-breadcrumbs"
+            data-testid="highlights-breadcrumbs"
+          >
+            {breadcrumbs}
+          </div>
+        )}
         <div className="highlights-content" data-testid="highlights-content">
           {badge && (
             <div

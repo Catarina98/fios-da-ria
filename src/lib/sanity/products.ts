@@ -22,8 +22,10 @@ export interface SanityProductRaw {
         available?: boolean;
         tagBackgroundColor?: string;
         tagTextColor?: string;
+        slug?: { current?: string } | string;
       }
     | string;
+  categorySlug?: string;
   categoryTagBg?: string;
   categoryTagColor?: string;
   description?: { pt?: string; en?: string } | string;
@@ -104,10 +106,31 @@ const formatSanityProduct = (
     raw.categoryTagColor ||
     (typeof raw.category === 'object' ? raw.category?.tagTextColor : undefined);
 
+  const rawCat = raw.category;
+  const categoryTranslations =
+    typeof rawCat === 'object' && rawCat !== null
+      ? { pt: rawCat.pt, en: rawCat.en }
+      : undefined;
+
+  const rawCatSlug =
+    typeof rawCat === 'object' &&
+    rawCat !== null &&
+    typeof rawCat.slug === 'object'
+      ? rawCat.slug?.current
+      : typeof rawCat === 'object' &&
+          rawCat !== null &&
+          typeof rawCat.slug === 'string'
+        ? rawCat.slug
+        : undefined;
+
+  const categorySlug = raw.categorySlug || rawCatSlug || undefined;
+
   return {
     id: productId,
     title: getLocalizedValue(raw.title, locale),
     category: getLocalizedValue(raw.category, locale) || 'Amigurumi',
+    categorySlug: categorySlug ? String(categorySlug).toLowerCase() : undefined,
+    categoryTranslations,
     categoryTagBg: categoryTagBg || undefined,
     categoryTagColor: categoryTagColor || undefined,
     description: getLocalizedValue(raw.description, locale),
@@ -139,6 +162,7 @@ export async function getProducts(
       "id": coalesce(id.current, _id),
       title,
       "category": coalesce(category->title, category),
+      "categorySlug": coalesce(category->slug.current, category.slug.current),
       "categoryTagBg": coalesce(category->tagBackgroundColor, category.tagBackgroundColor),
       "categoryTagColor": coalesce(category->tagTextColor, category.tagTextColor),
       description,

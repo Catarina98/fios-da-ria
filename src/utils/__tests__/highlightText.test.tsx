@@ -23,7 +23,7 @@ describe('highlightText utility', () => {
     const em = container.querySelector('em');
 
     expect(em).toBeInTheDocument();
-    expect(em).toHaveClass('highlights-highlight');
+    expect(em).toHaveClass('text-accent');
     expect(em).toHaveTextContent('ponto a ponto.');
     expect(container).toHaveTextContent(
       'Histórias feitas de fio, ponto a ponto.',

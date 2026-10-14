@@ -94,6 +94,19 @@ const mockProducts = [
     stock: 4,
     variants: [],
   },
+  {
+    id: 'holiday-rudolph',
+    title: 'Rudolph the Reindeer',
+    category: 'Christmas',
+    categorySlug: 'natal',
+    categoryTranslations: { pt: 'Natal', en: 'Christmas' },
+    description: 'A cozy holiday piece.',
+    image: '/images/catalog/rudolph.JPG',
+    images: ['/images/catalog/rudolph.JPG'],
+    price: '€40',
+    stock: 2,
+    variants: [],
+  },
 ];
 
 vi.mock('@lib/sanity/products', () => ({
@@ -478,5 +491,21 @@ describe('<GalleryPage />', () => {
     expect(screen.getByText('Spy × Family Collection')).toBeInTheDocument();
     expect(screen.queryByText('One Piece Collection')).not.toBeInTheDocument();
     expect(screen.queryByText('Toy Story Collection')).not.toBeInTheDocument();
+  });
+
+  it('correctly filters by category across languages using slug or translation (e.g. category=natal)', async () => {
+    mockSearchParams.mockReturnValue(new URLSearchParams('category=natal'));
+
+    render(<GalleryPage />);
+    await screen.findByTestId('gallery-product-grid');
+
+    expect(screen.getByTestId('filter-category-Christmas')).toHaveClass(
+      'filter-option-active',
+    );
+    expect(screen.getByText('Rudolph the Reindeer')).toBeInTheDocument();
+    expect(screen.queryByText('Toy Story Collection')).not.toBeInTheDocument();
+    expect(
+      screen.queryByText('Spy × Family Collection'),
+    ).not.toBeInTheDocument();
   });
 });

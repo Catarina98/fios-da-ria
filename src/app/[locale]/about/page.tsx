@@ -1,6 +1,7 @@
 import Badge from '@components/ui/badge';
 import Breadcrumbs from '@components/ui/breadcrumbs';
 import Button from '@components/ui/button';
+import Highlights from '@components/ui/highlights';
 import { Icon } from '@components/ui/icons';
 import TitleSection from '@components/ui/titlesection';
 import { Body, Heading } from '@components/ui/typography';
@@ -8,7 +9,7 @@ import { routing } from '@i18n/routing';
 import { BadgeSize, BadgeVariant } from '@typing/components/badge';
 import { ButtonVariant } from '@typing/components/button';
 import { getAssetPath } from '@utils/getAssetPath';
-import { ArrowRight, Mail } from 'lucide-react';
+import { ArrowRight, Mail, MapPin, Store } from 'lucide-react';
 import { getTranslations, setRequestLocale } from 'next-intl/server';
 
 import './page.scss';
@@ -52,58 +53,31 @@ export default async function AboutPage({ params }: AboutPageProps) {
   return (
     <>
       <div className="about-page" data-testid="about-page-container">
-        {/* Hero Section */}
-        <section
-          className="about-hero"
-          aria-label={t('hero.badge')}
-          data-testid="about-hero-section"
-        >
-          <div className="container">
+        {/* Hero Section with Breadcrumbs */}
+        <Highlights
+          isFullHeight
+          breadcrumbs={
             <Breadcrumbs
               items={[
                 { label: tNav('home'), href: '/' },
                 { label: tNav('about') },
               ]}
             />
-            <div className="about-grid">
-              <div className="about-hero-copy">
-                <Badge
-                  variant={BadgeVariant.Secondary}
-                  size={BadgeSize.Small}
-                  className="about-badge"
-                  data-testid="about-badge"
-                >
-                  {t('hero.badge')}
-                </Badge>
-
-                <h1 className="about-hero-title" data-testid="about-title">
-                  {t('hero.greeting')} <em>{t('hero.name')}</em>
-                </h1>
-
-                <p className="about-hero-lead" data-testid="about-lead">
-                  {t('hero.lead')}
-                </p>
-
-                <Button
-                  variant={ButtonVariant.Primary}
-                  url="/gallery"
-                  rightIcon={<ArrowRight size={16} />}
-                  data-testid="about-gallery-btn"
-                >
-                  {t('hero.galleryButton')}
-                </Button>
-              </div>
-
-              <div className="about-hero-image-wrapper">
-                <img
-                  src={getAssetPath('/images/catarina.jpg')}
-                  alt={t('hero.imageAlt')}
-                  data-testid="about-hero-image"
-                />
-              </div>
-            </div>
-          </div>
-        </section>
+          }
+          badge={t('hero.badge')}
+          title={t('hero.title')}
+          description={t('hero.lead')}
+          imageSrc={getAssetPath('/images/catarina.jpg')}
+          imageAlt={t('hero.imageAlt')}
+          button={{
+            children: t('hero.galleryButton'),
+            url: '/gallery',
+            variant: ButtonVariant.Primary,
+            rightIcon: <ArrowRight size={16} />,
+            'data-testid': 'about-gallery-btn',
+          }}
+          data-testid="about-hero-section"
+        />
 
         {/* Process Section */}
         <section
@@ -199,7 +173,7 @@ export default async function AboutPage({ params }: AboutPageProps) {
                 </a>
 
                 <a
-                  href="https://instagram.com/fiosdaria"
+                  href="https://www.instagram.com/fiosdaria"
                   target="_blank"
                   rel="noopener noreferrer"
                   className="contact-link-item"
@@ -212,6 +186,36 @@ export default async function AboutPage({ params }: AboutPageProps) {
                   />
                   <span>{t('contact.instagram')}</span>
                 </a>
+
+                <div
+                  className="contact-detail-item"
+                  data-testid="about-hand-delivery"
+                >
+                  <MapPin
+                    size={18}
+                    className="contact-link-icon"
+                    aria-hidden="true"
+                  />
+                  <span>
+                    <strong>{t('contact.handDeliveryLabel')}:</strong>{' '}
+                    {t('contact.handDeliveryValue')}
+                  </span>
+                </div>
+
+                <div
+                  className="contact-detail-item"
+                  data-testid="about-market-info"
+                >
+                  <Store
+                    size={18}
+                    className="contact-link-icon"
+                    aria-hidden="true"
+                  />
+                  <span>
+                    <strong>{t('contact.marketLabel')}:</strong>{' '}
+                    {t('contact.marketValue')}
+                  </span>
+                </div>
 
                 <Button
                   variant={ButtonVariant.Secondary}

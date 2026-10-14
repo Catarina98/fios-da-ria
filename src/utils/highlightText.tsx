@@ -19,7 +19,7 @@ export const highlightText = (
   }
 
   const Tag = options?.tag ?? 'em';
-  const className = options?.className ?? 'highlights-highlight';
+  const className = options?.className ?? 'text-accent';
 
   return parts.map((part, index) => {
     if (part.startsWith('<highlight>') && part.endsWith('</highlight>')) {

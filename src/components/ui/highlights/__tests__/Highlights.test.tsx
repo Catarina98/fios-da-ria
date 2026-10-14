@@ -44,9 +44,7 @@ describe('Highlights Component', () => {
     expect(titleElement).toHaveTextContent(
       'Histórias feitas de fio, ponto a ponto.',
     );
-    const highlightedChunk = titleElement.querySelector(
-      '.highlights-highlight',
-    );
+    const highlightedChunk = titleElement.querySelector('.text-accent');
     expect(highlightedChunk).toBeInTheDocument();
     expect(highlightedChunk).toHaveTextContent('ponto a ponto.');
   });
@@ -206,5 +204,29 @@ describe('Highlights Component', () => {
       />,
     );
     expect(screen.getByText('Note without icon')).toBeInTheDocument();
+  });
+
+  it('renders with full height class when isFullHeight or fullHeight is true', () => {
+    expect(screen.getByTestId('highlights-component')).toHaveClass(
+      'highlights-full-height',
+    );
+  });
+
+  it('renders breadcrumbs inside the highlights container when provided', () => {
+    render(
+      <Highlights
+        {...toyStoryHighlightMock}
+        breadcrumbs={
+          <nav data-testid="custom-breadcrumbs">
+            <span>Home</span> / <span>About</span>
+          </nav>
+        }
+      />,
+    );
+
+    const breadcrumbs = screen.getByTestId('highlights-breadcrumbs');
+    expect(breadcrumbs).toBeInTheDocument();
+    expect(screen.getByTestId('custom-breadcrumbs')).toBeInTheDocument();
+    expect(breadcrumbs.parentElement).toHaveClass('has-breadcrumbs');
   });
 });

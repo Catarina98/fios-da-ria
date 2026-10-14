@@ -14,9 +14,12 @@ export const HighlightsCarousel: FC<HighlightsCarouselProps> = ({
   items,
   autoPlayInterval = DEFAULT_INTERVAL,
   autoPlay = true,
+  isFullHeight,
+  breadcrumbs,
   className,
   ...props
 }) => {
+  const hasFullHeight = Boolean(isFullHeight);
   const [currentIndex, setCurrentIndex] = useState(0);
   const [isPaused, setIsPaused] = useState(false);
   const touchStartXRef = useRef<number | null>(null);
@@ -94,12 +97,24 @@ export const HighlightsCarousel: FC<HighlightsCarouselProps> = ({
   }
 
   if (total === 1) {
-    return <Highlights {...items[0]} className={className} {...props} />;
+    return (
+      <Highlights
+        {...items[0]}
+        isFullHeight={items[0].isFullHeight ?? hasFullHeight}
+        breadcrumbs={items[0].breadcrumbs ?? breadcrumbs}
+        className={className}
+        {...props}
+      />
+    );
   }
 
   return (
     <section
-      className={cn('highlights-carousel-wrapper', className)}
+      className={cn(
+        'highlights-carousel-wrapper',
+        hasFullHeight && 'highlights-full-height',
+        className,
+      )}
       data-testid="highlights-carousel"
       role="region"
       aria-roledescription="carousel"
@@ -128,7 +143,11 @@ export const HighlightsCarousel: FC<HighlightsCarouselProps> = ({
               aria-hidden={!isActive}
               data-testid={`highlights-slide-${index}`}
             >
-              <Highlights {...item} />
+              <Highlights
+                {...item}
+                isFullHeight={item.isFullHeight ?? hasFullHeight}
+                breadcrumbs={item.breadcrumbs ?? breadcrumbs}
+              />
             </div>
           );
         })}

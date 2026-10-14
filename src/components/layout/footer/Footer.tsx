@@ -1,14 +1,17 @@
 'use client';
 
 import { FC } from 'react';
-import { Link } from '@i18n/navigation';
-import { useTranslations } from 'next-intl';
+import { Link, usePathname } from '@i18n/navigation';
+import clsx from 'clsx';
+import { useLocale, useTranslations } from 'next-intl';
 
 import './Footer.scss';
 import { getAssetPath } from '../../../utils/getAssetPath';
 
 const Footer: FC = () => {
   const t = useTranslations('');
+  const locale = useLocale();
+  const pathname = usePathname();
 
   const footerItems = [
     {
@@ -56,6 +59,30 @@ const Footer: FC = () => {
           </li>
         ))}
       </ul>
+
+      <div className="footer-lang-switcher" aria-label="Language selection">
+        <Link
+          href={pathname}
+          locale="pt"
+          className={clsx('lang-link', locale === 'pt' && 'active')}
+          aria-current={locale === 'pt' ? 'true' : undefined}
+          data-testid="footer-lang-pt"
+        >
+          PT
+        </Link>
+        <span className="lang-divider" aria-hidden="true">
+          |
+        </span>
+        <Link
+          href={pathname}
+          locale="en"
+          className={clsx('lang-link', locale === 'en' && 'active')}
+          aria-current={locale === 'en' ? 'true' : undefined}
+          data-testid="footer-lang-en"
+        >
+          EN
+        </Link>
+      </div>
 
       <p>© 2026 Fios da Ria by Catarina.</p>
     </footer>

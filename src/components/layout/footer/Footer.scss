@@ -23,6 +23,38 @@
     }
   }
 
+  .footer-lang-switcher {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    font-size: 13px;
+    font-weight: 600;
+    margin: 2px 0;
+
+    .lang-link {
+      color: var(--txt-tertiary);
+      text-decoration: none;
+      transition: color 0.2s ease;
+
+      &:hover {
+        color: var(--txt-secondary);
+      }
+
+      &.active {
+        color: var(--txt-secondary);
+        font-weight: 700;
+        text-decoration: underline;
+        text-underline-offset: 3px;
+      }
+    }
+
+    .lang-divider {
+      color: var(--border-primary);
+      user-select: none;
+    }
+  }
+
   p {
     color: var(--txt-tertiary);
     font-size: 14px;
