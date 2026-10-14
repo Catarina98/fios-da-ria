@@ -49,15 +49,6 @@ export default function ProductPage(props: any = {}) {
     return variants[0]?.id ?? '';
   });
 
-  useEffect(() => {
-    if (
-      variants.length > 0 &&
-      !variants.some(v => v.id === selectedVariantId)
-    ) {
-      setSelectedVariantId(variants[0].id);
-    }
-  }, [variants, selectedVariantId]);
-
   const galleryImages = useMemo(() => {
     if (!product) return [];
     if (product.images && product.images.length > 0) {
