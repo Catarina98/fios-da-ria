@@ -72,6 +72,7 @@ const Button: FC<ButtonType> = ({
         data-testid="button-component"
         href={url}
         className={buttonClasses}
+        prefetch={false}
         {...(props as any)}
       >
         {content}

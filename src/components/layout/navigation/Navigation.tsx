@@ -27,7 +27,7 @@ const Navigation: FC = () => {
     <header className="site-header">
       {isDesktop ? (
         <nav className="navbar-desktop">
-          <Link href="/" className="logo">
+          <Link href="/" className="logo" prefetch={false}>
             <img
               alt="Fios da Ria Logo"
               width={32}
@@ -40,7 +40,11 @@ const Navigation: FC = () => {
           <ul className="nav-menu">
             {Object.entries(navItems).map(([key, value]) => (
               <li key={key}>
-                <Link href={getHrefLink(key)} className="nav-link">
+                <Link
+                  href={getHrefLink(key)}
+                  className="nav-link"
+                  prefetch={false}
+                >
                   {value}
                 </Link>
               </li>

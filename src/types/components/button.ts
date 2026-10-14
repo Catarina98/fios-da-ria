@@ -20,4 +20,5 @@ export type ButtonType = ButtonHTMLAttributes<HTMLButtonElement> & {
   isLoading?: boolean;
   leftIcon?: ReactNode;
   rightIcon?: ReactNode;
+  [key: `data-${string}`]: unknown;
 };

@@ -14,11 +14,20 @@ import { Providers } from '../../providers';
 const manrope = Manrope({
   variable: '--font-manrope',
   subsets: ['latin'],
+  display: 'swap',
+  preload: false,
 });
+
+const basePath = process.env.NEXT_PUBLIC_BASE_PATH || '';
 
 export const metadata: Metadata = {
   title: 'Fios da Ria',
   description: 'Gallery for fios da ria',
+  icons: {
+    icon: `${basePath}/favicon.ico`,
+    shortcut: `${basePath}/favicon.ico`,
+    apple: `${basePath}/favicon.ico`,
+  },
 };
 
 export function generateStaticParams() {
@@ -44,7 +53,7 @@ export default async function RootLayout({
 
   return (
     <html lang={locale}>
-      <body className={`${manrope.variable}`}>
+      <body className={`${manrope.className} ${manrope.variable}`}>
         <Providers messages={messages} locale={locale}>
           <Navigation />
           <main>{children}</main>

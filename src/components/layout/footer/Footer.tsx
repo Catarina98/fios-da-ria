@@ -28,7 +28,7 @@ const Footer: FC = () => {
 
   return (
     <footer className="footer">
-      <Link href="/" className="logo">
+      <Link href="/" className="logo" prefetch={false}>
         <img
           alt="Fios da Ria Logo"
           width={32}
@@ -52,7 +52,7 @@ const Footer: FC = () => {
                 <span>{item.label}</span>
               </a>
             ) : (
-              <Link href={item.href} className="nav-link">
+              <Link href={item.href} className="nav-link" prefetch={false}>
                 <span>{item.label}</span>
               </Link>
             )}
@@ -64,6 +64,7 @@ const Footer: FC = () => {
         <Link
           href={pathname}
           locale="pt"
+          prefetch={false}
           className={clsx('lang-link', locale === 'pt' && 'active')}
           aria-current={locale === 'pt' ? 'true' : undefined}
           data-testid="footer-lang-pt"
@@ -76,6 +77,7 @@ const Footer: FC = () => {
         <Link
           href={pathname}
           locale="en"
+          prefetch={false}
           className={clsx('lang-link', locale === 'en' && 'active')}
           aria-current={locale === 'en' ? 'true' : undefined}
           data-testid="footer-lang-en"

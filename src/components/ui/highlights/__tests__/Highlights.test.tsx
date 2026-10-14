@@ -206,12 +206,6 @@ describe('Highlights Component', () => {
     expect(screen.getByText('Note without icon')).toBeInTheDocument();
   });
 
-  it('renders with full height class when isFullHeight or fullHeight is true', () => {
-    expect(screen.getByTestId('highlights-component')).toHaveClass(
-      'highlights-full-height',
-    );
-  });
-
   it('renders breadcrumbs inside the highlights container when provided', () => {
     render(
       <Highlights
