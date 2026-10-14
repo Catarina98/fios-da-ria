@@ -7,7 +7,10 @@ import '@testing-library/jest-dom/vitest';
 vi.mock('@i18n/navigation', () => {
   return {
     Link: ({ href, children, ...props }: any) => {
-      return React.createElement('a', { href, ...props }, children);
+      const { prefetch: _unused, ...rest } = props;
+      void _unused;
+
+      return React.createElement('a', { href, ...rest }, children);
     },
     useRouter: () => ({
       push: vi.fn(),

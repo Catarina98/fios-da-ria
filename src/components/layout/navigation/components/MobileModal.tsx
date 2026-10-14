@@ -25,7 +25,7 @@ const MobileModal: FC<{ data: MobileModalProps }> = ({ data }) => {
   return (
     <>
       <div className="navbar-header">
-        <Link href="/" className="logo">
+        <Link href="/" className="logo" prefetch={false}>
           <img
             alt="Fios da Ria Logo"
             width={32}
@@ -43,6 +43,7 @@ const MobileModal: FC<{ data: MobileModalProps }> = ({ data }) => {
           <Link
             href="/"
             className="header-text"
+            prefetch={false}
             onClick={() => setIsOpen(false)}
           >
             <img
@@ -64,6 +65,7 @@ const MobileModal: FC<{ data: MobileModalProps }> = ({ data }) => {
                 key={key}
                 href={getHrefLink(key)}
                 className="nav-item"
+                prefetch={false}
                 onClick={() => setIsOpen(false)}
               >
                 {Icon && <Icon className="nav-icon" />}

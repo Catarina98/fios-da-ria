@@ -35,7 +35,7 @@ const ProductCard: FC<ProductCardType> = ({
 
   const imageContent = (
     <>
-      <img src={getAssetPath(image)} alt={imageAlt || title} />
+      <img src={getAssetPath(image)} alt={imageAlt || title} loading="lazy" />
       {category && (
         <Badge
           variant={BadgeVariant.Secondary}
@@ -60,6 +60,7 @@ const ProductCard: FC<ProductCardType> = ({
         className="product-image-container"
         data-testid="product-card-image-button"
         aria-label={`Ver ${title}`}
+        prefetch={false}
       >
         {imageContent}
       </Link>

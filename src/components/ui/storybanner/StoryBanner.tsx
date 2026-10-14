@@ -28,6 +28,7 @@ const StoryBanner: FC<StoryBannerType> = ({
           src={getAssetPath(imageSrc)}
           alt={imageAlt || (typeof title === 'string' ? title : '')}
           data-testid="story-banner-image"
+          loading="lazy"
         />
       </div>
 

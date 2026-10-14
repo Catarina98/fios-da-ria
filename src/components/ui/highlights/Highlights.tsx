@@ -132,6 +132,7 @@ const Highlights: FC<HighlightsType> = ({
               alt={imageAlt}
               className="highlights-image"
               data-testid="highlights-image"
+              loading="lazy"
             />
 
             {note && (
