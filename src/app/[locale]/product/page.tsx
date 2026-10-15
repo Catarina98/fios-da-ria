@@ -34,11 +34,11 @@ export default function ProductPage(props: any = {}) {
 
   useEffect(() => {
     if (productId) {
-      getProductById(productId, locale).then(res => {
+      void getProductById(productId, locale).then(res => {
         if (res) setProduct(res);
       });
     } else {
-      getProducts(locale).then(res => {
+      void getProducts(locale).then(res => {
         if (res && res.length > 0) setProduct(res[0]);
       });
     }
@@ -113,9 +113,7 @@ export default function ProductPage(props: any = {}) {
     setSelectedVariantId(variantId);
     const targetVariant = variants.find(v => v.id === variantId);
     if (targetVariant?.image) {
-      const imgIdx = galleryImages.findIndex(
-        img => img === targetVariant.image,
-      );
+      const imgIdx = galleryImages.indexOf(targetVariant.image);
       if (imgIdx !== -1) {
         setCurrentImageIndex(imgIdx);
       }
@@ -237,18 +235,15 @@ export default function ProductPage(props: any = {}) {
 
             {/* Link to Buy on Vinted (if in stock) or Contact on Instagram (if sold out) */}
             <Button
-              variant={ButtonVariant.Primary}
+              variant={
+                isSoldOut ? ButtonVariant.Tertiary : ButtonVariant.Primary
+              }
               className={cn('buy-button', isSoldOut && 'contact-seller-button')}
               url={isSoldOut ? instagramDmUrl : currentVintedUrl}
               rightIcon={<ExternalLink size={18} />}
               data-testid="product-buy-button"
             >
-              {isSoldOut
-                ? t('contactSeller') ||
-                  (locale === 'pt'
-                    ? 'Contactar no Instagram'
-                    : 'Contact on Instagram')
-                : t('linkToBuy') || 'Link to buy'}
+              {isSoldOut ? t('contactSeller') : t('linkToBuy') || 'Link to buy'}
             </Button>
 
             {/* Materials and Care Cards */}
