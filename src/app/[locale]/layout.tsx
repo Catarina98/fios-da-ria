@@ -1,5 +1,5 @@
 import { ReactNode } from 'react';
-import Footer from '@components/layout/footer/Footer';
+import Footer from '@components/layout/footer';
 import Navigation from '@components/layout/navigation';
 import type { Metadata } from 'next';
 import { Manrope } from 'next/font/google';
