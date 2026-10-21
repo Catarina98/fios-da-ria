@@ -8,8 +8,11 @@ const withBundleAnalyzer = bundleAnalyzer({
 });
 
 const isGithubActions = process.env.GITHUB_ACTIONS === 'true';
+const isCustomDomain = process.env.NEXT_PUBLIC_CUSTOM_DOMAIN === 'true';
+
 const basePath =
-  process.env.NEXT_PUBLIC_BASE_PATH ?? (isGithubActions ? '/fios-da-ria' : '');
+  process.env.NEXT_PUBLIC_BASE_PATH ??
+  (isGithubActions && !isCustomDomain ? '/fios-da-ria' : '');
 
 const nextConfig: NextConfig = {
   env: {
