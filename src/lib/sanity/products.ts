@@ -92,10 +92,14 @@ const formatSanityProduct = (
     };
   });
 
-  const productVintedUrl = raw.vintedUrl || undefined;
-  const hasProductStock = Boolean(
-    productVintedUrl || variants.some(v => Boolean(v.vintedUrl)),
-  );
+  const productVintedUrl = raw.vintedUrl?.trim() ? raw.vintedUrl : undefined;
+  const hasVariants = Boolean(raw.variants && raw.variants.length > 0);
+  const stock = hasVariants
+    ? variants.filter(v => Boolean(v.vintedUrl && v.vintedUrl.trim() !== ''))
+        .length
+    : Boolean(productVintedUrl && productVintedUrl.trim() !== '')
+      ? 1
+      : 0;
 
   const categoryTagBg =
     raw.categoryTagBg ||
@@ -137,7 +141,7 @@ const formatSanityProduct = (
     image: mainImage,
     images: galleryImages,
     price: typeof raw.price === 'number' ? `€${raw.price}` : raw.price || '€0',
-    stock: hasProductStock ? 1 : 0,
+    stock,
     variants,
     vintedUrl: productVintedUrl,
     order: typeof raw.order === 'number' ? raw.order : undefined,
@@ -193,7 +197,17 @@ export async function getProducts(
 
         return true;
       })
-      .map(p => formatSanityProduct(p, locale));
+      .map(p => formatSanityProduct(p, locale))
+      .sort((a, b) => {
+        const orderA = typeof a.order === 'number' ? a.order : 9999;
+        const orderB = typeof b.order === 'number' ? b.order : 9999;
+
+        if (orderA !== orderB) {
+          return orderA - orderB;
+        }
+
+        return (b.stock ?? 0) - (a.stock ?? 0);
+      });
   } catch (error) {
     console.warn('Failed to fetch products from Sanity:', error);
 

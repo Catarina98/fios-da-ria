@@ -310,7 +310,11 @@ function GalleryContent() {
         const orderA = typeof a.order === 'number' ? a.order : 9999;
         const orderB = typeof b.order === 'number' ? b.order : 9999;
 
-        return orderA - orderB;
+        if (orderA !== orderB) {
+          return orderA - orderB;
+        }
+
+        return (b.stock ?? 0) - (a.stock ?? 0);
       });
   }, [
     normalizedProducts,
