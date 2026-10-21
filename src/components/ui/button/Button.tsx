@@ -28,7 +28,7 @@ const Button: FC<ButtonType> = ({
       {!isLoading && leftIcon && (
         <span className="btn-icon btn-icon-left">{leftIcon}</span>
       )}
-      <span className="btn-content">{children}</span>
+      {children}
       {!isLoading && rightIcon && (
         <span className="btn-icon btn-icon-right">{rightIcon}</span>
       )}

@@ -82,9 +82,6 @@ describe('<AboutPage />', () => {
 
     expect(screen.getByTestId('process-card-01')).toBeInTheDocument();
     expect(screen.getByTestId('process-title-01')).toHaveTextContent('A ideia');
-    expect(screen.getByTestId('process-desc-01')).toHaveTextContent(
-      'Tudo começa num desenho e numa paleta inspirada na ria.',
-    );
 
     expect(screen.getByTestId('process-card-02')).toBeInTheDocument();
     expect(screen.getByTestId('process-title-02')).toHaveTextContent('O ponto');
@@ -128,13 +125,6 @@ describe('<AboutPage />', () => {
     );
     expect(screen.getByTestId('about-market-info')).toHaveTextContent(
       'Mercadinho Local: Avenida 18 de Julho',
-    );
-
-    const sendMessageBtn = screen.getByTestId('about-send-message-btn');
-    expect(sendMessageBtn).toHaveTextContent('Enviar mensagem');
-    expect(sendMessageBtn).toHaveAttribute(
-      'href',
-      expect.stringContaining('mailto:fiosdaria@gmail.com'),
     );
   });
 

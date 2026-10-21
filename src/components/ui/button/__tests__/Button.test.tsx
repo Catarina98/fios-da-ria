@@ -10,7 +10,6 @@ describe('Button Component', () => {
   it('renders children correctly', () => {
     render(<Button>Click me</Button>);
     const button = screen.getByTestId('button-component');
-    expect(button.querySelector('.btn-content')).not.toBeEmptyDOMElement();
     expect(button).toBeInTheDocument();
   });
 
