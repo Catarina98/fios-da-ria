@@ -37,7 +37,7 @@ jobs:
         run: pip install semgrep
 
       - name: Run semgrep
-        run: semgrep scan --sarif-output=semgrep.sarif
+        run: semgrep scan --jobs 2 --max-memory 4000 --max-target-bytes 1000000 --sarif-output=semgrep.sarif
 
       - name: Run reviewdog
         env:

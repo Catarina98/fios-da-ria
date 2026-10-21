@@ -1,0 +1,25 @@
+# Lockfiles (prevents semgrep-core memory exhaustion & segfaults)
+pnpm-lock.yaml
+package-lock.json
+yarn.lock
+bun.lockb
+
+# Build & generated outputs
+.next/
+dist/
+out/
+build/
+.sanity/
+coverage/
+*.tsbuildinfo
+next-env.d.ts
+
+# Test results and reports
+test-results/
+playwright-report/
+blob-report/
+playwright/.cache/
+playwright/.auth/
+
+# Environment files
+.env*
