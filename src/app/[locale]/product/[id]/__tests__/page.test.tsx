@@ -1,10 +1,12 @@
 import { render, screen } from '@tests/test-utils';
 import { beforeEach, describe, expect, it, vi } from 'vitest';
 
-const { mockSetRequestLocale, mockGetAllProductIds } = vi.hoisted(() => ({
-  mockSetRequestLocale: vi.fn(),
-  mockGetAllProductIds: vi.fn(),
-}));
+const { mockSetRequestLocale, mockGetAllProductIds, mockGetProductById } =
+  vi.hoisted(() => ({
+    mockSetRequestLocale: vi.fn(),
+    mockGetAllProductIds: vi.fn(),
+    mockGetProductById: vi.fn(),
+  }));
 
 vi.mock('next-intl/server', () => ({
   setRequestLocale: mockSetRequestLocale,
@@ -12,6 +14,7 @@ vi.mock('next-intl/server', () => ({
 
 vi.mock('@lib/sanity/products', () => ({
   getAllProductIds: mockGetAllProductIds,
+  getProductById: mockGetProductById,
 }));
 
 vi.mock('../../page', () => ({
@@ -20,7 +23,10 @@ vi.mock('../../page', () => ({
   ),
 }));
 
-import ProductDetailPage, { generateStaticParams } from '../page';
+import ProductDetailPage, {
+  generateMetadata,
+  generateStaticParams,
+} from '../page';
 
 describe('ProductDetailPage', () => {
   beforeEach(() => {
@@ -63,6 +69,51 @@ describe('ProductDetailPage', () => {
       expect(screen.getByTestId('product-page')).toHaveTextContent(
         'Product ID: toy-story',
       );
+    });
+  });
+
+  describe('generateMetadata', () => {
+    it('returns localized not-found metadata when the product is missing', async () => {
+      mockGetProductById.mockResolvedValue(null);
+
+      await expect(
+        generateMetadata({
+          params: Promise.resolve({ locale: 'en', id: 'unknown' }),
+        }),
+      ).resolves.toEqual({ title: 'Product not found' });
+    });
+
+    it('generates localized metadata for a product', async () => {
+      mockGetProductById.mockResolvedValue({
+        id: 'toy-story',
+        title: 'Woody',
+        description: 'Handmade amigurumi Woody.',
+        image: 'https://cdn.example/woody.jpg',
+      });
+
+      const metadata = await generateMetadata({
+        params: Promise.resolve({ locale: 'en', id: 'toy-story' }),
+      });
+
+      expect(metadata).toMatchObject({
+        title: 'Woody | Fios da Ria',
+        description: 'Handmade amigurumi Woody.',
+        alternates: {
+          canonical: 'https://fiosdaria.com/en/product/toy-story',
+          languages: {
+            pt: 'https://fiosdaria.com/product/toy-story',
+            en: 'https://fiosdaria.com/en/product/toy-story',
+          },
+        },
+        openGraph: {
+          images: [
+            {
+              url: 'https://cdn.example/woody.jpg',
+              alt: 'Woody',
+            },
+          ],
+        },
+      });
     });
   });
 });
