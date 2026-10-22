@@ -18,11 +18,71 @@ const manrope = Manrope({
   preload: false,
 });
 
+const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://fiosdaria.com';
 const basePath = process.env.NEXT_PUBLIC_BASE_PATH || '';
 
 export const metadata: Metadata = {
-  title: 'Fios da Ria',
-  description: 'Gallery for fios da ria',
+  metadataBase: new URL(siteUrl),
+  title: {
+    default: 'Fios da Ria – Amigurumi feitos à mão em Portugal',
+    template: '%s | Fios da Ria',
+  },
+  description:
+    'Fios da Ria é um projeto de crochet artesanal criado por Catarina, em Olhão. Amigurumi feitos à mão com fio 100% algodão — personagens de filmes, anime, cultura pop e muito mais.',
+  keywords: [
+    'amigurumi',
+    'crochet',
+    'croché',
+    'feito à mão',
+    'handmade',
+    'Portugal',
+    'Olhão',
+    'Algarve',
+    'bonecos de crochet',
+    'fios da ria',
+    'artesanato',
+    'personagens crochet',
+    'amigurumi portugal',
+    'encomendas personalizadas',
+  ],
+  authors: [{ name: 'Catarina', url: siteUrl }],
+  creator: 'Catarina – Fios da Ria',
+  openGraph: {
+    type: 'website',
+    locale: 'pt_PT',
+    alternateLocale: ['en_GB'],
+    url: siteUrl,
+    siteName: 'Fios da Ria',
+    title: 'Fios da Ria – Amigurumi feitos à mão em Portugal',
+    description:
+      'Amigurumi artesanais criados com amor, ponto a ponto. Personagens únicos feitos à mão em Olhão, Portugal.',
+    images: [
+      {
+        url: `${siteUrl}/logo.png`,
+        width: 1200,
+        height: 630,
+        alt: 'Fios da Ria – Amigurumi feitos à mão',
+      },
+    ],
+  },
+  twitter: {
+    card: 'summary_large_image',
+    title: 'Fios da Ria – Amigurumi feitos à mão em Portugal',
+    description:
+      'Amigurumi artesanais criados com amor, ponto a ponto. Personagens únicos feitos à mão em Olhão, Portugal.',
+    images: [`${siteUrl}/logo.png`],
+  },
+  robots: {
+    index: true,
+    follow: true,
+    googleBot: {
+      index: true,
+      follow: true,
+      'max-video-preview': -1,
+      'max-image-preview': 'large',
+      'max-snippet': -1,
+    },
+  },
   icons: {
     icon: `${basePath}/favicon.ico`,
     shortcut: `${basePath}/favicon.ico`,
@@ -51,8 +111,47 @@ export default async function RootLayout({
 
   const messages = await getMessages();
 
+  const jsonLd = {
+    '@context': 'https://schema.org',
+    '@graph': [
+      {
+        '@type': 'WebSite',
+        '@id': `${siteUrl}/#website`,
+        url: siteUrl,
+        name: 'Fios da Ria',
+        description:
+          'Amigurumi feitos à mão em Portugal por Catarina — personagens únicos de crochet.',
+        inLanguage: ['pt-PT', 'en'],
+      },
+      {
+        '@type': 'LocalBusiness',
+        '@id': `${siteUrl}/#business`,
+        name: 'Fios da Ria',
+        description:
+          'Projeto de crochet artesanal criado por Catarina, em Olhão. Amigurumi feitos à mão.',
+        url: siteUrl,
+        image: `${siteUrl}/logo.png`,
+        email: 'fiosdaria@gmail.com',
+        address: {
+          '@type': 'PostalAddress',
+          addressLocality: 'Olhão',
+          addressRegion: 'Algarve',
+          addressCountry: 'PT',
+        },
+        sameAs: ['https://www.instagram.com/fiosdaria'],
+        priceRange: '€',
+      },
+    ],
+  };
+
   return (
     <html lang={locale}>
+      <head>
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+        />
+      </head>
       <body className={`${manrope.className} ${manrope.variable}`}>
         <Providers messages={messages} locale={locale}>
           <Navigation />
