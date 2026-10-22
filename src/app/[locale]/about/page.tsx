@@ -13,13 +13,47 @@ import { getTranslations, setRequestLocale } from 'next-intl/server';
 
 import './page.scss';
 
-export function generateStaticParams() {
-  return routing.locales.map(locale => ({ locale }));
-}
+const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://fiosdaria.com';
 
 type AboutPageProps = {
   params: Promise<{ locale: string }>;
 };
+
+export function generateStaticParams() {
+  return routing.locales.map(locale => ({ locale }));
+}
+
+export async function generateMetadata({ params }: AboutPageProps) {
+  const { locale } = await params;
+  const t = await getTranslations({ locale, namespace: 'About' });
+
+  const isPt = locale === 'pt';
+  const title = isPt
+    ? 'Sobre a Catarina – Fios da Ria'
+    : 'About Catarina – Fios da Ria';
+  const description = t('hero.lead').slice(0, 160);
+  const canonical = isPt ? `${siteUrl}/about` : `${siteUrl}/en/about`;
+
+  return {
+    title,
+    description,
+    alternates: {
+      canonical,
+      languages: {
+        pt: `${siteUrl}/about`,
+        en: `${siteUrl}/en/about`,
+      },
+    },
+    openGraph: {
+      title,
+      description,
+      url: canonical,
+      images: [
+        { url: `${siteUrl}/images/catarina.jpg`, alt: t('hero.imageAlt') },
+      ],
+    },
+  };
+}
 
 export default async function AboutPage({ params }: Readonly<AboutPageProps>) {
   const { locale } = await params;
@@ -53,7 +87,8 @@ export default async function AboutPage({ params }: Readonly<AboutPageProps>) {
     <div className="about-page" data-testid="about-page-container">
       {/* Hero Section with Breadcrumbs */}
       <Highlights
-        isFullHeight
+
+        //isFullHeight
         breadcrumbs={
           <Breadcrumbs
             items={[

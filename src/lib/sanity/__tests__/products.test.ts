@@ -221,4 +221,112 @@ describe('Sanity & Catalog Data Fetching', () => {
     expect(coloredProduct?.categoryTagBg).toBe('#123456');
     expect(coloredProduct?.categoryTagColor).toBe('#ffffff');
   });
+
+  it('calculates stock as sum of variants that have non-empty vintedUrl (or product vintedUrl if no variants)', async () => {
+    mockFetch.mockResolvedValueOnce([
+      {
+        _id: 'prod-variants',
+        id: { current: 'prod-variants' },
+        title: { pt: 'Com Variantes' },
+        price: 20,
+        variants: [
+          { id: 'v1', vintedUrl: 'https://vinted.pt/item/1' },
+          { id: 'v2', vintedUrl: '' },
+          { id: 'v3', vintedUrl: 'https://vinted.pt/item/3' },
+          { id: 'v4' },
+        ],
+      },
+      {
+        _id: 'prod-single-vinted',
+        id: { current: 'prod-single-vinted' },
+        title: { pt: 'Sem Variantes com Stock' },
+        price: 15,
+        vintedUrl: 'https://vinted.pt/item/single',
+        variants: [],
+      },
+      {
+        _id: 'prod-single-no-stock',
+        id: { current: 'prod-single-no-stock' },
+        title: { pt: 'Sem Variantes sem Stock' },
+        price: 15,
+        vintedUrl: '',
+      },
+    ]);
+
+    const products = await getProducts('pt');
+    const withVariants = products.find(p => p.id === 'prod-variants');
+    const singleWithStock = products.find(p => p.id === 'prod-single-vinted');
+    const singleNoStock = products.find(p => p.id === 'prod-single-no-stock');
+
+    expect(withVariants?.stock).toBe(2);
+    expect(singleWithStock?.stock).toBe(1);
+    expect(singleNoStock?.stock).toBe(0);
+  });
+
+  it('sorts products by order property ascending and then by stock descending', async () => {
+    mockFetch.mockResolvedValueOnce([
+      {
+        _id: 'p-no-order-low-stock',
+        id: { current: 'p-no-order-low-stock' },
+        title: { pt: 'No Order Low Stock' },
+        price: 10,
+        vintedUrl: 'https://vinted.pt/item/1',
+      },
+      {
+        _id: 'p-order-1-sold-out',
+        id: { current: 'p-order-1-sold-out' },
+        title: { pt: 'Order 1 Sold Out' },
+        order: 1,
+        price: 10,
+      },
+      {
+        _id: 'p-order-2-low-stock',
+        id: { current: 'p-order-2-low-stock' },
+        title: { pt: 'Order 2 Low Stock' },
+        order: 2,
+        price: 10,
+        vintedUrl: 'https://vinted.pt/item/2',
+      },
+      {
+        _id: 'p-order-2-high-stock',
+        id: { current: 'p-order-2-high-stock' },
+        title: { pt: 'Order 2 High Stock' },
+        order: 2,
+        price: 10,
+        variants: [
+          { id: 'v1', vintedUrl: 'https://vinted.pt/1' },
+          { id: 'v2', vintedUrl: 'https://vinted.pt/2' },
+          { id: 'v3', vintedUrl: 'https://vinted.pt/3' },
+        ],
+      },
+      {
+        _id: 'p-no-order-high-stock',
+        id: { current: 'p-no-order-high-stock' },
+        title: { pt: 'No Order High Stock' },
+        price: 10,
+        variants: [
+          { id: 'v1', vintedUrl: 'https://vinted.pt/1' },
+          { id: 'v2', vintedUrl: 'https://vinted.pt/2' },
+        ],
+      },
+      {
+        _id: 'p-no-order-sold-out',
+        id: { current: 'p-no-order-sold-out' },
+        title: { pt: 'No Order Sold Out' },
+        price: 10,
+      },
+    ]);
+
+    const products = await getProducts('pt');
+    const ids = products.map(p => p.id);
+
+    expect(ids).toEqual([
+      'p-order-1-sold-out',
+      'p-order-2-high-stock',
+      'p-order-2-low-stock',
+      'p-no-order-high-stock',
+      'p-no-order-low-stock',
+      'p-no-order-sold-out',
+    ]);
+  });
 });

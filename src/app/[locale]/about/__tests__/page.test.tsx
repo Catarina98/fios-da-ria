@@ -19,12 +19,18 @@ const getNestedValue = (obj: unknown, path: string): string => {
 
 const { mockSetRequestLocale, mockGetTranslations } = vi.hoisted(() => ({
   mockSetRequestLocale: vi.fn(),
-  mockGetTranslations: vi.fn((namespace: string) => {
-    const namespaceMessages =
-      (ptMessages as Record<string, unknown>)[namespace] || {};
+  mockGetTranslations: vi.fn(
+    (namespaceOrOptions: string | { namespace: string }) => {
+      const namespace =
+        typeof namespaceOrOptions === 'string'
+          ? namespaceOrOptions
+          : namespaceOrOptions.namespace;
+      const namespaceMessages =
+        (ptMessages as Record<string, unknown>)[namespace] || {};
 
-    return (key: string) => getNestedValue(namespaceMessages, key);
-  }),
+      return (key: string) => getNestedValue(namespaceMessages, key);
+    },
+  ),
 }));
 
 vi.mock('next-intl/server', () => ({
@@ -32,7 +38,7 @@ vi.mock('next-intl/server', () => ({
   getTranslations: mockGetTranslations,
 }));
 
-import AboutPage, { generateStaticParams } from '../page';
+import AboutPage, { generateMetadata, generateStaticParams } from '../page';
 
 describe('<AboutPage />', () => {
   afterEach(cleanup);
@@ -56,7 +62,6 @@ describe('<AboutPage />', () => {
     // 2. Hero Section
     const heroSection = screen.getByTestId('about-hero-section');
     expect(heroSection).toBeInTheDocument();
-    expect(heroSection).toHaveClass('highlights-full-height');
     expect(screen.getByText('A artesã')).toBeInTheDocument();
     expect(screen.getByText('Olá, sou a Catarina! 👋')).toBeInTheDocument();
     expect(screen.getByText(/Em 2024, descobri o croché/)).toBeInTheDocument();
@@ -137,4 +142,32 @@ describe('<AboutPage />', () => {
     const params = generateStaticParams();
     expect(params).toEqual([{ locale: 'pt' }, { locale: 'en' }]);
   });
+
+  it.each([
+    {
+      locale: 'pt',
+      title: 'Sobre a Catarina – Fios da Ria',
+      canonical: 'https://fiosdaria.com/about',
+    },
+    {
+      locale: 'en',
+      title: 'About Catarina – Fios da Ria',
+      canonical: 'https://fiosdaria.com/en/about',
+    },
+  ])(
+    'generates localized metadata for $locale',
+    async ({ locale, title, canonical }) => {
+      const metadata = await generateMetadata({
+        params: Promise.resolve({ locale }),
+      });
+
+      expect(metadata.title).toBe(title);
+      expect(metadata.description).toBeTruthy();
+      expect(metadata.alternates?.canonical).toBe(canonical);
+      expect(metadata.alternates?.languages).toEqual({
+        pt: 'https://fiosdaria.com/about',
+        en: 'https://fiosdaria.com/en/about',
+      });
+    },
+  );
 });
