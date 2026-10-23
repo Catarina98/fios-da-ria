@@ -6,6 +6,8 @@ import '@testing-library/jest-dom/vitest';
 
 vi.mock('@i18n/navigation', () => {
   return {
+    getPathname: ({ locale, href }: { locale: string; href: string }) =>
+      locale === 'pt' ? href : `/en${href === '/' ? '' : href}`,
     Link: ({ href, children, ...props }: any) => {
       const { prefetch: _unused, ...rest } = props;
       void _unused;
