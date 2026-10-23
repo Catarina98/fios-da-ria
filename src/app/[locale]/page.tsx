@@ -9,6 +9,7 @@ import { getHighlights } from '@lib/sanity/highlights';
 import { getProducts } from '@lib/sanity/products';
 import { ButtonVariant } from '@typing/components/button';
 import { HighlightItem } from '@typing/components/highlights';
+import { getAssetPath } from '@utils/getAssetPath';
 import { useTranslations } from 'next-intl';
 import { setRequestLocale } from 'next-intl/server';
 
@@ -45,7 +46,9 @@ function HomeContent({
 }) {
   const t = useTranslations('Homepage');
   const tGallery = useTranslations('Gallery');
-  const featuredProducts = products.slice(0, 3);
+  const featuredProducts = [...products]
+    .sort((a, b) => Number(b.stock > 0) - Number(a.stock > 0))
+    .slice(0, 3);
 
   return (
     <div className="home-page" data-testid="homepage-container">
@@ -53,22 +56,6 @@ function HomeContent({
 
       <section
         className="home-section"
-        aria-label="O que nos guia"
-        data-testid="home-guidance-section"
-      >
-        <div className="container home-container">
-          <TitleSection
-            eyebrow={t('guidance.eyebrow')}
-            title={t('guidance.title')}
-            description={t('guidance.description')}
-            align="center"
-          />
-          <GuidanceCards />
-        </div>
-      </section>
-
-      <section
-        className="home-section section-tint"
         aria-label="Pequenos tesouros"
         data-testid="home-featured-section"
       >
@@ -114,7 +101,60 @@ function HomeContent({
       </section>
 
       <section
+        className="home-section section-tint home-custom-section"
+        aria-label={t('custom.title')}
+      >
+        <div className="container home-container">
+          <div className="home-custom-card">
+            <div className="home-custom-image">
+              <img
+                src={getAssetPath('/images/anya.jpg')}
+                alt={t('custom.imageAlt')}
+                width={3024}
+                height={3024}
+                loading="lazy"
+              />
+            </div>
+            <div className="home-custom-copy">
+              <TitleSection
+                title={t('custom.title')}
+                description={t('custom.description')}
+                align="left"
+              />
+              <div className="buying-actions">
+                <Button
+                  variant={ButtonVariant.Primary}
+                  url="/how-to-buy#custom"
+                >
+                  {t('custom.button')}
+                </Button>
+                <Button variant={ButtonVariant.Ghost} url="/how-to-buy">
+                  {t('custom.guide')}
+                </Button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section
         className="home-section"
+        aria-label="O que nos guia"
+        data-testid="home-guidance-section"
+      >
+        <div className="container home-container">
+          <TitleSection
+            eyebrow={t('guidance.eyebrow')}
+            title={t('guidance.title')}
+            description={t('guidance.description')}
+            align="center"
+          />
+          <GuidanceCards />
+        </div>
+      </section>
+
+      <section
+        className="home-section section-tint"
         aria-label="Agenda de eventos"
         data-testid="home-agenda-section"
       >

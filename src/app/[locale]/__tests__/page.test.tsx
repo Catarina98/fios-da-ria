@@ -92,7 +92,7 @@ describe('<Home />', () => {
     expect(screen.getByText('Materiais naturais')).toBeInTheDocument();
     expect(screen.getByText('Fio 100% algodão')).toBeInTheDocument();
     expect(
-      screen.getByText('Cuidados com o seu amigurumi'),
+      screen.getByText('Cuidados com o teu amigurumi'),
     ).toBeInTheDocument();
     expect(screen.getByText('Lavar à mão')).toBeInTheDocument();
 
@@ -113,9 +113,9 @@ describe('<Home />', () => {
     expect(
       screen.getByText('Mercadinho dos Artesãos e Produtores de Olhão'),
     ).toBeInTheDocument();
-    expect(screen.getByText('Avenida 18 de Julho, Olhão')).toBeInTheDocument();
+    expect(screen.getByText('Avenida da República, Olhão')).toBeInTheDocument();
     expect(screen.getByText('Todos os sábados')).toBeInTheDocument();
-    expect(screen.getByText('9h às 13h')).toBeInTheDocument();
+    expect(screen.getByText('9h às 12h30')).toBeInTheDocument();
   });
 
   it('generates static params for all supported locales', () => {

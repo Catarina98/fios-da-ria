@@ -99,10 +99,10 @@ describe('ProductDetailPage', () => {
         title: 'Woody | Fios da Ria',
         description: 'Handmade amigurumi Woody.',
         alternates: {
-          canonical: 'https://fiosdaria.com/en/product/toy-story',
+          canonical: 'https://fiosdaria.pt/en/product/toy-story',
           languages: {
-            pt: 'https://fiosdaria.com/product/toy-story',
-            en: 'https://fiosdaria.com/en/product/toy-story',
+            pt: 'https://fiosdaria.pt/product/toy-story',
+            en: 'https://fiosdaria.pt/en/product/toy-story',
           },
         },
         openGraph: {

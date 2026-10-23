@@ -1,5 +1,6 @@
 import Badge from '@components/ui/badge';
 import Breadcrumbs from '@components/ui/breadcrumbs';
+import Button from '@components/ui/button';
 import Highlights from '@components/ui/highlights';
 import { Icon } from '@components/ui/icons';
 import TitleSection from '@components/ui/titlesection';
@@ -13,7 +14,7 @@ import { getTranslations, setRequestLocale } from 'next-intl/server';
 
 import './page.scss';
 
-const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://fiosdaria.com';
+const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://fiosdaria.pt';
 
 type AboutPageProps = {
   params: Promise<{ locale: string }>;
@@ -189,6 +190,9 @@ export default async function AboutPage({ params }: Readonly<AboutPageProps>) {
               >
                 {t('contact.lead')}
               </Body>
+              <Button url="/how-to-buy#custom" variant={ButtonVariant.Primary}>
+                {t('contact.emailSubject')}
+              </Button>
             </div>
 
             <div className="contact-links" data-testid="about-contact-links">

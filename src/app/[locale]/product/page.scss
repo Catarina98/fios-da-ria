@@ -198,3 +198,37 @@
     gap: 64px;
   }
 }
+
+.product-buying-info {
+  margin: 20px 0;
+  line-height: 1.6;
+  p {
+    margin-bottom: 8px;
+  }
+  a {
+    color: var(--txt-accent);
+    text-decoration: underline;
+    text-underline-offset: 4px;
+  }
+}
+.product-facts {
+  display: grid;
+  gap: 16px;
+  margin: 24px 0;
+  div {
+    border-bottom: 1px solid var(--border-primary);
+    padding-bottom: 12px;
+  }
+  dt {
+    font-weight: 700;
+  }
+  dd {
+    margin-top: 4px;
+    white-space: pre-line;
+  }
+}
+.product-safety-note {
+  font-size: 14px;
+  line-height: 1.6;
+  margin-bottom: 24px;
+}

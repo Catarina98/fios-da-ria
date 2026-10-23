@@ -1,10 +1,65 @@
 .home-page {
+  --home-section-spacing: 48px;
+  --home-card-spacing: 24px;
+
   width: 100%;
 }
 
+.home-page .buying-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 16px;
+  margin-top: 24px;
+}
+
+.home-custom-card {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  align-items: center;
+  gap: 32px;
+  padding: var(--home-card-spacing);
+  background-color: var(--bg-white);
+  border: 1px solid var(--border-primary);
+  border-radius: 24px;
+
+  .home-custom-image {
+    min-width: 0;
+    width: 100%;
+    max-width: 320px;
+    justify-self: center;
+
+    img {
+      display: block;
+      width: 100%;
+      height: auto;
+      aspect-ratio: 1;
+      object-fit: cover;
+      border-radius: 18px;
+    }
+  }
+
+  .home-custom-copy {
+    min-width: 0;
+
+    .titlesection {
+      margin: 0;
+    }
+
+    .titlesection-title {
+      font-size: clamp(1.75rem, 3vw, 2.5rem);
+    }
+
+    .titlesection-description {
+      font-size: 1.0625rem;
+      line-height: 1.7;
+    }
+  }
+}
+
 .home-section {
-  padding: 60px 0;
+  padding: var(--home-section-spacing) 0;
   width: 100%;
+  background-color: var(--bg-white);
 
   &.section-tint {
     background-color: var(--bg-quaternary);
@@ -12,13 +67,24 @@
 }
 
 @media (min-width: 768px) {
-  .home-section {
-    padding: 72px 0;
+  .home-page {
+    --home-section-spacing: 64px;
+    --home-card-spacing: 32px;
+  }
+
+  .home-custom-card {
+    grid-template-columns: minmax(0, 0.8fr) minmax(0, 1.2fr);
+    gap: 40px;
   }
 }
 
 @media (min-width: 1024px) {
-  .home-section {
-    padding: 100px 0;
+  .home-page {
+    --home-section-spacing: 80px;
+    --home-card-spacing: 40px;
+  }
+
+  .home-custom-card {
+    gap: 48px;
   }
 }

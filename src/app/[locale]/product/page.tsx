@@ -94,6 +94,16 @@ export default function ProductPage(props: any = {}) {
     activeVariant?.vintedUrl ||
     (variants.length <= 1 ? product.vintedUrl : undefined);
   const isSoldOut = !currentVintedUrl;
+  const acceptsOrders = product.acceptsOrders !== false;
+  const dimensions = activeVariant?.dimensions || product.dimensions;
+  const included = activeVariant?.included || product.included;
+  const materials = activeVariant?.materials || product.materials;
+  const care = activeVariant?.care || product.care;
+  const warnings = activeVariant?.warnings || product.warnings;
+
+  // A variant with its own age indication needs its own documented review.
+  const ageDetails =
+    activeVariant?.minimumAge !== undefined ? activeVariant : product;
 
   const requestedProductName =
     activeVariant?.name && activeVariant.name !== product.title
@@ -233,7 +243,7 @@ export default function ProductPage(props: any = {}) {
               </div>
             )}
 
-            {/* Link to Buy on Vinted (if in stock) or Contact on Instagram (if sold out) */}
+            {/* Availability remains tied to the purchase link. */}
             <Button
               variant={
                 isSoldOut ? ButtonVariant.Tertiary : ButtonVariant.Primary
@@ -243,11 +253,66 @@ export default function ProductPage(props: any = {}) {
               rightIcon={<ExternalLink size={18} />}
               data-testid="product-buy-button"
             >
-              {isSoldOut ? t('contactSeller') : t('linkToBuy') || 'Link to buy'}
+              {isSoldOut
+                ? acceptsOrders
+                  ? t('contactSeller')
+                  : t('details.customUnavailable')
+                : t('linkToBuy')}
             </Button>
 
+            <div className="product-buying-info">
+              <p>
+                {isSoldOut
+                  ? t(acceptsOrders ? 'orderNote' : 'contactNote')
+                  : t('buyingNote')}
+              </p>
+              <p>{t('localDelivery')}</p>
+              <Link href="/how-to-buy">{t('buyingGuide')}</Link>
+            </div>
+
+            <dl className="product-facts">
+              {!included && variants.length > 0 && (
+                <div>
+                  <dt>{t('details.included')}</dt>
+                  <dd>{t('details.unit')}</dd>
+                </div>
+              )}
+              {dimensions && (
+                <div>
+                  <dt>{t('details.dimensions')}</dt>
+                  <dd>{dimensions}</dd>
+                </div>
+              )}
+              {included && (
+                <div>
+                  <dt>{t('details.included')}</dt>
+                  <dd>{included}</dd>
+                </div>
+              )}
+              {warnings && (
+                <div>
+                  <dt>{t('details.warnings')}</dt>
+                  <dd>{warnings}</dd>
+                </div>
+              )}
+              {ageDetails.safetyReviewed &&
+                ageDetails.minimumAge !== undefined && (
+                  <div>
+                    <dt>{t('details.age')}</dt>
+                    <dd>
+                      {ageDetails.minimumAge} {t('details.years')}
+                    </dd>
+                  </div>
+                )}
+            </dl>
+            <p className="product-safety-note">{t('details.safety')}</p>
+
             {/* Materials and Care Cards */}
-            <GuidanceCards />
+            <GuidanceCards
+              materialsTitle={materials ? t('details.materials') : undefined}
+              materialsItems={materials ? [materials] : undefined}
+              careItems={care ? [care] : undefined}
+            />
 
             {/* Maker Note */}
             <div className="maker-note">

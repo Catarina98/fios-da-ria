@@ -24,6 +24,13 @@ const Footer: FC = () => {
       isExternal: true,
     },
     { label: t('Contact'), href: '/about#contact' },
+    { label: t('Navigation.howToBuy'), href: '/how-to-buy' },
+    {
+      label: t('Buying.complaintsLink'),
+      href: 'https://www.livroreclamacoes.pt/Inicio/',
+      isExternal: true,
+    },
+    { label: t('Buying.disputesLink'), href: '/how-to-buy#complaints' },
   ];
 
   return (

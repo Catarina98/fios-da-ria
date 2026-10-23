@@ -1,3 +1,5 @@
+import { productDetailsFields } from './productDetails';
+
 export const productSchema = {
   name: 'product',
   title: 'Product',
@@ -46,10 +48,28 @@ export const productSchema = {
       description:
         'Number to define the order in the list (e.g. 1 to appear first, 2 next...). If empty, sorted by newest.',
     },
+    ...productDetailsFields,
+    {
+      name: 'acceptsOrders',
+      title: 'Accept enquiries to make this piece again',
+      type: 'boolean',
+      description:
+        'An enquiry is subject to confirmation, not a guaranteed order.',
+      initialValue: true,
+    },
+    {
+      name: 'wallapopUrl',
+      title: 'Wallapop listing',
+      type: 'url',
+      description:
+        'A purchase link determines stock. Remove the link when the piece is no longer available.',
+    },
     {
       name: 'vintedUrl',
-      title: 'Vinted Link',
+      title: 'Previous purchase link (legacy)',
       type: 'url',
+      description:
+        'Kept for existing content. Replace with the Wallapop listing above; the new field takes precedence.',
     },
     {
       name: 'isVisible',
@@ -120,9 +140,11 @@ export const productSchema = {
               type: 'string',
             },
 
+            ...productDetailsFields,
+            { name: 'wallapopUrl', title: 'Wallapop listing', type: 'url' },
             {
               name: 'vintedUrl',
-              title: 'Vinted URL',
+              title: 'Previous purchase link (legacy)',
               type: 'url',
             },
             {

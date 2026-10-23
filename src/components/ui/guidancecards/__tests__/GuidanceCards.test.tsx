@@ -13,7 +13,7 @@ describe('<GuidanceCards />', () => {
     expect(screen.getByText('Materiais naturais')).toBeInTheDocument();
     expect(screen.getByText('Fio 100% algodão')).toBeInTheDocument();
     expect(
-      screen.getByText('Cuidados com o seu amigurumi'),
+      screen.getByText('Cuidados com o teu amigurumi'),
     ).toBeInTheDocument();
     expect(screen.getByText('Lavar à mão')).toBeInTheDocument();
   });
