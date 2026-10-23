@@ -12,7 +12,7 @@
     "guidance": {
       "eyebrow": "What guides us",
       "title": "Care in every detail",
-      "description": "Conscious choices for beautiful, safe, and characterful handmade pieces.",
+      "description": "Carefully chosen materials and attention to every detail.",
       "materialsTitle": "Natural materials",
       "materialsItems": [
         "100% cotton yarn",
@@ -37,15 +37,23 @@
       "title": "Upcoming events",
       "imageAlt": "Fios da Ria stall at an artisan craft market",
       "eventTitle": "Olhão Artisans and Producers Market",
-      "eventLocation": "Avenida 18 de Julho, Olhão",
+      "eventLocation": "Avenida da República, Olhão",
       "eventFrequency": "Every Saturday",
-      "eventSchedule": "9:00 to 13:00"
+      "eventSchedule": "9:00 am to 12:30 pm"
+    },
+    "custom": {
+      "title": "Your idea, stitch by stitch",
+      "description": "I accept requests for out-of-stock pieces and custom projects, subject to feasibility and availability. We agree on the price and timescale before proceeding.",
+      "button": "Request a custom piece",
+      "guide": "How to buy and order",
+      "imageAlt": "Anya amigurumi handmade by Fios da Ria beside the lagoon"
     }
   },
   "Navigation": {
     "home": "Home",
     "gallery": "Gallery",
-    "about": "About"
+    "about": "About",
+    "howToBuy": "How to buy"
   },
   "Contact": "Contact",
   "Gallery": {
@@ -105,8 +113,8 @@
       "soldOut": "Sold out"
     },
     "chooseCharacter": "Choose a character",
-    "linkToBuy": "Link to buy",
-    "contactSeller": "Contact on Instagram",
+    "linkToBuy": "Buy on Wallapop",
+    "contactSeller": "Request to order",
     "instagramMessage": "Hello! I would like to order the piece: {product}",
     "gallery": {
       "previousImage": "Previous image",
@@ -136,7 +144,23 @@
       "title": "Product not found",
       "description": "The piece you are looking for does not exist or is no longer available.",
       "backToGallery": "Back to gallery"
-    }
+    },
+    "buyingNote": "Purchase and payment are completed on Wallapop. Check shipping costs and conditions before paying.",
+    "orderNote": "Making this piece is subject to confirmation. Contact me to agree on availability, price and timescale.",
+    "buyingGuide": "Buying, orders and delivery",
+    "localDelivery": "In-person delivery in Faro and Olhão, by arrangement, with no delivery charge.",
+    "details": {
+      "dimensions": "Approximate dimensions",
+      "included": "Included in the price",
+      "unit": "Price for the selected character; other pieces in the collection are not included.",
+      "materials": "Materials",
+      "warnings": "Use and warnings",
+      "age": "Minimum age specified for this piece",
+      "years": "years",
+      "customUnavailable": "Contact me",
+      "safety": "Before choosing a piece for a child, contact me to confirm its intended use and specific warnings."
+    },
+    "contactNote": "This piece is not available to order at the moment. Contact me if you have a question."
   },
   "About": {
     "breadcrumbs": {
@@ -178,11 +202,119 @@
       "email": "fiosdaria@gmail.com",
       "instagram": "@fiosdaria",
       "handDeliveryLabel": "Hand deliveries",
-      "handDeliveryValue": "Available in Faro and Olhão.",
+      "handDeliveryValue": "In Faro and Olhão, by arrangement, with no delivery charge.",
       "marketLabel": "Local Market",
-      "marketValue": "Avenida 18 de Julho / Avenida da República, Olhão (usually on Saturdays, from 9am to 1pm).",
+      "marketValue": "Avenida da República, Olhão, Saturdays from 9:00 am to 12:30 pm. Other markets are announced on Instagram.",
       "sendMessage": "Send message",
       "emailSubject": "Special idea / Custom order"
     }
+  },
+  "Buying": {
+    "title": "How to buy and order",
+    "eyebrow": "Handmade, agreed with you",
+    "description": "Available pieces on Wallapop, orders by message and in-person delivery in Faro and Olhão. Find out how each option works.",
+    "indexLabel": "On this page",
+    "customButton": "Request a custom piece",
+    "emailButton": "Send an email",
+    "galleryButton": "Explore the gallery",
+    "sections": [
+      {
+        "id": "available",
+        "title": "Buy an available piece",
+        "paragraphs": [
+          "Pieces shown as in stock in the gallery have a linked listing. Buy on Wallapop opens the listing where you can check the details and complete your purchase and payment.",
+          "Shipping costs and conditions are shown by Wallapop before payment. For these purchases, I follow the platform’s shipping procedures and deadlines.",
+          "For in-person delivery in Faro or Olhão, contact me before buying to arrange the meeting and payment. There is no delivery charge for this option."
+        ]
+      },
+      {
+        "id": "orders",
+        "title": "Order an out-of-stock piece",
+        "paragraphs": [
+          "If you like a sold-out piece, choose Request to order. I check whether I can make it again and confirm the price and timescale with you. An enquiry does not guarantee that I can accept an order.",
+          "Handmade pieces may vary slightly from one another. We confirm the agreed features before the initial payment."
+        ]
+      },
+      {
+        "id": "custom",
+        "title": "Request a custom piece",
+        "paragraphs": [
+          "Send me your idea and reference images on Instagram or by email. I assess every project before confirming whether I can make it.",
+          "Some references, including AI-generated images, may not be possible to reproduce in crochet. I may decline a request due to technical limitations, lack of experience with a project or availability.",
+          "If the project is feasible, we agree on the features, price, production timescale and delivery method before proceeding."
+        ]
+      },
+      {
+        "id": "payment",
+        "title": "Payment and confirmation",
+        "paragraphs": [
+          "Once we agree on an order, an initial payment of 50% confirms it. Pay by MB WAY or in person, as agreed. Payment details are shared privately.",
+          "I contact you again when the piece is ready. For in-person delivery in Faro or Olhão, you pay the remaining 50% at the meeting.",
+          "For shipping with CTT, the balance and agreed postage are paid before dispatch. Postage costs are confirmed before you accept this delivery method.",
+          "You can also ask to complete the purchase through Wallapop. Before payment, we confirm how your initial payment will be accounted for and whether the arrangement complies with the platform’s rules, so you do not pay twice. Applicable costs and conditions are shown on Wallapop."
+        ]
+      },
+      {
+        "id": "timing",
+        "title": "Production and shipping times",
+        "paragraphs": [
+          "Production time depends on the complexity of the piece and my current orders. We agree on a completion date or timescale before the initial payment.",
+          "For example, a mini Stitch may take 2–5 days if I have no other orders in progress. A more complex character, such as one from One Piece, may take around 10 working days. These are examples, not guaranteed times for every order.",
+          "Production time does not include transport. Wallapop purchases follow the platform’s shipping procedures and deadlines. For CTT shipping, we agree on the service and cost before dispatch."
+        ]
+      },
+      {
+        "id": "cancellations",
+        "title": "Cancellations and returns",
+        "paragraphs": [
+          "If you cancel within 24 hours of the initial payment, I refund the 50% paid. Please cancel by email or message so there is a record.",
+          "For genuinely personalised pieces made to your specifications, the proposed condition for cancellation after those 24 hours is retention of the initial payment, where legally applicable and agreed before confirmation. This condition does not limit your statutory rights.",
+          "If I miss the agreed production deadline, you can request cancellation and a refund of the initial payment. This does not exclude any other applicable statutory rights.",
+          "Distance purchases from a professional seller generally have a 14-day withdrawal period after delivery. A standard catalogue piece does not lose this right simply because it was made after an order. Contact me by email to exercise this right; you do not need to give a reason.",
+          "An exception to the right of withdrawal may apply to goods made to your specifications or clearly personalised. This is explained before order confirmation and does not remove rights relating to defects or lack of conformity. Contact me if there is a problem with your piece."
+        ]
+      },
+      {
+        "id": "market",
+        "title": "Find me at the market",
+        "paragraphs": [
+          "You can find me at the Olhão market on Avenida da República on Saturdays, from 9:00 am to 12:30 pm.",
+          "I occasionally attend other markets. I announce those dates and any changes on Instagram @fiosdaria. You can also message me before visiting."
+        ]
+      },
+      {
+        "id": "care",
+        "title": "Materials and care",
+        "paragraphs": [
+          "Each product page lists its materials and care instructions. Figures and Christmas ornaments use 100% cotton yarn, eyes with locking backs and hypoallergenic stuffing. Exceptions include keyrings with embroidered eyes and the decorative ghost without a hat, which has glued eyes and no stuffing.",
+          "Follow the product-specific care instructions: most pieces can be hand washed without wringing and dried in the shade. The decorative ghost without a hat should only be cleaned gently. Confirm intended use and warnings for each product before purchase, especially when choosing a piece for a child."
+        ]
+      },
+      {
+        "id": "complaints",
+        "title": "Complaints and dispute resolution",
+        "paragraphs": [
+          "If there is a problem, contact me at fiosdaria@gmail.com. You can also submit a complaint through Portugal’s official electronic complaints book by searching for Fios da Ria.",
+          "For a consumer dispute, you can contact an alternative dispute resolution (ADR) body. The Centro de Informação, Mediação e Arbitragem de Conflitos de Consumo do Algarve (CIMAAL) is available for disputes falling within its jurisdiction in the Algarve.",
+          "The competent body depends on the case, including the consumer’s residence and where the contract was concluded. Check the centre’s rules and the official list of authorised centres, particularly for distance purchases in other regions. This information does not limit access to courts or statutory arbitration rights."
+        ],
+        "links": [
+          {
+            "label": "Electronic complaints book",
+            "href": "https://www.livroreclamacoes.pt/Inicio/"
+          },
+          {
+            "label": "CIMAAL — consumoalgarve.pt",
+            "href": "https://www.consumoalgarve.pt/"
+          },
+          {
+            "label": "Authorised arbitration centres — Justiça.gov.pt",
+            "href": "https://dgpj.justica.gov.pt/Resolucao-de-Litigios/Arbitragem/Centros-de-Arbitragem-autorizados"
+          }
+        ]
+      }
+    ],
+    "complaintsLink": "Electronic complaints book",
+    "disputesLink": "Dispute resolution"
   }
 }

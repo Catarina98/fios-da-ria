@@ -330,3 +330,91 @@ describe('Sanity & Catalog Data Fetching', () => {
     ]);
   });
 });
+
+describe('Wallapop listings and product details', () => {
+  beforeEach(() => {
+    mockIsSanityConfigured.mockReturnValue(true);
+  });
+
+  it('prefers the Wallapop link and keeps stock tied to listings', async () => {
+    mockFetch.mockResolvedValue([
+      {
+        id: 'new',
+        wallapopUrl: ' https://pt.wallapop.com/item/new ',
+        vintedUrl: 'https://legacy.example/item',
+      },
+      { id: 'missing', wallapopUrl: '   ' },
+      { id: 'old', vintedUrl: 'https://pt.wallapop.com/item/old' },
+    ]);
+    const products = await getProducts('pt');
+    expect(products.find(p => p.id === 'new')).toMatchObject({
+      stock: 1,
+      vintedUrl: 'https://pt.wallapop.com/item/new',
+    });
+    expect(products.find(p => p.id === 'missing')?.stock).toBe(0);
+    expect(products.find(p => p.id === 'old')?.stock).toBe(1);
+  });
+
+  it('does not mark unlisted collection variants as available using a collection link', async () => {
+    mockFetch.mockResolvedValue([
+      {
+        id: 'collection',
+        wallapopUrl: 'https://pt.wallapop.com/item/set',
+        variants: [
+          { id: 'a', wallapopUrl: 'https://pt.wallapop.com/item/a' },
+          { id: 'b', wallapopUrl: '  ' },
+        ],
+      },
+    ]);
+    const [product] = await getProducts('pt');
+    expect(product.stock).toBe(1);
+    expect(product.variants.map(v => v.stock)).toEqual([1, 0]);
+  });
+
+  it('localizes product and variant details without inventing an age approval', async () => {
+    mockFetch.mockResolvedValue([
+      {
+        id: 'piece',
+        acceptsOrders: false,
+        dimensions: { pt: '20 cm', en: '8 inches' },
+        included: { pt: 'Uma peça' },
+        care: { pt: 'Limpar suavemente', en: 'Gently clean' },
+        minimumAge: 4,
+        variants: [
+          {
+            id: 'small',
+            dimensions: { pt: '10 cm' },
+            warnings: { pt: 'Aviso específico' },
+          },
+        ],
+      },
+    ]);
+    const [product] = await getProducts('en');
+    expect(product).toMatchObject({
+      dimensions: '8 inches',
+      included: 'Uma peça',
+      care: 'Gently clean',
+      minimumAge: 4,
+      safetyReviewed: false,
+      acceptsOrders: false,
+    });
+    expect(product.variants[0]).toMatchObject({
+      dimensions: '10 cm',
+      warnings: 'Aviso específico',
+    });
+    const query = mockFetch.mock.calls.at(-1)?.[0] as string;
+    for (const field of [
+      'wallapopUrl',
+      'acceptsOrders',
+      'dimensions',
+      'included',
+      'materials',
+      'care',
+      'warnings',
+      'minimumAge',
+      'safetyReviewed',
+    ]) {
+      expect(query).toContain(field);
+    }
+  });
+});

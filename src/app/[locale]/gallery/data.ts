@@ -1,4 +1,14 @@
-export interface ProductVariant {
+export interface ProductDetails {
+  dimensions?: string;
+  included?: string;
+  materials?: string;
+  care?: string;
+  warnings?: string;
+  minimumAge?: number;
+  safetyReviewed?: boolean;
+}
+
+export interface ProductVariant extends ProductDetails {
   id: string;
   name: string;
   image: string;
@@ -8,7 +18,7 @@ export interface ProductVariant {
   vintedUrl?: string;
 }
 
-export interface StoreProduct {
+export interface StoreProduct extends ProductDetails {
   id: string;
   title: string;
   category: string;
@@ -24,6 +34,7 @@ export interface StoreProduct {
   variants: ProductVariant[];
   vintedUrl?: string;
   order?: number;
+  acceptsOrders?: boolean;
 }
 
 export function getProductPrices(product: StoreProduct): number[] {

@@ -19,7 +19,10 @@ export const getHrefLink = (menuTitle: string) => {
 const Navigation: FC = () => {
   const t = useTranslations('');
 
-  const navItems = t.raw('Navigation') as Record<string, string>;
+  const navigationLabels = t.raw('Navigation') as Record<string, string>;
+  const navItems = Object.fromEntries(
+    Object.entries(navigationLabels).filter(([key]) => key !== 'howToBuy'),
+  );
 
   const { isDesktop } = useViewport();
 

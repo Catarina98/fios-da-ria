@@ -56,7 +56,7 @@ describe('<AboutPage />', () => {
     // 1. Breadcrumbs inside Hero Section
     expect(screen.getByTestId('highlights-breadcrumbs')).toBeInTheDocument();
     expect(screen.getByTestId('breadcrumbs-component')).toBeInTheDocument();
-    expect(screen.getByText('Home')).toBeInTheDocument();
+    expect(screen.getByText('Início')).toBeInTheDocument();
     expect(screen.getByText('Sobre')).toBeInTheDocument();
 
     // 2. Hero Section
@@ -126,10 +126,10 @@ describe('<AboutPage />', () => {
     expect(instagramLink).toHaveAttribute('target', '_blank');
 
     expect(screen.getByTestId('about-hand-delivery')).toHaveTextContent(
-      'Entregas em mão: Disponíveis em Faro e Olhão.',
+      'Entregas em mão: Em Faro e Olhão, por combinação e sem portes.',
     );
     expect(screen.getByTestId('about-market-info')).toHaveTextContent(
-      'Mercadinho Local: Avenida 18 de Julho',
+      'Mercadinho Local: Avenida da República',
     );
   });
 
@@ -147,12 +147,12 @@ describe('<AboutPage />', () => {
     {
       locale: 'pt',
       title: 'Sobre a Catarina – Fios da Ria',
-      canonical: 'https://fiosdaria.com/about',
+      canonical: 'https://fiosdaria.pt/about',
     },
     {
       locale: 'en',
       title: 'About Catarina – Fios da Ria',
-      canonical: 'https://fiosdaria.com/en/about',
+      canonical: 'https://fiosdaria.pt/en/about',
     },
   ])(
     'generates localized metadata for $locale',
@@ -165,8 +165,8 @@ describe('<AboutPage />', () => {
       expect(metadata.description).toBeTruthy();
       expect(metadata.alternates?.canonical).toBe(canonical);
       expect(metadata.alternates?.languages).toEqual({
-        pt: 'https://fiosdaria.com/about',
-        en: 'https://fiosdaria.com/en/about',
+        pt: 'https://fiosdaria.pt/about',
+        en: 'https://fiosdaria.pt/en/about',
       });
     },
   );

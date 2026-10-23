@@ -1,17 +1,30 @@
 import { isSanityConfigured, sanityClient, urlFor } from './client';
 
-import { StoreProduct } from '../../app/[locale]/gallery/data';
+import { ProductDetails, StoreProduct } from '../../app/[locale]/gallery/data';
 
-export interface SanityProductVariantRaw {
+type Localized = { pt?: string; en?: string } | string;
+interface SanityDetailsRaw {
+  dimensions?: Localized;
+  included?: Localized;
+  materials?: Localized;
+  care?: Localized;
+  warnings?: Localized;
+  minimumAge?: number;
+  safetyReviewed?: boolean;
+}
+
+export interface SanityProductVariantRaw extends SanityDetailsRaw {
   id: string;
   name?: { pt?: string; en?: string } | string;
   price?: string | number;
   vintedUrl?: string;
+  wallapopUrl?: string;
   image?: any;
   images?: any[];
 }
 
-export interface SanityProductRaw {
+export interface SanityProductRaw extends SanityDetailsRaw {
+  acceptsOrders?: boolean;
   _id?: string;
   id?: { current?: string } | string;
   title?: { pt?: string; en?: string } | string;
@@ -31,6 +44,7 @@ export interface SanityProductRaw {
   description?: { pt?: string; en?: string } | string;
   price?: string | number;
   vintedUrl?: string;
+  wallapopUrl?: string;
   images?: any[];
   variants?: SanityProductVariantRaw[];
   isVisible?: boolean;
@@ -49,6 +63,22 @@ const getLocalizedValue = (
 
   return target || value.pt || value.en || '';
 };
+
+const formatDetails = (
+  raw: SanityDetailsRaw,
+  locale: string,
+): ProductDetails => ({
+  dimensions: getLocalizedValue(raw.dimensions, locale) || undefined,
+  included: getLocalizedValue(raw.included, locale) || undefined,
+  materials: getLocalizedValue(raw.materials, locale) || undefined,
+  care: getLocalizedValue(raw.care, locale) || undefined,
+  warnings: getLocalizedValue(raw.warnings, locale) || undefined,
+  minimumAge: raw.minimumAge,
+  safetyReviewed: raw.safetyReviewed === true,
+});
+
+const purchaseLink = (raw: { wallapopUrl?: string; vintedUrl?: string }) =>
+  raw.wallapopUrl?.trim() || raw.vintedUrl?.trim() || undefined;
 
 const formatSanityProduct = (
   raw: SanityProductRaw,
@@ -76,12 +106,15 @@ const formatSanityProduct = (
       .filter(Boolean);
 
     const variantVintedUrl =
-      v.vintedUrl ||
-      (raw.variants && raw.variants.length > 1 ? undefined : raw.vintedUrl) ||
+      purchaseLink(v) ||
+      (raw.variants && raw.variants.length > 1
+        ? undefined
+        : purchaseLink(raw)) ||
       undefined;
     const hasVariantStock = Boolean(variantVintedUrl);
 
     return {
+      ...formatDetails(v, locale),
       id: v.id,
       name: getLocalizedValue(v.name, locale),
       image: variantImg || mainImage,
@@ -92,7 +125,7 @@ const formatSanityProduct = (
     };
   });
 
-  const productVintedUrl = raw.vintedUrl?.trim() ? raw.vintedUrl : undefined;
+  const productVintedUrl = purchaseLink(raw);
   const hasVariants = Boolean(raw.variants && raw.variants.length > 0);
   const stock = hasVariants
     ? variants.filter(v => Boolean(v.vintedUrl && v.vintedUrl.trim() !== ''))
@@ -130,6 +163,8 @@ const formatSanityProduct = (
   const categorySlug = raw.categorySlug || rawCatSlug || undefined;
 
   return {
+    ...formatDetails(raw, locale),
+    acceptsOrders: raw.acceptsOrders !== false,
     id: productId,
     title: getLocalizedValue(raw.title, locale),
     category: getLocalizedValue(raw.category, locale) || 'Amigurumi',
@@ -172,6 +207,15 @@ export async function getProducts(
       description,
       price,
       vintedUrl,
+      wallapopUrl,
+      acceptsOrders,
+      dimensions,
+      included,
+      materials,
+      care,
+      warnings,
+      minimumAge,
+      safetyReviewed,
       images,
       order,
       variants[] {
@@ -179,6 +223,14 @@ export async function getProducts(
         name,
         price,
         vintedUrl,
+        wallapopUrl,
+        dimensions,
+        included,
+        materials,
+        care,
+        warnings,
+        minimumAge,
+        safetyReviewed,
         image,
         images
       }

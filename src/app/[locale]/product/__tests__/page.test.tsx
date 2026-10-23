@@ -260,7 +260,7 @@ describe('Product Pages', () => {
       expect(screen.getByText('Materiais naturais')).toBeInTheDocument();
       expect(screen.getByText('Fio 100% algodão')).toBeInTheDocument();
       expect(
-        screen.getByText('Cuidados com o seu amigurumi'),
+        screen.getByText('Cuidados com o teu amigurumi'),
       ).toBeInTheDocument();
       expect(screen.getByText('Lavar à mão')).toBeInTheDocument();
     });
@@ -296,5 +296,89 @@ describe('Product Pages', () => {
         id: 'collection-toy-story',
       });
     });
+  });
+});
+
+describe('Product buying information', () => {
+  it('uses the decorative ghost materials and care instead of generic stuffing and washing advice', async () => {
+    const { getProductById } = await import('@lib/sanity/products');
+    vi.mocked(getProductById).mockResolvedValueOnce({
+      ...mockProduct,
+      variants: [],
+      materials: 'Fio 100% algodão. Olhos colados. Sem enchimento.',
+      care: 'Limpar apenas suavemente.',
+    });
+    render(<ProductPage productId="hanging-ghost-decor" />);
+    await screen.findByTestId('product-buy-button');
+    expect(
+      screen.getByText('Fio 100% algodão. Olhos colados. Sem enchimento.'),
+    ).toBeInTheDocument();
+    expect(screen.getByText('Limpar apenas suavemente.')).toBeInTheDocument();
+    expect(
+      screen.queryByText('Enchimento antialérgico'),
+    ).not.toBeInTheDocument();
+    expect(
+      screen.queryByText('Olhos com travas de segurança'),
+    ).not.toBeInTheDocument();
+    expect(screen.queryByText('Lavar à mão')).not.toBeInTheDocument();
+  });
+
+  it('shows variant details and only publishes a reviewed age', async () => {
+    const { getProductById } = await import('@lib/sanity/products');
+    vi.mocked(getProductById).mockResolvedValueOnce({
+      ...mockProduct,
+      dimensions: '20 cm',
+      included: 'Uma personagem',
+      materials: 'Algodão',
+      warnings: 'Aviso do produto',
+      minimumAge: 4,
+      safetyReviewed: true,
+      variants: [
+        {
+          ...mockProduct.variants[0],
+          dimensions: '12 cm',
+          minimumAge: 5,
+          safetyReviewed: false,
+        },
+        {
+          ...mockProduct.variants[1],
+          dimensions: '18 cm',
+          minimumAge: 6,
+          safetyReviewed: true,
+        },
+      ],
+    });
+    render(<ProductPage productId="collection-toy-story" />);
+    await screen.findByTestId('product-buy-button');
+    expect(screen.getByText('12 cm')).toBeInTheDocument();
+    expect(screen.getByText('Uma personagem')).toBeInTheDocument();
+    expect(screen.getByText('Algodão')).toBeInTheDocument();
+    expect(screen.getByText('Aviso do produto')).toBeInTheDocument();
+    expect(
+      screen.queryByText('Idade mínima indicada para esta peça'),
+    ).not.toBeInTheDocument();
+    fireEvent.click(screen.getByRole('radio', { name: /Jessie/i }));
+    expect(screen.getByText('18 cm')).toBeInTheDocument();
+    expect(screen.getByText('6 anos')).toBeInTheDocument();
+    expect(screen.getByTestId('product-buy-button')).toHaveTextContent(
+      'Comprar na Wallapop',
+    );
+  });
+
+  it('offers contact without promising an order when repeat orders are disabled', async () => {
+    const { getProductById } = await import('@lib/sanity/products');
+    vi.mocked(getProductById).mockResolvedValueOnce({
+      ...mockProduct,
+      variants: [],
+      vintedUrl: undefined,
+      acceptsOrders: false,
+    });
+    render(<ProductPage productId="collection-toy-story" />);
+    expect(await screen.findByTestId('product-buy-button')).toHaveTextContent(
+      'Contactar',
+    );
+    expect(
+      screen.getByText(/não está disponível para encomenda neste momento/),
+    ).toBeInTheDocument();
   });
 });

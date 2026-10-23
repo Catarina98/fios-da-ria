@@ -3,9 +3,9 @@ import type { MetadataRoute } from 'next';
 
 export const dynamic = 'force-static';
 
-const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://fiosdaria.com';
+const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://fiosdaria.pt';
 
-const staticRoutes = ['', '/about', '/gallery'];
+const staticRoutes = ['', '/about', '/gallery', '/how-to-buy'];
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   const productIds = await getAllProductIds().catch(() => [] as string[]);

@@ -4,7 +4,7 @@ import { setRequestLocale } from 'next-intl/server';
 
 import ProductPage from '../page';
 
-const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://fiosdaria.com';
+const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://fiosdaria.pt';
 
 type ProductDetailPageProps = {
   params: Promise<{ locale: string; id: string }>;
