@@ -69,5 +69,7 @@ describe('<Footer />', () => {
     const enLink = screen.getByTestId('footer-lang-en');
     expect(ptLink).toBeInTheDocument();
     expect(enLink).toBeInTheDocument();
+    expect(ptLink).toHaveAttribute('href', '/');
+    expect(enLink).toHaveAttribute('href', '/en');
   });
 });

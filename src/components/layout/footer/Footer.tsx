@@ -1,7 +1,7 @@
 'use client';
 
 import { FC } from 'react';
-import { Link, usePathname } from '@i18n/navigation';
+import { getPathname, Link, usePathname } from '@i18n/navigation';
 import clsx from 'clsx';
 import { useLocale, useTranslations } from 'next-intl';
 
@@ -61,29 +61,25 @@ const Footer: FC = () => {
       </ul>
 
       <div className="footer-lang-switcher" aria-label="Language selection">
-        <Link
-          href={pathname}
-          locale="pt"
-          prefetch={false}
+        <a
+          href={getPathname({ locale: 'pt', href: pathname })}
           className={clsx('lang-link', locale === 'pt' && 'active')}
           aria-current={locale === 'pt' ? 'true' : undefined}
           data-testid="footer-lang-pt"
         >
           PT
-        </Link>
+        </a>
         <span className="lang-divider" aria-hidden="true">
           |
         </span>
-        <Link
-          href={pathname}
-          locale="en"
-          prefetch={false}
+        <a
+          href={getPathname({ locale: 'en', href: pathname })}
           className={clsx('lang-link', locale === 'en' && 'active')}
           aria-current={locale === 'en' ? 'true' : undefined}
           data-testid="footer-lang-en"
         >
           EN
-        </Link>
+        </a>
       </div>
 
       <p>© 2026 Fios da Ria by Catarina.</p>
