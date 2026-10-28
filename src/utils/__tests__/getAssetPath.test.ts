@@ -42,8 +42,8 @@ describe('getAssetPath', () => {
     process.env.NEXT_PUBLIC_BASE_PATH = '/fios-da-ria';
 
     expect(getAssetPath('/logo.png')).toBe('/fios-da-ria/logo.png');
-    expect(getAssetPath('images/woody.jpg')).toBe(
-      '/fios-da-ria/images/woody.jpg',
+    expect(getAssetPath('images/toystory-highlight.webp')).toBe(
+      '/fios-da-ria/images/toystory-highlight.webp',
     );
   });
 

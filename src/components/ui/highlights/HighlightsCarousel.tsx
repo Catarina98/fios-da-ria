@@ -17,6 +17,7 @@ export const HighlightsCarousel: FC<HighlightsCarouselProps> = ({
   isFullHeight,
   breadcrumbs,
   className,
+  primaryHeading = false,
   ...props
 }) => {
   const hasFullHeight = Boolean(isFullHeight);
@@ -100,6 +101,7 @@ export const HighlightsCarousel: FC<HighlightsCarouselProps> = ({
     return (
       <Highlights
         {...items[0]}
+        primaryHeading={primaryHeading}
         isFullHeight={items[0].isFullHeight ?? hasFullHeight}
         breadcrumbs={items[0].breadcrumbs ?? breadcrumbs}
         className={className}
@@ -145,6 +147,7 @@ export const HighlightsCarousel: FC<HighlightsCarouselProps> = ({
             >
               <Highlights
                 {...item}
+                primaryHeading={primaryHeading && index === 0}
                 isFullHeight={item.isFullHeight ?? hasFullHeight}
                 breadcrumbs={item.breadcrumbs ?? breadcrumbs}
               />

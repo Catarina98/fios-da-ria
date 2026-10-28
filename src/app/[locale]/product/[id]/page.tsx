@@ -1,8 +1,9 @@
 import { routing } from '@i18n/routing';
 import { getAllProductIds, getProductById } from '@lib/sanity/products';
+import { notFound } from 'next/navigation';
 import { setRequestLocale } from 'next-intl/server';
 
-import ProductPage from '../page';
+import ProductDetails from '../ProductDetails';
 
 const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://fiosdaria.pt';
 
@@ -33,15 +34,15 @@ export async function generateMetadata({ params }: ProductDetailPageProps) {
   }
 
   const isPt = locale === 'pt';
-  const title = `${product.title} | Fios da Ria`;
+  const title = product.title;
   const description =
     product.description ||
     (isPt
       ? `${product.title} – amigurumi feito à mão por Catarina, Fios da Ria.`
       : `${product.title} – handmade amigurumi by Catarina, Fios da Ria.`);
   const canonical = isPt
-    ? `${siteUrl}/product/${id}`
-    : `${siteUrl}/en/product/${id}`;
+    ? `${siteUrl}/product/${id}/`
+    : `${siteUrl}/en/product/${id}/`;
 
   return {
     title,
@@ -49,8 +50,8 @@ export async function generateMetadata({ params }: ProductDetailPageProps) {
     alternates: {
       canonical,
       languages: {
-        pt: `${siteUrl}/product/${id}`,
-        en: `${siteUrl}/en/product/${id}`,
+        pt: `${siteUrl}/product/${id}/`,
+        en: `${siteUrl}/en/product/${id}/`,
       },
     },
     openGraph: {
@@ -70,5 +71,8 @@ export default async function ProductDetailPage({
   const { locale, id } = await params;
   setRequestLocale(locale);
 
-  return <ProductPage productId={id} />;
+  const product = await getProductById(id, locale);
+  if (!product) notFound();
+
+  return <ProductDetails key={`${locale}:${id}`} initialProduct={product} />;
 }

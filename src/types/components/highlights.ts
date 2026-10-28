@@ -29,6 +29,7 @@ export type HighlightsCarouselProps = Omit<
   'title'
 > & {
   items: HighlightItem[];
+  primaryHeading?: boolean;
   autoPlayInterval?: number;
   autoPlay?: boolean;
   isFullHeight?: boolean;
@@ -37,6 +38,7 @@ export type HighlightsCarouselProps = Omit<
 };
 
 export type HighlightsType = Omit<HTMLAttributes<HTMLElement>, 'title'> & {
+  primaryHeading?: boolean;
   badge?: string;
   title: ReactNode;
   description: string;

@@ -17,9 +17,9 @@ vi.mock('@lib/sanity/products', () => ({
   getProductById: mockGetProductById,
 }));
 
-vi.mock('../../page', () => ({
-  default: ({ productId }: { productId: string }) => (
-    <div data-testid="product-page">Product ID: {productId}</div>
+vi.mock('../../ProductDetails', () => ({
+  default: ({ initialProduct }: { initialProduct: { id: string } }) => (
+    <div data-testid="product-page">Product ID: {initialProduct.id}</div>
   ),
 }));
 
@@ -31,6 +31,10 @@ import ProductDetailPage, {
 describe('ProductDetailPage', () => {
   beforeEach(() => {
     vi.clearAllMocks();
+    mockGetProductById.mockResolvedValue({
+      id: 'toy-story',
+      title: 'Toy Story',
+    });
   });
 
   describe('generateStaticParams', () => {
@@ -96,13 +100,13 @@ describe('ProductDetailPage', () => {
       });
 
       expect(metadata).toMatchObject({
-        title: 'Woody | Fios da Ria',
+        title: 'Woody',
         description: 'Handmade amigurumi Woody.',
         alternates: {
-          canonical: 'https://fiosdaria.pt/en/product/toy-story',
+          canonical: 'https://fiosdaria.pt/en/product/toy-story/',
           languages: {
-            pt: 'https://fiosdaria.pt/product/toy-story',
-            en: 'https://fiosdaria.pt/en/product/toy-story',
+            pt: 'https://fiosdaria.pt/product/toy-story/',
+            en: 'https://fiosdaria.pt/en/product/toy-story/',
           },
         },
         openGraph: {

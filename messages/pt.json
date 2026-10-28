@@ -296,6 +296,7 @@
         "paragraphs": [
           "Se houver algum problema, podes contactar-me em fiosdaria@gmail.com. Podes também apresentar uma reclamação no Livro de Reclamações Eletrónico, procurando a Fios da Ria na plataforma oficial.",
           "Em caso de litígio de consumo, podes recorrer a uma entidade de resolução alternativa de litígios (RAL). Para os conflitos abrangidos pela sua competência no Algarve, está disponível o Centro de Informação, Mediação e Arbitragem de Conflitos de Consumo do Algarve (CIMAAL).",
+          "A Fios da Ria não tem adesão voluntária a um centro de arbitragem de conflitos de consumo. Isso não afasta a arbitragem necessária nos casos previstos na lei: nos conflitos de consumo de valor até 5.000 €, o consumidor pode optar expressamente pela arbitragem ou mediação num centro legalmente autorizado e competente.",
           "A entidade competente depende do caso, incluindo o domicílio do consumidor e o local de celebração do contrato. Consulta o regulamento do centro e a lista oficial de centros autorizados, sobretudo para compras à distância noutras regiões. Esta informação não limita o recurso aos tribunais nem os direitos de arbitragem previstos na lei."
         ],
         "links": [
@@ -316,5 +317,10 @@
     ],
     "complaintsLink": "Livro de Reclamações",
     "disputesLink": "Resolução de litígios"
+  },
+  "Accessibility": {
+    "openMenu": "Abrir menu",
+    "closeMenu": "Fechar menu",
+    "mainNavigation": "Navegação principal"
   }
 }

@@ -10,7 +10,7 @@ const StoryBannerDemo = () => (
       <StoryBanner
         badge="Agenda"
         title="Próximos eventos"
-        imageSrc="/images/mercadinho.jpg"
+        imageSrc="/images/mercadinho.webp"
         imageAlt="Banca da Fios da Ria num mercado de artesanato"
         events={[
           {

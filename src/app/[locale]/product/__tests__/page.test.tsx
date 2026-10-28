@@ -59,10 +59,18 @@ vi.mock('@lib/sanity/products', () => ({
   getAllProductIds: vi.fn(async () => ['collection-toy-story']),
 }));
 
+import { getProductById } from '@lib/sanity/products';
+
 import ProductDetailPage, {
   generateStaticParams as generateDetailStaticParams,
 } from '../[id]/page';
 import ProductPage from '../page';
+
+beforeEach(() => {
+  vi.mocked(getProductById).mockImplementation(async id =>
+    id === 'collection-toy-story' ? mockProduct : null,
+  );
+});
 
 describe('Product Pages', () => {
   afterEach(cleanup);
@@ -73,7 +81,7 @@ describe('Product Pages', () => {
 
   describe('<ProductPage /> (Root)', () => {
     it('renders the default featured product', async () => {
-      render(<ProductPage />);
+      render(await ProductPage({ params: Promise.resolve({ locale: 'pt' }) }));
 
       expect(
         await screen.findByRole('heading', { level: 1 }),
@@ -142,7 +150,7 @@ describe('Product Pages', () => {
         ],
       };
       const { getProductById } = await import('@lib/sanity/products');
-      vi.mocked(getProductById).mockResolvedValueOnce(outOfStockProduct as any);
+      vi.mocked(getProductById).mockResolvedValue(outOfStockProduct as any);
 
       const params = Promise.resolve({
         locale: 'pt',
@@ -270,18 +278,13 @@ describe('Product Pages', () => {
         locale: 'pt',
         id: 'nonexistent-id',
       });
-      const pageResult = await ProductDetailPage({ params });
-      render(pageResult);
-
-      expect(
-        await screen.findByRole('heading', {
-          level: 2,
-          name: 'Produto não encontrado',
-        }),
-      ).toBeInTheDocument();
-      expect(
-        screen.getByRole('button', { name: /voltar à galeria/i }),
-      ).toBeInTheDocument();
+      const { notFound } = await import('next/navigation');
+      vi.mocked(notFound).mockImplementationOnce(() => {
+        throw new Error('NEXT_NOT_FOUND');
+      });
+      await expect(ProductDetailPage({ params })).rejects.toThrow(
+        'NEXT_NOT_FOUND',
+      );
     });
 
     it('generates static params for all locales and catalog products', async () => {
@@ -302,13 +305,17 @@ describe('Product Pages', () => {
 describe('Product buying information', () => {
   it('uses the decorative ghost materials and care instead of generic stuffing and washing advice', async () => {
     const { getProductById } = await import('@lib/sanity/products');
-    vi.mocked(getProductById).mockResolvedValueOnce({
+    vi.mocked(getProductById).mockResolvedValue({
       ...mockProduct,
       variants: [],
       materials: 'Fio 100% algodão. Olhos colados. Sem enchimento.',
       care: 'Limpar apenas suavemente.',
     });
-    render(<ProductPage productId="hanging-ghost-decor" />);
+    render(
+      await ProductDetailPage({
+        params: Promise.resolve({ locale: 'pt', id: 'hanging-ghost-decor' }),
+      }),
+    );
     await screen.findByTestId('product-buy-button');
     expect(
       screen.getByText('Fio 100% algodão. Olhos colados. Sem enchimento.'),
@@ -325,7 +332,7 @@ describe('Product buying information', () => {
 
   it('shows variant details and only publishes a reviewed age', async () => {
     const { getProductById } = await import('@lib/sanity/products');
-    vi.mocked(getProductById).mockResolvedValueOnce({
+    vi.mocked(getProductById).mockResolvedValue({
       ...mockProduct,
       dimensions: '20 cm',
       included: 'Uma personagem',
@@ -348,7 +355,11 @@ describe('Product buying information', () => {
         },
       ],
     });
-    render(<ProductPage productId="collection-toy-story" />);
+    render(
+      await ProductDetailPage({
+        params: Promise.resolve({ locale: 'pt', id: 'collection-toy-story' }),
+      }),
+    );
     await screen.findByTestId('product-buy-button');
     expect(screen.getByText('12 cm')).toBeInTheDocument();
     expect(screen.getByText('Uma personagem')).toBeInTheDocument();
@@ -367,13 +378,17 @@ describe('Product buying information', () => {
 
   it('offers contact without promising an order when repeat orders are disabled', async () => {
     const { getProductById } = await import('@lib/sanity/products');
-    vi.mocked(getProductById).mockResolvedValueOnce({
+    vi.mocked(getProductById).mockResolvedValue({
       ...mockProduct,
       variants: [],
       vintedUrl: undefined,
       acceptsOrders: false,
     });
-    render(<ProductPage productId="collection-toy-story" />);
+    render(
+      await ProductDetailPage({
+        params: Promise.resolve({ locale: 'pt', id: 'collection-toy-story' }),
+      }),
+    );
     expect(await screen.findByTestId('product-buy-button')).toHaveTextContent(
       'Contactar',
     );

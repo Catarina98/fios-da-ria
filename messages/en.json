@@ -296,6 +296,7 @@
         "paragraphs": [
           "If there is a problem, contact me at fiosdaria@gmail.com. You can also submit a complaint through Portugal’s official electronic complaints book by searching for Fios da Ria.",
           "For a consumer dispute, you can contact an alternative dispute resolution (ADR) body. The Centro de Informação, Mediação e Arbitragem de Conflitos de Consumo do Algarve (CIMAAL) is available for disputes falling within its jurisdiction in the Algarve.",
+          "Fios da Ria has not voluntarily joined a consumer arbitration centre. This does not exclude mandatory arbitration where required by Portuguese law: for consumer disputes of up to €5,000, the consumer may expressly choose arbitration or mediation through a legally authorised centre with jurisdiction.",
           "The competent body depends on the case, including the consumer’s residence and where the contract was concluded. Check the centre’s rules and the official list of authorised centres, particularly for distance purchases in other regions. This information does not limit access to courts or statutory arbitration rights."
         ],
         "links": [
@@ -316,5 +317,10 @@
     ],
     "complaintsLink": "Electronic complaints book",
     "disputesLink": "Dispute resolution"
+  },
+  "Accessibility": {
+    "openMenu": "Open menu",
+    "closeMenu": "Close menu",
+    "mainNavigation": "Main navigation"
   }
 }

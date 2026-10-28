@@ -11,21 +11,21 @@ const ProductCardDemo = () => (
         <ProductCard
           title="Woody"
           category="Toy Story"
-          image="/images/toystory-highlight.jpg"
+          image="/images/toystory-highlight.webp"
           price="€48"
           url="/product/collection-toy-story"
         />
         <ProductCard
           title="Branca de Neve"
           category="Disney Princess"
-          image="/images/snow-white.jpg"
+          image="/images/snow-white.webp"
           price="€65"
           url="/product/collection-disney-princesses"
         />
         <ProductCard
           title="Anya Forger"
           category="Spy Family"
-          image="/images/anya.jpg"
+          image="/images/anya.webp"
           price="€42"
           url="/product/collection-spy-family"
         />

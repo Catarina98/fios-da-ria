@@ -45,7 +45,7 @@ export const getDefaultHighlights = (
         title: 'Stories made of yarn, <highlight>stitch by stitch.</highlight>',
         description:
           'Welcome to Fios da Ria. I am Catarina, and I create detailed, handmade amigurumi figures. Soft, fluffy and full of personality.',
-        imageSrc: '/images/toystory-highlight.jpg',
+        imageSrc: '/images/toystory-highlight.webp',
         imageAlt: 'Three colorful crochet figures in nature',
         button: {
           children: 'View Gallery',
@@ -72,7 +72,7 @@ export const getDefaultHighlights = (
       title: 'Histórias feitas de fio, <highlight>ponto a ponto.</highlight>',
       description:
         'Bem-vindos à Fios da Ria. Eu sou a Catarina, e crio figuras amigurumi detalhadas e feitas à mão. Macias, fofinhas e cheias de personalidade.',
-      imageSrc: '/images/toystory-highlight.jpg',
+      imageSrc: '/images/toystory-highlight.webp',
       imageAlt: 'Três bonecos de crochet coloridos na natureza',
       button: {
         children: 'Ver Galeria',
@@ -100,7 +100,7 @@ export const formatSanityHighlight = (
     ? typeof raw.image === 'string'
       ? raw.image
       : urlFor(raw.image)
-    : '/images/toystory-highlight.jpg';
+    : '/images/toystory-highlight.webp';
 
   const buttonText = getLocalizedValue(raw.buttonText, locale);
   const secondaryButtonText = getLocalizedValue(

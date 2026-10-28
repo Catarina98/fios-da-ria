@@ -50,7 +50,7 @@ export async function generateMetadata({ params }: AboutPageProps) {
       description,
       url: canonical,
       images: [
-        { url: `${siteUrl}/images/catarina.jpg`, alt: t('hero.imageAlt') },
+        { url: `${siteUrl}/images/catarina.webp`, alt: t('hero.imageAlt') },
       ],
     },
   };
@@ -101,7 +101,7 @@ export default async function AboutPage({ params }: Readonly<AboutPageProps>) {
         badge={t('hero.badge')}
         title={t('hero.title')}
         description={t('hero.lead')}
-        imageSrc={getAssetPath('/images/catarina.jpg')}
+        imageSrc={getAssetPath('/images/catarina.webp')}
         imageAlt={t('hero.imageAlt')}
         button={{
           children: t('hero.galleryButton'),
