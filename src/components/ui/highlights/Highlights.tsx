@@ -28,6 +28,7 @@ const Highlights: FC<HighlightsType> = ({
   isFullHeight,
   breadcrumbs,
   className,
+  primaryHeading = false,
   ...props
 }) => {
   const hasFullHeight = Boolean(isFullHeight);
@@ -103,7 +104,11 @@ const Highlights: FC<HighlightsType> = ({
             </div>
           )}
 
-          <Display size="M" className="highlights-title">
+          <Display
+            as={primaryHeading ? 'h1' : 'h2'}
+            size="M"
+            className="highlights-title"
+          >
             {highlightText(title)}
           </Display>
 

@@ -1,5 +1,10 @@
+import {
+  Children,
+  isValidElement,
+  type ReactElement,
+  type ReactNode,
+} from 'react';
 import { render, screen } from '@tests/test-utils';
-import type { ReactNode } from 'react';
 import { beforeEach, describe, expect, it, vi } from 'vitest';
 
 const {
@@ -53,9 +58,14 @@ describe('<RootLayout />', () => {
       params: Promise.resolve({ locale: 'pt' }),
     });
 
-    render(result);
+    expect(result.type).toBe('html');
+    expect(result.props.lang).toBe('pt');
+    const body = Children.toArray(result.props.children).find(
+      child => isValidElement(child) && child.type === 'body',
+    ) as ReactElement<{ children: ReactNode }>;
+    expect(body).toBeDefined();
+    render(<>{body.props.children}</>);
 
-    expect(document.documentElement.lang).toBe('pt');
     expect(screen.getByRole('main')).toBeInTheDocument();
     expect(screen.getByText('Page content')).toBeInTheDocument();
     expect(mockSetRequestLocale).toHaveBeenCalledWith('pt');

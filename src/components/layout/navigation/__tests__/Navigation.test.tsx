@@ -20,9 +20,8 @@ vi.mock('next-intl', async importOriginal => {
 
   return {
     ...actual,
-    useTranslations: () => ({
-      raw: mockRaw,
-    }),
+    useTranslations: () =>
+      Object.assign((key: string) => key, { raw: mockRaw }),
   };
 });
 

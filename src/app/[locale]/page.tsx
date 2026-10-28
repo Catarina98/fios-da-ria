@@ -10,6 +10,7 @@ import { getProducts } from '@lib/sanity/products';
 import { ButtonVariant } from '@typing/components/button';
 import { HighlightItem } from '@typing/components/highlights';
 import { getAssetPath } from '@utils/getAssetPath';
+import type { Metadata } from 'next';
 import { useTranslations } from 'next-intl';
 import { setRequestLocale } from 'next-intl/server';
 
@@ -24,6 +25,57 @@ export function generateStaticParams() {
 type HomeProps = {
   params: Promise<{ locale: string }>;
 };
+
+export async function generateMetadata({
+  params,
+}: HomeProps): Promise<Metadata> {
+  const { locale } = await params;
+  const siteUrl = (
+    process.env.NEXT_PUBLIC_SITE_URL || 'https://fiosdaria.pt'
+  ).replace(/\/$/, '');
+  const isPt = locale === 'pt';
+  const canonical = `${siteUrl}${isPt ? '/' : '/en/'}`;
+  const title = isPt
+    ? 'Fios da Ria – Amigurumis feitos à mão em Portugal'
+    : 'Fios da Ria – Handmade amigurumi in Portugal';
+  const description = isPt
+    ? 'Amigurumis em croché feitos à mão pela Catarina, em Olhão. Explora as coleções, compra na Wallapop ou fala comigo sobre uma encomenda personalizada.'
+    : 'Crochet amigurumi handmade by Catarina in Olhão, Portugal. Explore the collections, buy on Wallapop or ask about a custom order.';
+
+  return {
+    title: { absolute: title },
+    description,
+    alternates: {
+      canonical,
+      languages: {
+        pt: `${siteUrl}/`,
+        en: `${siteUrl}/en/`,
+        'x-default': `${siteUrl}/`,
+      },
+    },
+    openGraph: {
+      type: 'website',
+      siteName: 'Fios da Ria',
+      url: canonical,
+      locale: isPt ? 'pt_PT' : 'en_GB',
+      alternateLocale: [isPt ? 'en_GB' : 'pt_PT'],
+      title,
+      description,
+      images: [
+        {
+          url: `${siteUrl}/images/toystory-highlight.webp`,
+          alt: isPt ? 'Amigurumis da Fios da Ria' : 'Fios da Ria amigurumis',
+        },
+      ],
+    },
+    twitter: {
+      card: 'summary_large_image',
+      title,
+      description,
+      images: [`${siteUrl}/images/toystory-highlight.webp`],
+    },
+  };
+}
 
 export default async function Home({ params }: HomeProps) {
   const { locale } = await params;
@@ -52,7 +104,7 @@ function HomeContent({
 
   return (
     <div className="home-page" data-testid="homepage-container">
-      <HighlightsCarousel items={highlights} />
+      <HighlightsCarousel items={highlights} primaryHeading />
 
       <section
         className="home-section"
@@ -108,7 +160,7 @@ function HomeContent({
           <div className="home-custom-card">
             <div className="home-custom-image">
               <img
-                src={getAssetPath('/images/anya.jpg')}
+                src={getAssetPath('/images/anya.webp')}
                 alt={t('custom.imageAlt')}
                 width={3024}
                 height={3024}
@@ -162,7 +214,7 @@ function HomeContent({
           <StoryBanner
             badge={t('agenda.badge')}
             title={t('agenda.title')}
-            imageSrc="/images/mercadinho.jpg"
+            imageSrc="/images/mercadinho.webp"
             imageAlt={t('agenda.imageAlt')}
             events={[
               {

@@ -35,7 +35,7 @@ describe('StoryBanner Component', () => {
     render(
       <StoryBanner
         title="Agenda de Feiras"
-        imageSrc="/images/mercadinho.jpg"
+        imageSrc="/images/mercadinho.webp"
       />,
     );
 
@@ -49,7 +49,7 @@ describe('StoryBanner Component', () => {
     render(
       <StoryBanner
         title={(<span>Título Complexo</span>) as unknown as string}
-        imageSrc="/images/mercadinho.jpg"
+        imageSrc="/images/mercadinho.webp"
       />,
     );
 
@@ -61,7 +61,7 @@ describe('StoryBanner Component', () => {
       <StoryBanner
         badge=""
         title="Sem eventos"
-        imageSrc="/images/mercadinho.jpg"
+        imageSrc="/images/mercadinho.webp"
         className="custom-story-class"
       />,
     );

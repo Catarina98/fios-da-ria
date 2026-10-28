@@ -18,7 +18,7 @@ const HighlightsDemo = () => (
               'Histórias feitas de fio, <highlight>ponto a ponto.</highlight>',
             description:
               'Bem-vindos à Fios da Ria. Eu sou a Catarina, e crio figuras amigurumi detalhadas e feitas à mão. Macias, fofinhas e cheias de personalidade.',
-            imageSrc: '/images/toystory-highlight.jpg',
+            imageSrc: '/images/toystory-highlight.webp',
             imageAlt: 'Três bonecos de crochet coloridos na natureza',
             button: {
               children: 'Ver Galeria',
@@ -42,7 +42,7 @@ const HighlightsDemo = () => (
               'O encanto do crochet em <highlight>cada detalhe.</highlight>',
             description:
               'Descubra a nossa nova coleção inspirada na natureza e personagens mágicos.',
-            imageSrc: '/images/catarina-highlight.jpg',
+            imageSrc: '/images/catarina.webp',
             imageAlt: 'Catarina a crochetar amigurumi',
             button: {
               children: 'Explorar Coleção',
@@ -63,7 +63,7 @@ const HighlightsDemo = () => (
         badge="Feito à mão em Portugal"
         title="Histórias feitas de fio, <highlight>ponto a ponto.</highlight>"
         description="Bem-vindos à Fios da Ria. Eu sou a Catarina, e crio figuras amigurumi detalhadas e feitas à mão. Macias, fofinhas e cheias de personalidade."
-        imageSrc="/images/toystory-highlight.jpg"
+        imageSrc="/images/toystory-highlight.webp"
         imageAlt="Três bonecos de crochet coloridos na natureza"
         button={{
           children: 'Ver Galeria',

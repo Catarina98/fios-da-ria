@@ -15,7 +15,7 @@ const mockFeaturedProducts = [
     title: 'Woody',
     category: 'Toy Story',
     description: 'O xerife mais leal de Toy Story',
-    image: '/images/woody.jpg',
+    image: '/images/toystory-highlight.webp',
     price: '€48',
     variants: [],
   },
@@ -24,7 +24,7 @@ const mockFeaturedProducts = [
     title: 'Branca de Neve',
     category: 'Princesas Disney',
     description: 'A primeira princesa Disney',
-    image: '/images/snow-white.jpg',
+    image: '/images/snow-white.webp',
     price: '€65',
     variants: [],
   },
@@ -33,7 +33,7 @@ const mockFeaturedProducts = [
     title: 'Anya Forger',
     category: 'Spy × Family',
     description: 'A pequena telepata',
-    image: '/images/anya.jpg',
+    image: '/images/anya.webp',
     price: '€42',
     variants: [],
   },
@@ -48,7 +48,7 @@ const mockHeroHighlight = {
   badge: 'Feito à mão em Portugal',
   title: 'Histórias feitas de fio, ponto a ponto.',
   description: 'Bem-vindos à Fios da Ria.',
-  imageSrc: '/images/toystory-highlight.jpg',
+  imageSrc: '/images/toystory-highlight.webp',
   button: { children: 'Ver Galeria', url: '/gallery' },
   secondaryButton: { children: 'Conhecer a Catarina', url: '/about' },
   note: { text: 'Peças únicas, feitas com carinho' },
@@ -58,7 +58,7 @@ vi.mock('@lib/sanity/highlights', () => ({
   getHighlights: vi.fn(async () => [mockHeroHighlight]),
 }));
 
-import Home, { generateStaticParams } from '../page';
+import Home, { generateMetadata, generateStaticParams } from '../page';
 
 describe('<Home />', () => {
   afterEach(cleanup);
@@ -75,6 +75,7 @@ describe('<Home />', () => {
 
     expect(mockSetRequestLocale).toHaveBeenCalledWith('pt');
     expect(screen.getByTestId('homepage-container')).toBeInTheDocument();
+    expect(screen.getAllByRole('heading', { level: 1 })).toHaveLength(1);
 
     // 1. Hero Highlights
     expect(screen.getByTestId('highlights-component')).toBeInTheDocument();
@@ -121,5 +122,58 @@ describe('<Home />', () => {
   it('generates static params for all supported locales', () => {
     const params = generateStaticParams();
     expect(params).toEqual([{ locale: 'pt' }, { locale: 'en' }]);
+  });
+});
+
+describe('Homepage metadata', () => {
+  afterEach(() => vi.unstubAllEnvs());
+
+  it.each([
+    {
+      locale: 'pt',
+      path: '/',
+      title: 'Amigurumis feitos à mão',
+      ogLocale: 'pt_PT',
+    },
+    {
+      locale: 'en',
+      path: '/en/',
+      title: 'Handmade amigurumi',
+      ogLocale: 'en_GB',
+    },
+  ])(
+    'generates canonical and localized metadata for $locale',
+    async ({ locale, path, title, ogLocale }) => {
+      vi.stubEnv('NEXT_PUBLIC_SITE_URL', '');
+      const metadata = await generateMetadata({
+        params: Promise.resolve({ locale }),
+      });
+
+      expect(metadata.title).toEqual({
+        absolute: expect.stringContaining(title),
+      });
+      expect(metadata.alternates).toMatchObject({
+        canonical: `https://fiosdaria.pt${path}`,
+        languages: {
+          pt: 'https://fiosdaria.pt/',
+          en: 'https://fiosdaria.pt/en/',
+          'x-default': 'https://fiosdaria.pt/',
+        },
+      });
+      expect(metadata.openGraph).toMatchObject({
+        locale: ogLocale,
+        url: `https://fiosdaria.pt${path}`,
+      });
+      expect(metadata.twitter).toMatchObject({ card: 'summary_large_image' });
+    },
+  );
+
+  it('normalizes the configured site URL without duplicate slashes', async () => {
+    vi.stubEnv('NEXT_PUBLIC_SITE_URL', 'https://example.com/');
+    const metadata = await generateMetadata({
+      params: Promise.resolve({ locale: 'en' }),
+    });
+
+    expect(metadata.alternates?.canonical).toBe('https://example.com/en/');
   });
 });

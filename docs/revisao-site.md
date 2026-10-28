@@ -1,5 +1,27 @@
 # Revisão do site Fios da Ria
 
+## Melhorias técnicas de 27 de outubro de 2026
+
+- As fichas recebem o produto na renderização estática, em vez de publicar
+  inicialmente «Produto não encontrado». Os IDs inexistentes usam `notFound()`.
+  O componente interativo mantém a atualização de disponibilidade pelo Sanity.
+- A homepage tem canonical, alternates PT/EN e x-default, metadados por idioma
+  e um único título principal h1 no primeiro destaque. Os restantes são h2.
+- O sitemap inclui ambas as línguas, com barras finais consistentes. Não atribui
+  a todos os conteúdos uma data de modificação artificial a cada build.
+- O menu móvel usa botões nomeados, diálogo nativo, controlo de foco, fecho por
+  Escape e bloqueio do scroll enquanto está aberto.
+- Fotografias usadas convertidas para WebP com dimensões adequadas: Anya,
+  Catarina, mercadinho, Toy Story (fallback) e Branca de Neve (showcase).
+  Total destas cinco imagens: 6.216.290 para 907.502 bytes, cerca de 85% menos.
+  Os JPEG antigos foram substituídos; Woody e catarina2, sem uso real,
+  foram removidos. O histórico Git conserva os ficheiros anteriores.
+
+As alterações técnicas não resolvem a informação profissional em falta nem a
+avaliação de conformidade das peças. A morada profissional válida continua por
+definir, e a política de privacidade depende de confirmar os tratamentos e prazos
+de conservação descritos abaixo. Não foram publicadas páginas com dados inventados.
+
 ## Alterações preparadas em 23 de outubro de 2026
 
 O site continua a ser uma montra com compra na Wallapop e pedidos por mensagem.
@@ -155,7 +177,13 @@ O fundamento da isenção deixou de estar pendente; esta confirmação regista a
 menção utilizada nas faturas, sem constituir uma avaliação fiscal independente.
 Livro de Reclamações Eletrónico confirmado sob a marca e o NIF da responsável.
 Foi acrescentada ao rodapé uma ligação à plataforma oficial, sem depender de uma
-ligação individual. Não existe adesão RAL declarada. A página Como comprar passa
+ligação individual. A Catarina confirmou que não tem adesão voluntária a um
+centro RAL. Em 27/10/2026, foi explicitado esse facto na página Como comprar,
+em PT/EN, preservando a informação sobre arbitragem necessária, por opção
+expressa do consumidor, para conflitos de consumo até 5.000 € num centro
+autorizado competente. Não é necessária uma integração técnica ou conta RAL.
+A antiga plataforma europeia RLL/ODR encerrou em 20/07/2025; não foi acrescentada
+uma ligação para esse serviço. A página Como comprar passa
 a indicar o CIMAAL para conflitos abrangidos pela sua competência no Algarve e
 a lista oficial de centros autorizados para os restantes casos; não declara adesão
 da Fios da Ria. A competência deve ser apreciada também nas vendas à distância,
