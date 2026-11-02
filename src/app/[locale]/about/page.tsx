@@ -103,6 +103,7 @@ export default async function AboutPage({ params }: Readonly<AboutPageProps>) {
         description={t('hero.lead')}
         imageSrc={getAssetPath('/images/catarina.webp')}
         imageAlt={t('hero.imageAlt')}
+        imagePriority
         button={{
           children: t('hero.galleryButton'),
           url: '/gallery',
@@ -191,7 +192,7 @@ export default async function AboutPage({ params }: Readonly<AboutPageProps>) {
                 {t('contact.lead')}
               </Body>
               <Button url="/how-to-buy#custom" variant={ButtonVariant.Primary}>
-                {t('contact.emailSubject')}
+                {t('contact.orderButton')}
               </Button>
             </div>
 

@@ -1,4 +1,4 @@
-import { render, screen, within } from '@tests/test-utils';
+import { fireEvent, render, screen, within } from '@tests/test-utils';
 import { describe, expect, it, vi } from 'vitest';
 
 import en from '../../../../../messages/en.json';
@@ -26,7 +26,9 @@ describe('Buying guide', () => {
   it('explains deposits, both delivery methods and custom requests before purchase', async () => {
     render(await BuyingPage({ params: Promise.resolve({ locale: 'pt' }) }));
     expect(
-      screen.getByRole('heading', { name: 'Como comprar e encomendar' }),
+      screen.getByRole('heading', {
+        name: 'Como comprar — perguntas frequentes',
+      }),
     ).toBeInTheDocument();
     expect(
       screen.getByText(/primeiras 24 horas após o pagamento inicial/),
@@ -38,10 +40,14 @@ describe('Buying guide', () => {
     expect(
       screen.getByText(/não perde esse direito apenas por/),
     ).toBeInTheDocument();
+    const customQuestion = screen.getByText(
+      'Aceitas encomendas personalizadas?',
+    );
+    fireEvent.click(customQuestion.closest('summary')!);
     expect(
-      within(
-        screen.getByRole('region', { name: 'Pedir uma peça personalizada' }),
-      ).getByRole('link', { name: 'Pedir uma peça personalizada' }),
+      within(customQuestion.closest('details')!).getByRole('link', {
+        name: 'Pedir uma peça personalizada',
+      }),
     ).toHaveAttribute('href', 'https://ig.me/m/fiosdaria');
   });
 

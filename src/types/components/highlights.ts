@@ -39,6 +39,7 @@ export type HighlightsCarouselProps = Omit<
 
 export type HighlightsType = Omit<HTMLAttributes<HTMLElement>, 'title'> & {
   primaryHeading?: boolean;
+  imagePriority?: boolean;
   badge?: string;
   title: ReactNode;
   description: string;

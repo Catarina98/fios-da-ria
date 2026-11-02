@@ -7,7 +7,7 @@ import { BadgeVariant } from '@typing/components/badge';
 import { ButtonVariant } from '@typing/components/button';
 import type { ProductCardType } from '@typing/components/productcard';
 import { cn } from '@utils/cn';
-import { getAssetPath } from '@utils/getAssetPath';
+import { getResponsiveImage } from '@utils/getResponsiveImage';
 import { ArrowRight } from 'lucide-react';
 
 import './ProductCard.scss';
@@ -35,7 +35,16 @@ const ProductCard: FC<ProductCardType> = ({
 
   const imageContent = (
     <>
-      <img src={getAssetPath(image)} alt={imageAlt || title} loading="lazy" />
+      <img
+        {...getResponsiveImage(image, {
+          widths: [240, 360, 480, 640, 800],
+          sizes:
+            '(min-width: 1400px) 430px, (min-width: 1024px) 31vw, (min-width: 640px) 46vw, calc(100vw - 32px)',
+        })}
+        alt={imageAlt || title}
+        loading="lazy"
+        decoding="async"
+      />
       {category && (
         <Badge
           variant={BadgeVariant.Secondary}

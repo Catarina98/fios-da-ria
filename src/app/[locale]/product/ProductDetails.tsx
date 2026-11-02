@@ -12,7 +12,7 @@ import { getProductById } from '@lib/sanity/products';
 import { BadgeSize, BadgeVariant } from '@typing/components/badge';
 import { ButtonVariant } from '@typing/components/button';
 import { cn } from '@utils/cn';
-import { getAssetPath } from '@utils/getAssetPath';
+import { getResponsiveImage } from '@utils/getResponsiveImage';
 import { ExternalLink, Heart } from 'lucide-react';
 import { useLocale, useTranslations } from 'next-intl';
 
@@ -212,8 +212,13 @@ export default function ProductDetails({
                         onClick={() => handleSelectVariant(variant.id)}
                       >
                         <img
-                          src={getAssetPath(variant.image)}
+                          {...getResponsiveImage(variant.image, {
+                            widths: [80, 120, 160],
+                            sizes: '64px',
+                          })}
                           alt={variant.name}
+                          loading="lazy"
+                          decoding="async"
                         />
                         <span>{variant.name}</span>
                       </button>

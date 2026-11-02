@@ -206,30 +206,28 @@
       "marketLabel": "Mercadinho Local",
       "marketValue": "Avenida da República, Olhão, aos sábados, das 9h às 12h30. Outros mercados são anunciados no Instagram.",
       "sendMessage": "Enviar mensagem",
-      "emailSubject": "Ideia especial / Encomenda personalizada"
+      "emailSubject": "Ideia especial / Encomenda personalizada",
+      "orderButton": "Pedir encomenda"
     }
   },
   "Buying": {
-    "title": "Como comprar e encomendar",
+    "title": "Como comprar — perguntas frequentes",
     "eyebrow": "Feito à mão, combinado contigo",
-    "description": "Peças disponíveis na Wallapop, encomendas por mensagem e entregas em mãos em Faro e Olhão. Descobre como funciona cada opção.",
-    "indexLabel": "Nesta página",
+    "description": "Compra na Wallapop, encomendas por mensagem e entregas em mãos em Faro e Olhão. Abre as perguntas para saberes mais.",
     "customButton": "Pedir uma peça personalizada",
     "emailButton": "Enviar email",
     "galleryButton": "Explorar a galeria",
     "sections": [
       {
         "id": "available",
-        "title": "Comprar uma peça disponível",
+        "title": "Como compro uma peça disponível?",
         "paragraphs": [
-          "Na galeria, as peças em stock têm um anúncio associado. O botão Comprar na Wallapop abre o anúncio onde podes consultar os detalhes e concluir a compra e o pagamento.",
-          "Os custos e as condições de envio são os apresentados pela Wallapop antes do pagamento. Para estas compras, cumpro os prazos e procedimentos de envio da plataforma.",
-          "Se preferires entrega em mãos em Faro ou Olhão, fala comigo antes de comprar para combinarmos o encontro e o pagamento. Não há portes nesta modalidade."
+          "Na galeria, as peças em stock têm um anúncio associado. O botão Comprar na Wallapop abre o anúncio onde podes consultar os detalhes e concluir a compra e o pagamento."
         ]
       },
       {
         "id": "orders",
-        "title": "Encomendar uma peça fora de stock",
+        "title": "Posso encomendar uma peça esgotada?",
         "paragraphs": [
           "Se gostaste de uma peça que está esgotada, usa o botão Pedir por encomenda. Analiso se é possível voltar a fazê-la e confirmo contigo o preço e o prazo. O pedido de informação não garante a aceitação da encomenda.",
           "Uma peça feita à mão pode apresentar pequenas diferenças entre exemplares. As características acordadas são confirmadas antes do pagamento inicial."
@@ -237,7 +235,7 @@
       },
       {
         "id": "custom",
-        "title": "Pedir uma peça personalizada",
+        "title": "Aceitas encomendas personalizadas?",
         "paragraphs": [
           "Envia-me a tua ideia e algumas imagens de referência por Instagram ou email. Avalio cada projeto antes de confirmar se o consigo realizar.",
           "Algumas referências, incluindo imagens geradas por inteligência artificial, podem não ser possíveis de reproduzir em croché. Posso recusar um pedido por limitações técnicas, falta de experiência com o projeto ou indisponibilidade.",
@@ -246,17 +244,16 @@
       },
       {
         "id": "payment",
-        "title": "Pagamento e confirmação",
+        "title": "Como funciona o pagamento?",
         "paragraphs": [
           "Depois de acordarmos a encomenda, é necessário pagar 50% do valor para a confirmar, por MB WAY ou em mãos, conforme combinado. Os dados de pagamento são partilhados em privado.",
           "Quando a peça estiver pronta, volto a contactar-te. Na entrega em mãos em Faro ou Olhão, pagas os restantes 50% no encontro.",
-          "Se escolheres envio pelos CTT, o valor em falta e os portes acordados são pagos antes do envio. O custo dos portes é confirmado contigo antes de aceitares essa modalidade.",
           "Também podes pedir para concluir a compra pela Wallapop. Antes de pagar, confirmamos como será considerado o montante já entregue e se a modalidade é compatível com as regras da plataforma, para evitares pagar duas vezes. Os custos e as condições aplicáveis são apresentados na Wallapop."
         ]
       },
       {
         "id": "timing",
-        "title": "Prazos de confeção e envio",
+        "title": "Quanto tempo demora a confeção?",
         "paragraphs": [
           "O prazo depende da complexidade da peça e das encomendas que tenho em curso. Confirmo contigo uma data ou prazo de conclusão antes do pagamento inicial.",
           "Como referência, um mini Stitch pode demorar entre 2 e 5 dias se não houver outras encomendas em curso. Uma personagem mais complexa, como uma de One Piece, pode levar cerca de 10 dias úteis. São exemplos, não prazos garantidos para todos os pedidos.",
@@ -264,8 +261,17 @@
         ]
       },
       {
+        "id": "shipping",
+        "title": "Fazes envios e entregas em mãos?",
+        "paragraphs": [
+          "Os custos e as condições de envio são os apresentados pela Wallapop antes do pagamento. Para estas compras, cumpro os prazos e procedimentos de envio da plataforma.",
+          "Se preferires entrega em mãos em Faro ou Olhão, fala comigo antes de comprar para combinarmos o encontro e o pagamento. Não há portes nesta modalidade.",
+          "Se escolheres envio pelos CTT, o valor em falta e os portes acordados são pagos antes do envio. O custo dos portes é confirmado contigo antes de aceitares essa modalidade."
+        ]
+      },
+      {
         "id": "cancellations",
-        "title": "Cancelamentos e devoluções",
+        "title": "Posso cancelar ou devolver?",
         "paragraphs": [
           "Se cancelares nas primeiras 24 horas após o pagamento inicial, devolvo os 50% pagos. Comunica o cancelamento por email ou mensagem, para ficar registado.",
           "Para peças realmente personalizadas, feitas segundo as tuas especificações, a condição proposta para cancelamentos após essas 24 horas é a retenção do pagamento inicial, quando legalmente aplicável e acordada antes da confirmação. Esta condição não limita os direitos legais que te assistam.",
@@ -276,7 +282,7 @@
       },
       {
         "id": "market",
-        "title": "Encontrar-me no mercadinho",
+        "title": "Onde te encontro no mercadinho?",
         "paragraphs": [
           "Encontras-me no Mercadinho de Olhão, na Avenida da República, aos sábados, das 9h às 12h30.",
           "Participo pontualmente noutros mercados. Anuncio essas presenças e eventuais alterações no Instagram @fiosdaria. Podes também enviar-me mensagem antes de te deslocares."
@@ -284,39 +290,27 @@
       },
       {
         "id": "care",
-        "title": "Materiais e cuidados",
+        "title": "Como cuido da minha peça?",
         "paragraphs": [
-          "As fichas indicam os materiais e os cuidados de cada peça. Nos bonecos e bolas de Natal uso fio 100% algodão, olhos com travas e enchimento antialérgico; existem exceções, como os porta-chaves com olhos bordados e o fantasma decorativo sem chapéu, com olhos colados e sem enchimento.",
-          "Segue os cuidados da ficha: a maioria das peças pode ser lavada à mão, sem torcer, e deve secar à sombra. O fantasma decorativo sem chapéu deve ser apenas limpo suavemente. A utilização prevista e os avisos devem ser confirmados para cada produto antes da compra, sobretudo se a peça se destinar a uma criança."
+          "Uso fio 100% algodão. Os restantes materiais e acabamentos podem variar, por isso consulta a ficha de cada peça para conheceres a sua composição e os cuidados recomendados.",
+          "Segue sempre os cuidados indicados na ficha. Quando a lavagem for permitida, lava à mão, sem torcer, e deixa secar à sombra. Confirma a utilização prevista e os avisos antes da compra, sobretudo se a peça se destinar a uma criança."
         ]
       },
       {
         "id": "complaints",
-        "title": "Reclamações e resolução de litígios",
+        "title": "Como apresento uma reclamação?",
         "paragraphs": [
-          "Se houver algum problema, podes contactar-me em fiosdaria@gmail.com. Podes também apresentar uma reclamação no Livro de Reclamações Eletrónico, procurando a Fios da Ria na plataforma oficial.",
-          "Em caso de litígio de consumo, podes recorrer a uma entidade de resolução alternativa de litígios (RAL). Para os conflitos abrangidos pela sua competência no Algarve, está disponível o Centro de Informação, Mediação e Arbitragem de Conflitos de Consumo do Algarve (CIMAAL).",
-          "A Fios da Ria não tem adesão voluntária a um centro de arbitragem de conflitos de consumo. Isso não afasta a arbitragem necessária nos casos previstos na lei: nos conflitos de consumo de valor até 5.000 €, o consumidor pode optar expressamente pela arbitragem ou mediação num centro legalmente autorizado e competente.",
-          "A entidade competente depende do caso, incluindo o domicílio do consumidor e o local de celebração do contrato. Consulta o regulamento do centro e a lista oficial de centros autorizados, sobretudo para compras à distância noutras regiões. Esta informação não limita o recurso aos tribunais nem os direitos de arbitragem previstos na lei."
+          "Se houver algum problema, podes contactar-me em fiosdaria@gmail.com. Podes também apresentar uma reclamação no Livro de Reclamações Eletrónico, procurando a Fios da Ria na plataforma oficial."
         ],
         "links": [
           {
             "label": "Livro de Reclamações",
             "href": "https://www.livroreclamacoes.pt/Inicio/"
-          },
-          {
-            "label": "CIMAAL — consumoalgarve.pt",
-            "href": "https://www.consumoalgarve.pt/"
-          },
-          {
-            "label": "Centros de arbitragem autorizados — Justiça.gov.pt",
-            "href": "https://dgpj.justica.gov.pt/Resolucao-de-Litigios/Arbitragem/Centros-de-Arbitragem-autorizados"
           }
         ]
       }
     ],
-    "complaintsLink": "Livro de Reclamações",
-    "disputesLink": "Resolução de litígios"
+    "complaintsLink": "Livro de Reclamações"
   },
   "Accessibility": {
     "openMenu": "Abrir menu",

@@ -9,33 +9,51 @@
     margin-top: 32px;
   }
 
-  .buying-index {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 12px 24px;
-    margin: 24px 0 40px;
-
-    a {
-      color: var(--txt-accent);
-      text-decoration: underline;
-      text-underline-offset: 4px;
-    }
-  }
-
   .buying-sections {
     display: grid;
-    gap: 24px;
-    margin-bottom: 32px;
+    gap: 12px;
+    margin: 32px 0;
 
-    section {
-      padding: clamp(20px, 4vw, 32px);
+    details {
       background: var(--bg-grey);
       border-radius: var(--radius-lg, 16px);
       scroll-margin-top: 100px;
+      border: 1px solid var(--border-primary);
+    }
+
+    summary {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+      padding: clamp(18px, 3vw, 24px);
+      cursor: pointer;
+      list-style: none;
+      border-radius: inherit;
+
+      &::-webkit-details-marker {
+        display: none;
+      }
+
+      &:focus-visible {
+        outline: 2px solid var(--txt-accent);
+        outline-offset: 3px;
+      }
+
+      svg {
+        flex-shrink: 0;
+        color: var(--txt-secondary);
+      }
+    }
+
+    details[open] > summary svg {
+      transform: rotate(180deg);
     }
 
     h2 {
-      font-size: 24px;
+      margin: 0;
+      font-size: clamp(1.0625rem, 2.5vw, 1.25rem);
+      line-height: 1.4;
       font-weight: 700;
       color: var(--txt-tertiary);
     }
@@ -43,6 +61,14 @@
     p {
       margin-top: 16px;
       line-height: 1.7;
+    }
+
+    .buying-answer {
+      padding: 0 clamp(18px, 3vw, 24px) clamp(18px, 3vw, 24px);
+
+      > p:first-child {
+        margin-top: 0;
+      }
     }
   }
 
