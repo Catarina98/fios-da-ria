@@ -1,5 +1,24 @@
 # Revisão do site Fios da Ria
 
+## Imagens responsivas — 2 de novembro de 2026
+
+As imagens públicas do Sanity são agora transformadas no momento da entrega,
+com `srcset`, `sizes`, qualidade 80 e formato automático. O utilitário
+`getResponsiveImage` preserva os parâmetros de recorte existentes e limita
+as larguras ao original/recorte. Fotografias principais, cartões, miniaturas
+e opções de personagem usam tamanhos adequados a cada contexto. Imagens locais
+e de outros domínios mantêm os respetivos URLs.
+
+A primeira imagem do carrossel e a imagem principal de produto carregam com
+prioridade alta; os outros destaques usam lazy loading e prioridade baixa.
+Foi acrescentada uma preconexão ao CDN de imagens do Sanity. Não houve alteração
+dos originais nem publicação de conteúdo no CMS.
+
+Comparação de transferência de uma imagem real do destaque, com o mesmo
+formato WebP: 1.677.642 bytes na versão publicada e 235.112 bytes na versão
+de 640 px, cerca de 86% menos. Este exemplo não é uma nova medição Lighthouse
+nem garante um resultado específico de desempenho. Voltar a medir após publicar.
+
 ## Melhorias técnicas de 27 de outubro de 2026
 
 - As fichas recebem o produto na renderização estática, em vez de publicar

@@ -4,7 +4,7 @@ import { Body, Caption, Heading } from '@components/ui/typography';
 import { BadgeVariant } from '@typing/components/badge';
 import type { StoryBannerType } from '@typing/components/storybanner';
 import { cn } from '@utils/cn';
-import { getAssetPath } from '@utils/getAssetPath';
+import { getResponsiveImage } from '@utils/getResponsiveImage';
 
 import './StoryBanner.scss';
 
@@ -25,10 +25,15 @@ const StoryBanner: FC<StoryBannerType> = ({
     >
       <div className="story-image-wrapper">
         <img
-          src={getAssetPath(imageSrc)}
+          {...getResponsiveImage(imageSrc, {
+            widths: [320, 480, 640, 800, 1024, 1440],
+            sizes:
+              '(min-width: 1400px) 680px, (min-width: 1024px) 50vw, calc(100vw - 32px)',
+          })}
           alt={imageAlt || (typeof title === 'string' ? title : '')}
           data-testid="story-banner-image"
           loading="lazy"
+          decoding="async"
         />
       </div>
 

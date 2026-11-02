@@ -102,6 +102,7 @@ export const HighlightsCarousel: FC<HighlightsCarouselProps> = ({
       <Highlights
         {...items[0]}
         primaryHeading={primaryHeading}
+        imagePriority
         isFullHeight={items[0].isFullHeight ?? hasFullHeight}
         breadcrumbs={items[0].breadcrumbs ?? breadcrumbs}
         className={className}
@@ -148,6 +149,7 @@ export const HighlightsCarousel: FC<HighlightsCarouselProps> = ({
               <Highlights
                 {...item}
                 primaryHeading={primaryHeading && index === 0}
+                imagePriority={index === 0}
                 isFullHeight={item.isFullHeight ?? hasFullHeight}
                 breadcrumbs={item.breadcrumbs ?? breadcrumbs}
               />

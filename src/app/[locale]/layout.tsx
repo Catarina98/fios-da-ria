@@ -147,6 +147,7 @@ export default async function RootLayout({
   return (
     <html lang={locale}>
       <head>
+        <link rel="preconnect" href="https://cdn.sanity.io" />
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}

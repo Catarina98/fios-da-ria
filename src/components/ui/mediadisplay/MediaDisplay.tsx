@@ -3,7 +3,7 @@
 import { FC, useMemo, useState } from 'react';
 import { MediaDisplayProps } from '@typing/components/mediadisplay';
 import { cn } from '@utils/cn';
-import { getAssetPath } from '@utils/getAssetPath';
+import { getResponsiveImage } from '@utils/getResponsiveImage';
 import { ChevronLeft, ChevronRight } from 'lucide-react';
 import { useTranslations } from 'next-intl';
 
@@ -80,10 +80,17 @@ export const MediaDisplay: FC<MediaDisplayProps> = ({
       {/* Main image display */}
       <div className="media-display-main">
         <img
-          src={getAssetPath(currentImage)}
+          {...getResponsiveImage(currentImage, {
+            widths: [320, 480, 640, 800, 1024, 1440],
+            sizes:
+              '(min-width: 1400px) 680px, (min-width: 1024px) 50vw, calc(100vw - 32px)',
+          })}
           alt={alt}
           className="media-display-image product-main-image"
           data-testid="product-main-image"
+          loading="eager"
+          fetchPriority="high"
+          decoding="async"
         />
 
         {images.length > 1 && (
@@ -145,8 +152,14 @@ export const MediaDisplay: FC<MediaDisplayProps> = ({
                 data-testid={`gallery-thumbnail-${originalIndex}`}
               >
                 <img
-                  src={getAssetPath(imgSrc)}
+                  {...getResponsiveImage(imgSrc, {
+                    widths: [96, 160, 240, 320],
+                    sizes:
+                      '(min-width: 1400px) 160px, (min-width: 1024px) 12vw, 23vw',
+                  })}
                   alt={`${alt} ${originalIndex + 1}`}
+                  loading="lazy"
+                  decoding="async"
                 />
               </button>
             );

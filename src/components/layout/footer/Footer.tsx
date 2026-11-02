@@ -30,7 +30,6 @@ const Footer: FC = () => {
       href: 'https://www.livroreclamacoes.pt/Inicio/',
       isExternal: true,
     },
-    { label: t('Buying.disputesLink'), href: '/how-to-buy#complaints' },
   ];
 
   return (

@@ -3,7 +3,10 @@ import Button from '@components/ui/button';
 import { Body, Caption, Heading } from '@components/ui/typography';
 import { routing } from '@i18n/routing';
 import { ButtonVariant } from '@typing/components/button';
+import { ChevronDown } from 'lucide-react';
 import { getTranslations, setRequestLocale } from 'next-intl/server';
+
+import BuyingAccordion from './BuyingAccordion';
 
 import './page.scss';
 
@@ -40,8 +43,8 @@ export async function generateMetadata({ params }: Props) {
 export default async function BuyingPage({ params }: Props) {
   const { locale } = await params;
   setRequestLocale(locale);
-  const t = await getTranslations('Buying');
-  const nav = await getTranslations('Navigation');
+  const t = await getTranslations({ locale, namespace: 'Buying' });
+  const nav = await getTranslations({ locale, namespace: 'Navigation' });
   const sections = t.raw('sections') as Section[];
 
   return (
@@ -56,58 +59,56 @@ export default async function BuyingPage({ params }: Props) {
         </Heading>
         <Body size="M">{t('description')}</Body>
       </header>
-      <nav className="buying-index" aria-label={t('indexLabel')}>
+      <BuyingAccordion>
         {sections.map(section => (
-          <a key={section.id} href={`#${section.id}`}>
-            {section.title}
-          </a>
-        ))}
-      </nav>
-      <div className="buying-sections">
-        {sections.map(section => (
-          <section
+          <details
             key={section.id}
             id={section.id}
             aria-labelledby={`${section.id}-title`}
           >
-            <h2 id={`${section.id}-title`}>{section.title}</h2>
-            {section.paragraphs.map(paragraph => (
-              <p key={paragraph}>{paragraph}</p>
-            ))}
-            {section.links && (
-              <ul className="buying-resource-links">
-                {section.links.map(link => (
-                  <li key={link.href}>
-                    <a
-                      href={link.href}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                    >
-                      {link.label}
-                    </a>
-                  </li>
-                ))}
-              </ul>
-            )}
-            {section.id === 'custom' && (
-              <div className="buying-actions">
-                <Button
-                  url="https://ig.me/m/fiosdaria"
-                  variant={ButtonVariant.Primary}
-                >
-                  {t('customButton')}
-                </Button>
-                <Button
-                  url="mailto:fiosdaria@gmail.com"
-                  variant={ButtonVariant.Ghost}
-                >
-                  {t('emailButton')}
-                </Button>
-              </div>
-            )}
-          </section>
+            <summary>
+              <h2 id={`${section.id}-title`}>{section.title}</h2>
+              <ChevronDown size={22} aria-hidden="true" />
+            </summary>
+            <div className="buying-answer">
+              {section.paragraphs.map(paragraph => (
+                <p key={paragraph}>{paragraph}</p>
+              ))}
+              {section.links && (
+                <ul className="buying-resource-links">
+                  {section.links.map(link => (
+                    <li key={link.href}>
+                      <a
+                        href={link.href}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                      >
+                        {link.label}
+                      </a>
+                    </li>
+                  ))}
+                </ul>
+              )}
+              {section.id === 'custom' && (
+                <div className="buying-actions">
+                  <Button
+                    url="https://ig.me/m/fiosdaria"
+                    variant={ButtonVariant.Primary}
+                  >
+                    {t('customButton')}
+                  </Button>
+                  <Button
+                    url="mailto:fiosdaria@gmail.com"
+                    variant={ButtonVariant.Ghost}
+                  >
+                    {t('emailButton')}
+                  </Button>
+                </div>
+              )}
+            </div>
+          </details>
         ))}
-      </div>
+      </BuyingAccordion>
       <Button url="/gallery" variant={ButtonVariant.Primary}>
         {t('galleryButton')}
       </Button>

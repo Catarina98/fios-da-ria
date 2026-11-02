@@ -8,7 +8,7 @@ import {
 } from '@typing/components/button';
 import type { HighlightsType } from '@typing/components/highlights';
 import { cn } from '@utils/cn';
-import { getAssetPath } from '@utils/getAssetPath';
+import { getResponsiveImage } from '@utils/getResponsiveImage';
 import { highlightText } from '@utils/highlightText';
 
 import './Highlights.scss';
@@ -29,6 +29,7 @@ const Highlights: FC<HighlightsType> = ({
   breadcrumbs,
   className,
   primaryHeading = false,
+  imagePriority = false,
   ...props
 }) => {
   const hasFullHeight = Boolean(isFullHeight);
@@ -133,11 +134,17 @@ const Highlights: FC<HighlightsType> = ({
         >
           <div className="highlights-visual-card">
             <img
-              src={getAssetPath(imageSrc)}
+              {...getResponsiveImage(imageSrc, {
+                widths: [320, 480, 640, 800, 1024, 1440],
+                sizes:
+                  '(min-width: 1400px) 680px, (min-width: 1024px) 50vw, calc(100vw - 32px)',
+              })}
               alt={imageAlt}
               className="highlights-image"
               data-testid="highlights-image"
-              loading="lazy"
+              loading={imagePriority ? 'eager' : 'lazy'}
+              fetchPriority={imagePriority ? 'high' : 'low'}
+              decoding="async"
             />
 
             {note && (
