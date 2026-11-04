@@ -21,12 +21,13 @@ export const HighlightsCarousel: FC<HighlightsCarouselProps> = ({
   ...props
 }) => {
   const hasFullHeight = Boolean(isFullHeight);
-  const [currentIndex, setCurrentIndex] = useState(0);
+  const [slideIndex, setCurrentIndex] = useState(0);
   const [isPaused, setIsPaused] = useState(false);
   const touchStartXRef = useRef<number | null>(null);
   const autoPlayTimerRef = useRef<NodeJS.Timeout | null>(null);
 
   const total = items.length;
+  const currentIndex = total > 0 ? slideIndex % total : 0;
 
   const goToSlide = useCallback(
     (index: number) => {

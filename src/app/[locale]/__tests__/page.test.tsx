@@ -1,7 +1,8 @@
 import { cleanup, render, screen } from '@tests/test-utils';
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
 
-const { mockSetRequestLocale } = vi.hoisted(() => ({
+const { mockFetchHighlights, mockSetRequestLocale } = vi.hoisted(() => ({
+  mockFetchHighlights: vi.fn(),
   mockSetRequestLocale: vi.fn(),
 }));
 
@@ -55,6 +56,7 @@ const mockHeroHighlight = {
 };
 
 vi.mock('@lib/sanity/highlights', () => ({
+  fetchHighlights: mockFetchHighlights,
   getHighlights: vi.fn(async () => [mockHeroHighlight]),
 }));
 
@@ -65,6 +67,26 @@ describe('<Home />', () => {
 
   beforeEach(() => {
     vi.clearAllMocks();
+    mockFetchHighlights.mockResolvedValue(null);
+  });
+
+  it('replaces the published highlight when Sanity returns updated content', async () => {
+    mockFetchHighlights.mockResolvedValue([
+      { ...mockHeroHighlight, title: 'Um novo destaque' },
+    ]);
+
+    render(await Home({ params: Promise.resolve({ locale: 'pt' }) }));
+
+    expect(screen.getByRole('heading', { level: 1 })).toHaveTextContent(
+      mockHeroHighlight.title,
+    );
+    expect(
+      await screen.findByRole('heading', {
+        level: 1,
+        name: 'Um novo destaque',
+      }),
+    ).toBeInTheDocument();
+    expect(mockFetchHighlights).toHaveBeenCalledWith('pt');
   });
 
   it('renders homepage with all sections and sets request locale to pt', async () => {

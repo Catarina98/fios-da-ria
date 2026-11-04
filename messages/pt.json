@@ -39,7 +39,9 @@
       "eventTitle": "Mercadinho dos Artesãos e Produtores de Olhão",
       "eventLocation": "Avenida da República, Olhão",
       "eventFrequency": "Todos os sábados",
-      "eventSchedule": "9h às 12h30"
+      "eventSchedule": "9h às 12h30",
+      "absences": "Não estarei presente nestas datas",
+      "empty": "Ainda não há mercados anunciados."
     },
     "custom": {
       "title": "Uma ideia tua, ponto a ponto",

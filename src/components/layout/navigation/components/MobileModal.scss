@@ -8,7 +8,7 @@
   border: 0;
   border-radius: 6px;
   background: transparent;
-  color: var(--txt-secondary);
+  color: var(--txt-tertiary);
   cursor: pointer;
 
   &:focus-visible {
@@ -27,7 +27,7 @@
   align-items: center;
   justify-content: space-between;
   padding: 24px 16px;
-  color: var(--txt-secondary);
+  color: var(--txt-tertiary);
 
   .logo {
     display: flex;
@@ -36,13 +36,13 @@
     gap: var(--spacing-8);
     font-size: 24px;
     font-weight: 700;
-    color: inherit;
+    color: var(--txt-tertiary);
     text-decoration: none;
   }
 
   .menu-icon {
     width: 24px;
-    fill: var(--txt-secondary);
+    fill: var(--txt-tertiary);
     cursor: pointer;
   }
 
@@ -64,7 +64,7 @@
   border: 0;
   left: auto;
   overflow-y: auto;
-  color: var(--txt-primary);
+  color: var(--txt-tertiary);
   top: 0;
   right: 0;
   background: var(--bg-white);
@@ -88,17 +88,18 @@
     padding: 24px 16px;
     font-size: 24px;
     line-height: 32px;
-    color: var(--txt-secondary);
+    color: var(--txt-tertiary);
 
     .header-text {
       display: flex;
       align-items: center;
       gap: 8px;
       font-weight: 700;
+      color: var(--txt-tertiary);
     }
 
     .close-icon {
-      fill: var(--txt-secondary);
+      fill: var(--txt-tertiary);
       cursor: pointer;
     }
   }
@@ -119,7 +120,7 @@
       color: inherit;
 
       .nav-icon {
-        color: var(--txt-secondary);
+        color: var(--txt-tertiary);
       }
 
       &:hover {

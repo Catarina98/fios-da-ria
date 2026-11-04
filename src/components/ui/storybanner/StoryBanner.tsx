@@ -1,6 +1,6 @@
 import { FC } from 'react';
 import Badge from '@components/ui/badge';
-import { Body, Caption, Heading } from '@components/ui/typography';
+import { Body, Heading } from '@components/ui/typography';
 import { BadgeVariant } from '@typing/components/badge';
 import type { StoryBannerType } from '@typing/components/storybanner';
 import { cn } from '@utils/cn';
@@ -14,6 +14,8 @@ const StoryBanner: FC<StoryBannerType> = ({
   imageSrc,
   imageAlt = '',
   events,
+  absencesLabel,
+  emptyMessage,
   className,
   ...props
 }) => {
@@ -60,7 +62,11 @@ const StoryBanner: FC<StoryBannerType> = ({
         {events && events.length > 0 && (
           <div className="event-list" data-testid="story-banner-event-list">
             {events.map((evt, idx) => (
-              <div key={idx} className="event-item" data-testid="event-item">
+              <div
+                key={evt.id ?? idx}
+                className="event-item"
+                data-testid="event-item"
+              >
                 <div className="event-main">
                   <Heading as="h3" size="S" className="event-title">
                     {evt.title}
@@ -68,14 +74,27 @@ const StoryBanner: FC<StoryBannerType> = ({
                   <Body size="S" className="event-location">
                     {evt.location}
                   </Body>
+                  <Body size="S" className="event-meta">
+                    <span>{evt.frequency}</span>
+                    <span className="event-schedule">{evt.schedule}</span>
+                  </Body>
                 </div>
-                <div className="event-meta">
-                  <Caption>{evt.frequency}</Caption>
-                  <Caption>{evt.schedule}</Caption>
-                </div>
+                {evt.absences && evt.absences.length > 0 && (
+                  <div className="event-absences">
+                    <strong>{absencesLabel}</strong>
+                    <ul>
+                      {evt.absences.map(date => (
+                        <li key={date}>{date}</li>
+                      ))}
+                    </ul>
+                  </div>
+                )}
               </div>
             ))}
           </div>
+        )}
+        {events?.length === 0 && emptyMessage && (
+          <Body size="S">{emptyMessage}</Body>
         )}
       </div>
     </section>

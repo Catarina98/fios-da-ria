@@ -31,14 +31,14 @@
     width: 100%;
 
     .story-badge {
-      margin-bottom: 12px;
+      margin-bottom: 8px;
     }
 
     .story-title {
       line-height: 1.15;
       letter-spacing: -0.025em;
       color: var(--txt-tertiary);
-      margin: 18px 0;
+      margin: 12px 0;
     }
 
     .event-list {
@@ -50,9 +50,7 @@
     .event-item {
       display: flex;
       flex-direction: column;
-      align-items: flex-start;
-      justify-content: space-between;
-      gap: 24px;
+      gap: 12px;
       padding: 18px 0;
       border-bottom: 1px solid rgba(66, 98, 117, 0.22);
 
@@ -74,15 +72,33 @@
 
       .event-meta {
         display: flex;
-        flex: 0 0 auto;
-        flex-direction: column;
-        align-items: flex-start;
-        gap: 5px;
-        color: var(--txt-secondary);
-        font-size: 11px;
+        flex-wrap: wrap;
+        column-gap: 8px;
+        margin: 4px 0 0;
+        color: var(--txt-tertiary);
         font-weight: 600;
-        letter-spacing: 0.08em;
-        text-transform: uppercase;
+      }
+
+      .event-schedule {
+        white-space: nowrap;
+
+        &::before {
+          content: '·';
+          margin-inline-end: 8px;
+        }
+      }
+
+      .event-absences {
+        padding: 12px 16px;
+        border-radius: 12px;
+        background-color: rgb(255 255 255 / 60%);
+        color: var(--txt-primary);
+        font-size: 14px;
+
+        ul {
+          padding-inline-start: var(--spacing-16);
+          margin: 4px 0 0;
+        }
       }
     }
   }
@@ -96,15 +112,6 @@
 
     .story-copy {
       padding: 42px;
-
-      .event-item {
-        flex-direction: row;
-        align-items: center;
-      }
-
-      .event-meta {
-        align-items: flex-end;
-      }
     }
   }
 }

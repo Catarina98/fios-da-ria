@@ -39,7 +39,9 @@
       "eventTitle": "Olhão Artisans and Producers Market",
       "eventLocation": "Avenida da República, Olhão",
       "eventFrequency": "Every Saturday",
-      "eventSchedule": "9:00 am to 12:30 pm"
+      "eventSchedule": "9:00 am to 12:30 pm",
+      "absences": "I won't be at the market on these dates",
+      "empty": "No markets have been announced yet."
     },
     "custom": {
       "title": "Your idea, stitch by stitch",
