@@ -1,14 +1,16 @@
 import Button from '@components/ui/button';
 import GuidanceCards from '@components/ui/guidancecards/GuidanceCards';
-import { HighlightsCarousel } from '@components/ui/highlights';
+import HomeHighlights from '@components/ui/highlights/HomeHighlights';
 import ProductCard from '@components/ui/productcard';
-import StoryBanner from '@components/ui/storybanner';
+import HomeMarketAgenda from '@components/ui/storybanner/HomeMarketAgenda';
 import TitleSection from '@components/ui/titlesection';
 import { routing } from '@i18n/routing';
 import { getHighlights } from '@lib/sanity/highlights';
+import { fetchMarketAgenda } from '@lib/sanity/marketAgenda';
 import { getProducts } from '@lib/sanity/products';
 import { ButtonVariant } from '@typing/components/button';
 import { HighlightItem } from '@typing/components/highlights';
+import type { StoryBannerEvent } from '@typing/components/storybanner';
 import { getAssetPath } from '@utils/getAssetPath';
 import type { Metadata } from 'next';
 import { useTranslations } from 'next-intl';
@@ -81,20 +83,32 @@ export default async function Home({ params }: HomeProps) {
   const { locale } = await params;
   setRequestLocale(locale);
 
-  const [products, highlights] = await Promise.all([
+  const [products, highlights, markets] = await Promise.all([
     getProducts(locale),
     getHighlights(locale),
+    fetchMarketAgenda(locale),
   ]);
 
-  return <HomeContent products={products} highlights={highlights} />;
+  return (
+    <HomeContent
+      products={products}
+      highlights={highlights}
+      markets={markets}
+      locale={locale}
+    />
+  );
 }
 
 function HomeContent({
   products = [],
   highlights = [],
+  markets,
+  locale,
 }: {
   products?: StoreProduct[];
   highlights?: HighlightItem[];
+  markets: StoryBannerEvent[] | null;
+  locale: string;
 }) {
   const t = useTranslations('Homepage');
   const tGallery = useTranslations('Gallery');
@@ -104,7 +118,7 @@ function HomeContent({
 
   return (
     <div className="home-page" data-testid="homepage-container">
-      <HighlightsCarousel items={highlights} primaryHeading />
+      <HomeHighlights key={locale} initialItems={highlights} locale={locale} />
 
       <section
         className="home-section"
@@ -211,19 +225,25 @@ function HomeContent({
         data-testid="home-agenda-section"
       >
         <div className="container home-container">
-          <StoryBanner
+          <HomeMarketAgenda
+            key={locale}
+            locale={locale}
             badge={t('agenda.badge')}
             title={t('agenda.title')}
             imageSrc="/images/mercadinho.webp"
             imageAlt={t('agenda.imageAlt')}
-            events={[
-              {
-                title: t('agenda.eventTitle'),
-                location: t('agenda.eventLocation'),
-                frequency: t('agenda.eventFrequency'),
-                schedule: t('agenda.eventSchedule'),
-              },
-            ]}
+            absencesLabel={t('agenda.absences')}
+            emptyMessage={t('agenda.empty')}
+            events={
+              markets ?? [
+                {
+                  title: t('agenda.eventTitle'),
+                  location: t('agenda.eventLocation'),
+                  frequency: t('agenda.eventFrequency'),
+                  schedule: t('agenda.eventSchedule'),
+                },
+              ]
+            }
           />
         </div>
       </section>

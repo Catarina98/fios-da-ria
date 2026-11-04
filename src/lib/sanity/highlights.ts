@@ -141,11 +141,11 @@ export const formatSanityHighlight = (
   };
 };
 
-export async function getHighlights(
+export async function fetchHighlights(
   locale: string = 'pt',
-): Promise<HighlightItem[]> {
+): Promise<HighlightItem[] | null> {
   if (!isSanityConfigured() || !sanityClient) {
-    return getDefaultHighlights(locale);
+    return null;
   }
 
   try {
@@ -179,6 +179,12 @@ export async function getHighlights(
   } catch (error) {
     console.warn('Failed to fetch highlights from Sanity:', error);
 
-    return getDefaultHighlights(locale);
+    return null;
   }
+}
+
+export async function getHighlights(
+  locale: string = 'pt',
+): Promise<HighlightItem[]> {
+  return (await fetchHighlights(locale)) ?? getDefaultHighlights(locale);
 }
