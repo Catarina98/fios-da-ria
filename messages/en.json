@@ -111,6 +111,7 @@
       "gallery": "Gallery"
     },
     "status": {
+      "checkStock": "Availability to be confirmed",
       "available": "In stock",
       "soldOut": "Sold out"
     },
@@ -161,6 +162,7 @@
       "years": "years",
       "customUnavailable": "Contact me"
     },
+    "stockContactNote": "Contact me to arrange the purchase of this piece.",
     "contactNote": "This piece is not available to order at the moment. Contact me if you have a question."
   },
   "About": {

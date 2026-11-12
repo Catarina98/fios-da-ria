@@ -371,6 +371,69 @@ describe('Wallapop listings and product details', () => {
     expect(product.variants.map(v => v.stock)).toEqual([1, 0]);
   });
 
+  it('uses confirmed stock independently of the Wallapop URL for each variant', async () => {
+    vi.stubEnv(
+      'NEXT_PUBLIC_MERCADINHO_SUPABASE_URL',
+      'https://test.supabase.co',
+    );
+    vi.stubEnv(
+      'NEXT_PUBLIC_MERCADINHO_SUPABASE_PUBLISHABLE_KEY',
+      'publishable-key',
+    );
+    const availability = vi.fn(async () =>
+      Response.json([
+        {
+          sanity_product_id: 'document-1',
+          sanity_variant_id: 'sold',
+          available: false,
+        },
+        {
+          sanity_product_id: 'document-1',
+          sanity_variant_id: 'ready',
+          available: true,
+        },
+      ]),
+    );
+    vi.stubGlobal('fetch', availability);
+    mockFetch.mockResolvedValue([
+      {
+        _id: 'document-1',
+        id: 'presepio',
+        variants: [
+          { id: 'sold', wallapopUrl: 'https://pt.wallapop.com/item/sold' },
+          { id: 'ready' },
+          {
+            id: 'unconfirmed',
+            wallapopUrl: 'https://pt.wallapop.com/item/existing',
+          },
+        ],
+      },
+    ]);
+
+    try {
+      const [product] = await getProducts();
+      expect(availability).toHaveBeenCalledWith(
+        new URL(
+          'https://test.supabase.co/rest/v1/rpc/get_catalog_availability',
+        ),
+        expect.objectContaining({
+          body: JSON.stringify({ product_ids: ['document-1'] }),
+        }),
+      );
+      expect(product.inventoryManaged).toBe(true);
+      expect(
+        product.variants.map(variant => [variant.stock, variant.vintedUrl]),
+      ).toEqual([
+        [0, undefined],
+        [1, undefined],
+        [1, 'https://pt.wallapop.com/item/existing'],
+      ]);
+    } finally {
+      vi.unstubAllEnvs();
+      vi.unstubAllGlobals();
+    }
+  });
+
   it('localizes product and variant details without inventing an age approval', async () => {
     mockFetch.mockResolvedValue([
       {

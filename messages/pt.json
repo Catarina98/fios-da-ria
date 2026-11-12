@@ -111,6 +111,7 @@
       "gallery": "Galeria"
     },
     "status": {
+      "checkStock": "Disponibilidade por confirmar",
       "available": "Disponível",
       "soldOut": "Esgotado"
     },
@@ -161,6 +162,7 @@
       "years": "anos",
       "customUnavailable": "Contactar"
     },
+    "stockContactNote": "Contacta-me para combinar a compra desta peça.",
     "contactNote": "Esta peça não está disponível para encomenda neste momento. Contacta-me se tiveres alguma dúvida."
   },
   "About": {

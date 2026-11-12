@@ -35,6 +35,8 @@ export interface StoreProduct extends ProductDetails {
   vintedUrl?: string;
   order?: number;
   acceptsOrders?: boolean;
+  inventoryManaged?: boolean;
+  inventoryUnavailable?: boolean;
 }
 
 export function getProductPrices(product: StoreProduct): number[] {

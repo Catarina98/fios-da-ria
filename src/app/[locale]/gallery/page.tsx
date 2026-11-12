@@ -123,7 +123,9 @@ function GalleryContent() {
           description: product.description ?? '',
           image: product.image,
           price: typeof product.price === 'string' ? product.price : '€0',
-          stock: hasStock ? 1 : 0,
+          stock: product.inventoryManaged
+            ? Number(product.stock > 0)
+            : Number(hasStock),
           variants: Array.isArray(product.variants)
             ? product.variants.filter(Boolean)
             : [],
