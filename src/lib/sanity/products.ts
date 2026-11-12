@@ -1,3 +1,4 @@
+import { getCatalogAvailability } from './catalogAvailability';
 import { isSanityConfigured, sanityClient, urlFor } from './client';
 
 import { ProductDetails, StoreProduct } from '../../app/[locale]/gallery/data';
@@ -83,6 +84,8 @@ const purchaseLink = (raw: { wallapopUrl?: string; vintedUrl?: string }) =>
 const formatSanityProduct = (
   raw: SanityProductRaw,
   locale: string,
+  availability?: Map<string, boolean>,
+  stockUnavailable = false,
 ): StoreProduct => {
   const productId =
     (typeof raw.id === 'object' ? raw.id?.current : raw.id) ||
@@ -111,7 +114,9 @@ const formatSanityProduct = (
         ? undefined
         : purchaseLink(raw)) ||
       undefined;
-    const hasVariantStock = Boolean(variantVintedUrl);
+    const confirmed = availability?.get(v.id);
+    const hasVariantStock =
+      !stockUnavailable && (confirmed ?? Boolean(variantVintedUrl));
 
     return {
       ...formatDetails(v, locale),
@@ -121,18 +126,17 @@ const formatSanityProduct = (
       images: variantGallery.length > 0 ? variantGallery : undefined,
       price: typeof v.price === 'number' ? `€${v.price}` : v.price || '',
       stock: hasVariantStock ? 1 : 0,
-      vintedUrl: variantVintedUrl,
+      vintedUrl: hasVariantStock ? variantVintedUrl : undefined,
     };
   });
 
   const productVintedUrl = purchaseLink(raw);
+  const productInStock =
+    !stockUnavailable && (availability?.get('') ?? Boolean(productVintedUrl));
   const hasVariants = Boolean(raw.variants && raw.variants.length > 0);
   const stock = hasVariants
-    ? variants.filter(v => Boolean(v.vintedUrl && v.vintedUrl.trim() !== ''))
-        .length
-    : Boolean(productVintedUrl && productVintedUrl.trim() !== '')
-      ? 1
-      : 0;
+    ? variants.reduce((total, variant) => total + variant.stock, 0)
+    : Number(productInStock);
 
   const categoryTagBg =
     raw.categoryTagBg ||
@@ -178,7 +182,12 @@ const formatSanityProduct = (
     price: typeof raw.price === 'number' ? `€${raw.price}` : raw.price || '€0',
     stock,
     variants,
-    vintedUrl: productVintedUrl,
+    vintedUrl:
+      productInStock && (!hasVariants || stock > 0)
+        ? productVintedUrl
+        : undefined,
+    inventoryManaged: stockUnavailable || Boolean(availability),
+    inventoryUnavailable: stockUnavailable,
     order: typeof raw.order === 'number' ? raw.order : undefined,
   };
 };
@@ -241,6 +250,10 @@ export async function getProducts(
       return [];
     }
 
+    const inventory = await getCatalogAvailability(
+      sanityProducts.flatMap(p => (p._id ? [p._id] : [])),
+    );
+
     return sanityProducts
       .filter(p => {
         if (typeof p.category === 'object' && p.category?.available === false) {
@@ -249,7 +262,14 @@ export async function getProducts(
 
         return true;
       })
-      .map(p => formatSanityProduct(p, locale))
+      .map(p =>
+        formatSanityProduct(
+          p,
+          locale,
+          p._id ? inventory?.get(p._id) : undefined,
+          inventory === null,
+        ),
+      )
       .sort((a, b) => {
         const orderA = typeof a.order === 'number' ? a.order : 9999;
         const orderB = typeof b.order === 'number' ? b.order : 9999;

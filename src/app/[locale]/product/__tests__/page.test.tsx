@@ -288,6 +288,40 @@ describe('Product Pages', () => {
       expect(selector).toHaveValue('jessie');
     });
 
+    it('hides the Wallapop purchase action for a sold-out variant with a saved link', async () => {
+      vi.mocked(getProductById).mockResolvedValue({
+        ...mockProduct,
+        inventoryManaged: true,
+        variants: [
+          {
+            ...mockProduct.variants[0],
+            stock: 0,
+            vintedUrl: 'https://pt.wallapop.com/item/woody',
+          },
+          {
+            ...mockProduct.variants[1],
+            stock: 1,
+            vintedUrl: 'https://pt.wallapop.com/item/jessie',
+          },
+        ],
+      });
+      render(
+        await ProductDetailPage({
+          params: Promise.resolve({ locale: 'pt', id: 'collection-toy-story' }),
+        }),
+      );
+      const action = await screen.findByTestId('product-buy-button');
+      expect(action).toHaveAttribute('href', expect.stringContaining('ig.me'));
+      fireEvent.change(
+        screen.getByRole('combobox', { name: /escolhe a personagem/i }),
+        { target: { value: 'jessie' } },
+      );
+      expect(screen.getByTestId('product-buy-button')).toHaveAttribute(
+        'href',
+        'https://pt.wallapop.com/item/jessie',
+      );
+    });
+
     it('renders materials and care guidance cards', async () => {
       const params = Promise.resolve({
         locale: 'pt',

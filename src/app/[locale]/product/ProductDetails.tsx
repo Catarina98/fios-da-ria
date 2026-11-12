@@ -8,6 +8,7 @@ import GuidanceCards from '@components/ui/guidancecards';
 import MediaDisplay from '@components/ui/mediadisplay';
 import { Body, Heading } from '@components/ui/typography';
 import { Link } from '@i18n/navigation';
+import { isCatalogAvailabilityConfigured } from '@lib/sanity/catalogAvailability';
 import { getProductById } from '@lib/sanity/products';
 import { BadgeSize, BadgeVariant } from '@typing/components/badge';
 import { ButtonVariant } from '@typing/components/button';
@@ -38,6 +39,9 @@ export default function ProductDetails({
   const variantLabelId = useId();
 
   const [product, setProduct] = useState(initialProduct);
+  const [hasLiveStock, setHasLiveStock] = useState(
+    !isCatalogAvailabilityConfigured(),
+  );
 
   useEffect(() => {
     let cancelled = false;
@@ -45,7 +49,10 @@ export default function ProductDetails({
     // Keep live availability from Sanity without replacing the prerendered content.
     void getProductById(initialProduct.id, locale)
       .then(updated => {
-        if (!cancelled && updated) setProduct(updated);
+        if (!cancelled && updated) {
+          setProduct(updated);
+          setHasLiveStock(true);
+        }
       })
       .catch(() => {
         // The complete product from the static export remains available offline.
@@ -80,10 +87,14 @@ export default function ProductDetails({
     variants.find(variant => variant.id === selectedVariantId) ?? variants[0];
 
   const currentPrice = activeVariant?.price || product.price;
-  const currentVintedUrl =
+  const listingUrl =
     activeVariant?.vintedUrl ||
     (variants.length <= 1 ? product.vintedUrl : undefined);
-  const isSoldOut = !currentVintedUrl;
+  const isSoldOut = product.inventoryManaged
+    ? (activeVariant?.stock ?? product.stock) <= 0
+    : !listingUrl;
+  const currentVintedUrl = hasLiveStock && !isSoldOut ? listingUrl : undefined;
+  const hasPurchaseLink = Boolean(currentVintedUrl);
   const acceptsOrders = product.acceptsOrders !== false;
   const dimensions = activeVariant?.dimensions || product.dimensions;
   const included = activeVariant?.included || product.included;
@@ -177,9 +188,11 @@ export default function ProductDetails({
                 {product.category}
               </Badge>
               <Badge variant={BadgeVariant.Neutral} size={BadgeSize.Small}>
-                {isSoldOut
-                  ? t('status.soldOut') || 'Sold out'
-                  : t('status.available') || 'In stock'}
+                {!hasLiveStock || product.inventoryUnavailable
+                  ? t('status.checkStock')
+                  : isSoldOut
+                    ? t('status.soldOut')
+                    : t('status.available')}
               </Badge>
             </div>
 
@@ -259,28 +272,35 @@ export default function ProductDetails({
               </div>
             )}
 
-            {/* Availability remains tied to the purchase link. */}
             <Button
               variant={
-                isSoldOut ? ButtonVariant.Tertiary : ButtonVariant.Primary
+                hasPurchaseLink ? ButtonVariant.Primary : ButtonVariant.Tertiary
               }
-              className={cn('buy-button', isSoldOut && 'contact-seller-button')}
-              url={isSoldOut ? instagramDmUrl : currentVintedUrl}
+              className={cn(
+                'buy-button',
+                !hasPurchaseLink && 'contact-seller-button',
+              )}
+              url={currentVintedUrl || instagramDmUrl}
               rightIcon={<ExternalLink size={18} />}
               data-testid="product-buy-button"
             >
-              {isSoldOut
-                ? acceptsOrders
+              {hasPurchaseLink
+                ? t('linkToBuy')
+                : hasLiveStock &&
+                    !product.inventoryUnavailable &&
+                    isSoldOut &&
+                    acceptsOrders
                   ? t('contactSeller')
-                  : t('details.customUnavailable')
-                : t('linkToBuy')}
+                  : t('details.customUnavailable')}
             </Button>
 
             <div className="product-buying-info">
               <p>
-                {isSoldOut
-                  ? t(acceptsOrders ? 'orderNote' : 'contactNote')
-                  : t('buyingNote')}
+                {hasPurchaseLink
+                  ? t('buyingNote')
+                  : hasLiveStock && !product.inventoryUnavailable && isSoldOut
+                    ? t(acceptsOrders ? 'orderNote' : 'contactNote')
+                    : t('stockContactNote')}
               </p>
               <p>{t('localDelivery')}</p>
               <Link href="/how-to-buy">{t('buyingGuide')}</Link>
