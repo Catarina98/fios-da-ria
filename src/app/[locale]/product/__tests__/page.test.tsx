@@ -1,4 +1,4 @@
-import { cleanup, fireEvent, render, screen } from '@tests/test-utils';
+import { cleanup, fireEvent, render, screen, within } from '@tests/test-utils';
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
 
 const { mockSetRequestLocale } = vi.hoisted(() => ({
@@ -337,24 +337,31 @@ describe('Product Pages', () => {
 });
 
 describe('Product buying information', () => {
-  it('uses the decorative ghost materials and care instead of generic stuffing and washing advice', async () => {
+  it('lists each paragraph of the product materials and care separately', async () => {
     const { getProductById } = await import('@lib/sanity/products');
     vi.mocked(getProductById).mockResolvedValue({
       ...mockProduct,
       variants: [],
-      materials: 'Fio 100% algodão. Olhos colados. Sem enchimento.',
-      care: 'Limpar apenas suavemente.',
+      materials: 'Fio 100% algodão.\r\nOlhos colados.\r\n\r\nSem enchimento.',
+      care: 'Limpar apenas suavemente.\n \nEvitar humidade.',
     });
     render(
       await ProductDetailPage({
         params: Promise.resolve({ locale: 'pt', id: 'hanging-ghost-decor' }),
       }),
     );
-    await screen.findByTestId('product-buy-button');
+    const cards = await screen.findByTestId('guidance-cards-component');
+    const [materials, care] = within(cards).getAllByRole('list');
     expect(
-      screen.getByText('Fio 100% algodão. Olhos colados. Sem enchimento.'),
-    ).toBeInTheDocument();
-    expect(screen.getByText('Limpar apenas suavemente.')).toBeInTheDocument();
+      within(materials)
+        .getAllByRole('listitem')
+        .map(item => item.textContent),
+    ).toEqual(['Fio 100% algodão.', 'Olhos colados.', 'Sem enchimento.']);
+    expect(
+      within(care)
+        .getAllByRole('listitem')
+        .map(item => item.textContent),
+    ).toEqual(['Limpar apenas suavemente.', 'Evitar humidade.']);
     expect(
       screen.queryByText('Enchimento antialérgico'),
     ).not.toBeInTheDocument();
@@ -399,6 +406,9 @@ describe('Product buying information', () => {
     expect(screen.getByText('Uma personagem')).toBeInTheDocument();
     expect(screen.getByText('Algodão')).toBeInTheDocument();
     expect(screen.getByText('Aviso do produto')).toBeInTheDocument();
+    expect(
+      screen.queryByText(/Antes de escolheres uma peça/),
+    ).not.toBeInTheDocument();
     expect(
       screen.queryByText('Idade mínima indicada para esta peça'),
     ).not.toBeInTheDocument();

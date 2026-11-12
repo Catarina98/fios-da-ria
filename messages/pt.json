@@ -159,8 +159,7 @@
       "warnings": "Utilização e avisos",
       "age": "Idade mínima indicada para esta peça",
       "years": "anos",
-      "customUnavailable": "Contactar",
-      "safety": "Antes de escolheres uma peça para uma criança, contacta-me para confirmar a utilização prevista e os avisos específicos."
+      "customUnavailable": "Contactar"
     },
     "contactNote": "Esta peça não está disponível para encomenda neste momento. Contacta-me se tiveres alguma dúvida."
   },

@@ -19,6 +19,15 @@ import { useLocale, useTranslations } from 'next-intl';
 import './page.scss';
 import { StoreProduct } from '../gallery/data';
 
+function splitGuidanceItems(text?: string) {
+  const items = text
+    ?.split(/[\r\n]+/)
+    .map(item => item.trim())
+    .filter(Boolean);
+
+  return items?.length ? items : undefined;
+}
+
 export default function ProductDetails({
   initialProduct,
 }: {
@@ -78,8 +87,10 @@ export default function ProductDetails({
   const acceptsOrders = product.acceptsOrders !== false;
   const dimensions = activeVariant?.dimensions || product.dimensions;
   const included = activeVariant?.included || product.included;
-  const materials = activeVariant?.materials || product.materials;
-  const care = activeVariant?.care || product.care;
+  const materials = splitGuidanceItems(
+    activeVariant?.materials || product.materials,
+  );
+  const care = splitGuidanceItems(activeVariant?.care || product.care);
   const warnings = activeVariant?.warnings || product.warnings;
 
   // A variant with its own age indication needs its own documented review.
@@ -303,13 +314,12 @@ export default function ProductDetails({
                   </div>
                 )}
             </dl>
-            <p className="product-safety-note">{t('details.safety')}</p>
 
             {/* Materials and Care Cards */}
             <GuidanceCards
               materialsTitle={materials ? t('details.materials') : undefined}
-              materialsItems={materials ? [materials] : undefined}
-              careItems={care ? [care] : undefined}
+              materialsItems={materials}
+              careItems={care}
             />
 
             {/* Maker Note */}
