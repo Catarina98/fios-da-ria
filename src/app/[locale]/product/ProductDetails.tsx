@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect, useMemo, useState } from 'react';
+import { useEffect, useId, useMemo, useState } from 'react';
 import Badge from '@components/ui/badge';
 import Breadcrumbs from '@components/ui/breadcrumbs';
 import Button from '@components/ui/button';
@@ -13,11 +13,20 @@ import { BadgeSize, BadgeVariant } from '@typing/components/badge';
 import { ButtonVariant } from '@typing/components/button';
 import { cn } from '@utils/cn';
 import { getResponsiveImage } from '@utils/getResponsiveImage';
-import { ExternalLink, Heart } from 'lucide-react';
+import { ChevronDown, ExternalLink, Heart } from 'lucide-react';
 import { useLocale, useTranslations } from 'next-intl';
 
 import './page.scss';
 import { StoreProduct } from '../gallery/data';
+
+function splitGuidanceItems(text?: string) {
+  const items = text
+    ?.split(/[\r\n]+/)
+    .map(item => item.trim())
+    .filter(Boolean);
+
+  return items?.length ? items : undefined;
+}
 
 export default function ProductDetails({
   initialProduct,
@@ -26,6 +35,7 @@ export default function ProductDetails({
 }) {
   const t = useTranslations('Product');
   const locale = useLocale();
+  const variantLabelId = useId();
 
   const [product, setProduct] = useState(initialProduct);
 
@@ -77,8 +87,10 @@ export default function ProductDetails({
   const acceptsOrders = product.acceptsOrders !== false;
   const dimensions = activeVariant?.dimensions || product.dimensions;
   const included = activeVariant?.included || product.included;
-  const materials = activeVariant?.materials || product.materials;
-  const care = activeVariant?.care || product.care;
+  const materials = splitGuidanceItems(
+    activeVariant?.materials || product.materials,
+  );
+  const care = splitGuidanceItems(activeVariant?.care || product.care);
   const warnings = activeVariant?.warnings || product.warnings;
 
   // A variant with its own age indication needs its own documented review.
@@ -190,13 +202,32 @@ export default function ProductDetails({
             {/* Character Variants (if collection) */}
             {variants.length > 0 && (
               <div className="variant-section">
-                <span className="variant-label">
+                <span id={variantLabelId} className="variant-label">
                   {t('chooseCharacter') || 'Choose a character'}
                 </span>
+                <div className="variant-dropdown">
+                  <select
+                    className="variant-select"
+                    aria-labelledby={variantLabelId}
+                    value={activeVariant?.id ?? ''}
+                    onChange={event => handleSelectVariant(event.target.value)}
+                  >
+                    {variants.map(variant => (
+                      <option key={variant.id} value={variant.id}>
+                        {variant.name}
+                      </option>
+                    ))}
+                  </select>
+                  <ChevronDown
+                    className="variant-dropdown-arrow"
+                    size={16}
+                    aria-hidden="true"
+                  />
+                </div>
                 <div
                   className="variant-selector"
                   role="radiogroup"
-                  aria-label={t('chooseCharacter') || 'Choose a character'}
+                  aria-labelledby={variantLabelId}
                 >
                   {variants.map(variant => {
                     const isSelected =
@@ -290,13 +321,12 @@ export default function ProductDetails({
                   </div>
                 )}
             </dl>
-            <p className="product-safety-note">{t('details.safety')}</p>
 
             {/* Materials and Care Cards */}
             <GuidanceCards
               materialsTitle={materials ? t('details.materials') : undefined}
-              materialsItems={materials ? [materials] : undefined}
-              careItems={care ? [care] : undefined}
+              materialsItems={materials}
+              careItems={care}
             />
 
             {/* Maker Note */}

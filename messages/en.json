@@ -159,8 +159,7 @@
       "warnings": "Use and warnings",
       "age": "Minimum age specified for this piece",
       "years": "years",
-      "customUnavailable": "Contact me",
-      "safety": "Before choosing a piece for a child, contact me to confirm its intended use and specific warnings."
+      "customUnavailable": "Contact me"
     },
     "contactNote": "This piece is not available to order at the moment. Contact me if you have a question."
   },

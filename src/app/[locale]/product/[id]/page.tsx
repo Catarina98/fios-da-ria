@@ -35,18 +35,20 @@ export async function generateMetadata({ params }: ProductDetailPageProps) {
 
   const isPt = locale === 'pt';
   const title = product.title;
-  const description =
-    product.description ||
+  const summary = product.description?.trim().split(/\r?\n\s*\r?\n/, 1)[0];
+  const description = (
+    summary ||
     (isPt
       ? `${product.title} – amigurumi feito à mão por Catarina, Fios da Ria.`
-      : `${product.title} – handmade amigurumi by Catarina, Fios da Ria.`);
+      : `${product.title} – handmade amigurumi by Catarina, Fios da Ria.`)
+  ).slice(0, 160);
   const canonical = isPt
     ? `${siteUrl}/product/${id}/`
     : `${siteUrl}/en/product/${id}/`;
 
   return {
     title,
-    description: description.slice(0, 160),
+    description,
     alternates: {
       canonical,
       languages: {
@@ -56,7 +58,7 @@ export async function generateMetadata({ params }: ProductDetailPageProps) {
     },
     openGraph: {
       title,
-      description: description.slice(0, 160),
+      description,
       url: canonical,
       images: product.image
         ? [{ url: product.image, alt: product.title }]

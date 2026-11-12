@@ -1,4 +1,4 @@
-import { cleanup, fireEvent, render, screen } from '@tests/test-utils';
+import { cleanup, fireEvent, render, screen, within } from '@tests/test-utils';
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
 
 const { mockSetRequestLocale } = vi.hoisted(() => ({
@@ -87,7 +87,7 @@ describe('Product Pages', () => {
         await screen.findByRole('heading', { level: 1 }),
       ).toHaveTextContent('Toy Story Collection');
       expect(screen.getByText('€38')).toBeInTheDocument();
-      expect(screen.getByText('Woody')).toBeInTheDocument();
+      expect(screen.getByRole('radio', { name: /Woody/i })).toBeInTheDocument();
     });
   });
 
@@ -254,6 +254,40 @@ describe('Product Pages', () => {
       expect(buzzBtn).toHaveAttribute('aria-checked', 'true');
     });
 
+    it('syncs the mobile dropdown with the gallery, price and buy link', async () => {
+      vi.mocked(getProductById).mockResolvedValue({
+        ...mockProduct,
+        variants: mockProduct.variants.map(variant => ({
+          ...variant,
+          vintedUrl: `https://www.vinted.pt/items/${variant.id}`,
+        })),
+      });
+      render(
+        await ProductDetailPage({
+          params: Promise.resolve({ locale: 'pt', id: 'collection-toy-story' }),
+        }),
+      );
+
+      const selector = await screen.findByRole('combobox', {
+        name: /escolhe a personagem/i,
+      });
+      expect(selector).toHaveValue('woody');
+      fireEvent.change(selector, { target: { value: 'buzz' } });
+      expect(selector).toHaveValue('buzz');
+      expect(screen.getByTestId('product-main-image')).toHaveAttribute(
+        'src',
+        '/images/catalog/toy-story-buzz.JPG',
+      );
+      expect(screen.getByText('€42')).toBeInTheDocument();
+      expect(screen.getByTestId('product-buy-button')).toHaveAttribute(
+        'href',
+        'https://www.vinted.pt/items/buzz',
+      );
+
+      fireEvent.click(screen.getByTestId('gallery-thumbnail-1'));
+      expect(selector).toHaveValue('jessie');
+    });
+
     it('renders materials and care guidance cards', async () => {
       const params = Promise.resolve({
         locale: 'pt',
@@ -303,24 +337,31 @@ describe('Product Pages', () => {
 });
 
 describe('Product buying information', () => {
-  it('uses the decorative ghost materials and care instead of generic stuffing and washing advice', async () => {
+  it('lists each paragraph of the product materials and care separately', async () => {
     const { getProductById } = await import('@lib/sanity/products');
     vi.mocked(getProductById).mockResolvedValue({
       ...mockProduct,
       variants: [],
-      materials: 'Fio 100% algodão. Olhos colados. Sem enchimento.',
-      care: 'Limpar apenas suavemente.',
+      materials: 'Fio 100% algodão.\r\nOlhos colados.\r\n\r\nSem enchimento.',
+      care: 'Limpar apenas suavemente.\n \nEvitar humidade.',
     });
     render(
       await ProductDetailPage({
         params: Promise.resolve({ locale: 'pt', id: 'hanging-ghost-decor' }),
       }),
     );
-    await screen.findByTestId('product-buy-button');
+    const cards = await screen.findByTestId('guidance-cards-component');
+    const [materials, care] = within(cards).getAllByRole('list');
     expect(
-      screen.getByText('Fio 100% algodão. Olhos colados. Sem enchimento.'),
-    ).toBeInTheDocument();
-    expect(screen.getByText('Limpar apenas suavemente.')).toBeInTheDocument();
+      within(materials)
+        .getAllByRole('listitem')
+        .map(item => item.textContent),
+    ).toEqual(['Fio 100% algodão.', 'Olhos colados.', 'Sem enchimento.']);
+    expect(
+      within(care)
+        .getAllByRole('listitem')
+        .map(item => item.textContent),
+    ).toEqual(['Limpar apenas suavemente.', 'Evitar humidade.']);
     expect(
       screen.queryByText('Enchimento antialérgico'),
     ).not.toBeInTheDocument();
@@ -365,6 +406,9 @@ describe('Product buying information', () => {
     expect(screen.getByText('Uma personagem')).toBeInTheDocument();
     expect(screen.getByText('Algodão')).toBeInTheDocument();
     expect(screen.getByText('Aviso do produto')).toBeInTheDocument();
+    expect(
+      screen.queryByText(/Antes de escolheres uma peça/),
+    ).not.toBeInTheDocument();
     expect(
       screen.queryByText('Idade mínima indicada para esta peça'),
     ).not.toBeInTheDocument();
