@@ -13,7 +13,7 @@ import { BadgeSize, BadgeVariant } from '@typing/components/badge';
 import { ButtonVariant } from '@typing/components/button';
 import { cn } from '@utils/cn';
 import { getResponsiveImage } from '@utils/getResponsiveImage';
-import { ExternalLink, Heart } from 'lucide-react';
+import { ChevronDown, ExternalLink, Heart } from 'lucide-react';
 import { useLocale, useTranslations } from 'next-intl';
 
 import './page.scss';
@@ -205,18 +205,25 @@ export default function ProductDetails({
                 <span id={variantLabelId} className="variant-label">
                   {t('chooseCharacter') || 'Choose a character'}
                 </span>
-                <select
-                  className="variant-select"
-                  aria-labelledby={variantLabelId}
-                  value={activeVariant?.id ?? ''}
-                  onChange={event => handleSelectVariant(event.target.value)}
-                >
-                  {variants.map(variant => (
-                    <option key={variant.id} value={variant.id}>
-                      {variant.name}
-                    </option>
-                  ))}
-                </select>
+                <div className="variant-dropdown">
+                  <select
+                    className="variant-select"
+                    aria-labelledby={variantLabelId}
+                    value={activeVariant?.id ?? ''}
+                    onChange={event => handleSelectVariant(event.target.value)}
+                  >
+                    {variants.map(variant => (
+                      <option key={variant.id} value={variant.id}>
+                        {variant.name}
+                      </option>
+                    ))}
+                  </select>
+                  <ChevronDown
+                    className="variant-dropdown-arrow"
+                    size={16}
+                    aria-hidden="true"
+                  />
+                </div>
                 <div
                   className="variant-selector"
                   role="radiogroup"
