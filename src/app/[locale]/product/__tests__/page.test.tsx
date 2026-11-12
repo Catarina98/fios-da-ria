@@ -92,6 +92,30 @@ describe('Product Pages', () => {
   });
 
   describe('<ProductDetailPage />', () => {
+    it('opens the variant and price linked from the inventory', async () => {
+      const previousLocation = window.location.href;
+      window.history.replaceState(null, '', '?variant=buzz');
+      try {
+        render(
+          await ProductDetailPage({
+            params: Promise.resolve({
+              locale: 'pt',
+              id: 'collection-toy-story',
+            }),
+          }),
+        );
+
+        expect(
+          await screen.findByRole('radio', { name: /Buzz Lightyear/i }),
+        ).toHaveAttribute('aria-checked', 'true');
+        expect(screen.getByText('€42')).toBeInTheDocument();
+        fireEvent.click(screen.getByRole('radio', { name: /Jessie/i }));
+        expect(screen.getByText('€38')).toBeInTheDocument();
+      } finally {
+        window.history.replaceState(null, '', previousLocation);
+      }
+    });
+
     it('renders product details, breadcrumbs and allows selecting variants', async () => {
       const params = Promise.resolve({
         locale: 'pt',
