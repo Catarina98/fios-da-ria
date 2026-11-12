@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect, useId, useMemo, useState } from 'react';
+import { useEffect, useId, useMemo, useState, useSyncExternalStore } from 'react';
 import Badge from '@components/ui/badge';
 import Breadcrumbs from '@components/ui/breadcrumbs';
 import Button from '@components/ui/button';
@@ -19,6 +19,16 @@ import { useLocale, useTranslations } from 'next-intl';
 
 import './page.scss';
 import { StoreProduct } from '../gallery/data';
+
+function subscribeToLocation(onChange: () => void) {
+  window.addEventListener('popstate', onChange);
+
+  return () => window.removeEventListener('popstate', onChange);
+}
+
+function getLinkedVariant() {
+  return new URLSearchParams(window.location.search).get('variant');
+}
 
 function splitGuidanceItems(text?: string) {
   const items = text
@@ -46,7 +56,7 @@ export default function ProductDetails({
   useEffect(() => {
     let cancelled = false;
 
-    // Keep live availability from Sanity without replacing the prerendered content.
+    // Refresh the listing link and stock after loading the static page.
     void getProductById(initialProduct.id, locale)
       .then(updated => {
         if (!cancelled && updated) {
@@ -64,9 +74,12 @@ export default function ProductDetails({
   }, [initialProduct.id, locale]);
 
   const variants = useMemo(() => product.variants ?? [], [product.variants]);
-  const [selectedVariantId, setSelectedVariantId] = useState<string>(() => {
-    return variants[0]?.id ?? '';
-  });
+  const linkedVariantId = useSyncExternalStore(
+    subscribeToLocation,
+    getLinkedVariant,
+    () => null,
+  );
+  const [selectedVariantId, setSelectedVariantId] = useState<string>();
 
   const galleryImages = useMemo(() => {
     if (!product) return [];
@@ -81,10 +94,16 @@ export default function ProductDetails({
     return Array.from(new Set(combined));
   }, [product]);
 
-  const [currentImageIndex, setCurrentImageIndex] = useState(0);
+  const [currentImageIndex, setCurrentImageIndex] = useState<number>();
 
   const activeVariant =
-    variants.find(variant => variant.id === selectedVariantId) ?? variants[0];
+    variants.find(
+      variant => variant.id === (selectedVariantId ?? linkedVariantId),
+    ) ?? variants[0];
+  const linkedImageIndex =
+    linkedVariantId && activeVariant?.id === linkedVariantId
+      ? galleryImages.indexOf(activeVariant.image)
+      : 0;
 
   const currentPrice = activeVariant?.price || product.price;
   const listingUrl =
@@ -160,7 +179,7 @@ export default function ProductDetails({
           <div className="product-media">
             <MediaDisplay
               images={galleryImages}
-              selectedIndex={currentImageIndex}
+              selectedIndex={currentImageIndex ?? Math.max(0, linkedImageIndex)}
               onSelectImage={handleSelectImage}
               alt={
                 activeVariant?.name
