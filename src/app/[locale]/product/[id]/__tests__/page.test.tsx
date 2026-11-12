@@ -91,7 +91,7 @@ describe('ProductDetailPage', () => {
       mockGetProductById.mockResolvedValue({
         id: 'toy-story',
         title: 'Woody',
-        description: 'Handmade amigurumi Woody.',
+        description: 'Handmade amigurumi Woody.\n\nFull product details.',
         image: 'https://cdn.example/woody.jpg',
       });
 
@@ -110,6 +110,7 @@ describe('ProductDetailPage', () => {
           },
         },
         openGraph: {
+          description: 'Handmade amigurumi Woody.',
           images: [
             {
               url: 'https://cdn.example/woody.jpg',
