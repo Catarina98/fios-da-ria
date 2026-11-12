@@ -87,7 +87,7 @@ describe('Product Pages', () => {
         await screen.findByRole('heading', { level: 1 }),
       ).toHaveTextContent('Toy Story Collection');
       expect(screen.getByText('€38')).toBeInTheDocument();
-      expect(screen.getByText('Woody')).toBeInTheDocument();
+      expect(screen.getByRole('radio', { name: /Woody/i })).toBeInTheDocument();
     });
   });
 
@@ -252,6 +252,40 @@ describe('Product Pages', () => {
         '/images/catalog/toy-story-buzz.JPG',
       );
       expect(buzzBtn).toHaveAttribute('aria-checked', 'true');
+    });
+
+    it('syncs the mobile dropdown with the gallery, price and buy link', async () => {
+      vi.mocked(getProductById).mockResolvedValue({
+        ...mockProduct,
+        variants: mockProduct.variants.map(variant => ({
+          ...variant,
+          vintedUrl: `https://www.vinted.pt/items/${variant.id}`,
+        })),
+      });
+      render(
+        await ProductDetailPage({
+          params: Promise.resolve({ locale: 'pt', id: 'collection-toy-story' }),
+        }),
+      );
+
+      const selector = await screen.findByRole('combobox', {
+        name: /escolhe a personagem/i,
+      });
+      expect(selector).toHaveValue('woody');
+      fireEvent.change(selector, { target: { value: 'buzz' } });
+      expect(selector).toHaveValue('buzz');
+      expect(screen.getByTestId('product-main-image')).toHaveAttribute(
+        'src',
+        '/images/catalog/toy-story-buzz.JPG',
+      );
+      expect(screen.getByText('€42')).toBeInTheDocument();
+      expect(screen.getByTestId('product-buy-button')).toHaveAttribute(
+        'href',
+        'https://www.vinted.pt/items/buzz',
+      );
+
+      fireEvent.click(screen.getByTestId('gallery-thumbnail-1'));
+      expect(selector).toHaveValue('jessie');
     });
 
     it('renders materials and care guidance cards', async () => {

@@ -71,9 +71,25 @@
   }
 }
 
+.variant-select {
+  width: 100%;
+  min-height: 48px;
+  padding: 8px 12px;
+  border-radius: var(--radius-sm, 12px);
+  border: 1px solid var(--border-primary);
+  background-color: var(--bg-white);
+  color: var(--txt-primary);
+  font: inherit;
+  font-size: 16px;
+
+  &:focus-visible {
+    outline: 2px solid var(--bg-primary, #426275);
+    outline-offset: 2px;
+  }
+}
+
 .variant-selector {
-  display: grid;
-  grid-template-columns: 1fr;
+  display: none;
   gap: 10px;
 }
 
@@ -183,7 +199,12 @@
 }
 
 @media (min-width: 640px) {
+  .variant-select {
+    display: none;
+  }
+
   .variant-selector {
+    display: grid;
     grid-template-columns: repeat(2, 1fr);
   }
 }

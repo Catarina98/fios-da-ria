@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect, useMemo, useState } from 'react';
+import { useEffect, useId, useMemo, useState } from 'react';
 import Badge from '@components/ui/badge';
 import Breadcrumbs from '@components/ui/breadcrumbs';
 import Button from '@components/ui/button';
@@ -26,6 +26,7 @@ export default function ProductDetails({
 }) {
   const t = useTranslations('Product');
   const locale = useLocale();
+  const variantLabelId = useId();
 
   const [product, setProduct] = useState(initialProduct);
 
@@ -190,13 +191,25 @@ export default function ProductDetails({
             {/* Character Variants (if collection) */}
             {variants.length > 0 && (
               <div className="variant-section">
-                <span className="variant-label">
+                <span id={variantLabelId} className="variant-label">
                   {t('chooseCharacter') || 'Choose a character'}
                 </span>
+                <select
+                  className="variant-select"
+                  aria-labelledby={variantLabelId}
+                  value={activeVariant?.id ?? ''}
+                  onChange={event => handleSelectVariant(event.target.value)}
+                >
+                  {variants.map(variant => (
+                    <option key={variant.id} value={variant.id}>
+                      {variant.name}
+                    </option>
+                  ))}
+                </select>
                 <div
                   className="variant-selector"
                   role="radiogroup"
-                  aria-label={t('chooseCharacter') || 'Choose a character'}
+                  aria-labelledby={variantLabelId}
                 >
                   {variants.map(variant => {
                     const isSelected =
